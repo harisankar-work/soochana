@@ -41,6 +41,12 @@ export function useSentiment() {
     worker.current = null;
   }
 
+  function releaseIdleWorker() {
+    if (active.current) return false;
+    stopWorker();
+    return true;
+  }
+
   function reset() {
     stopWorker();
     setAnalysis(idle);
@@ -113,5 +119,5 @@ export function useSentiment() {
   }
 
   const busy = ["preparing", "download", "initialize", "analyse"].includes(analysis.phase);
-  return { analysis, busy, start, cancel, reset };
+  return { analysis, busy, start, cancel, reset, releaseIdleWorker };
 }

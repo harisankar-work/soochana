@@ -9,7 +9,8 @@
     "start": "next start",
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
-    "evaluate:sentiment": "node scripts/evaluate-sentiment.mjs"
+    "evaluate:sentiment": "node scripts/evaluate-sentiment.mjs",
+    "evaluate:issues": "node --experimental-strip-types scripts/evaluate-issues.mjs"
   },
   "license": "MIT",
   "private": true,

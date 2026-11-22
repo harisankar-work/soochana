@@ -46,7 +46,7 @@ describe("dashboard", () => {
     expect(workflow.getAllByRole("listitem").map((step) => step.textContent)).toEqual([
       "Upload Feedback", "Analyse Sentiment", "Discover Issues", "Prioritize Actions",
     ]);
-    expect(workflow.getByText(/CSV import and sentiment analysis are available.+planned/i)).toBeVisible();
+    expect(workflow.getByText(/CSV import, sentiment analysis and issue discovery are available.+planned/i)).toBeVisible();
   });
 });
 
@@ -58,10 +58,10 @@ describe("feature pages", () => {
     expect(container.querySelector('input[type="file"]')).toHaveAttribute("accept", ".csv,text/csv");
   });
 
-  it("shows the issue empty state and explains how related complaints will be displayed", () => {
-    render(<IssuesPage />);
-    expect(screen.getByRole("heading", { name: "No issues identified yet" })).toBeVisible();
-    expect(screen.getByText(/examples from the original feedback/)).toBeVisible();
+  it("shows the issue empty state and links to feedback import", () => {
+    render(<FeedbackSession><IssuesPage /></FeedbackSession>);
+    expect(screen.getByRole("heading", { name: "Import feedback to discover groups" })).toBeVisible();
+    expect(screen.getByRole("link", { name: "Go to Feedback Analysis" })).toHaveAttribute("href", "/feedback");
   });
 
   it("presents scoring factors as planned and shows the priority empty state", () => {

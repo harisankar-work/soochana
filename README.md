@@ -40,7 +40,7 @@ Matching ignores case and treats spaces and hyphens in headers like underscores.
 
 CSV content is read, parsed, and previewed in the browser. The app keeps confirmed records in React memory across in-app navigation. A refresh or tab close clears them. This workflow has no upload endpoint, persistent browser storage, analytics tracking, or server-side processing. Milestone 3 also runs inference locally. See the model download details below.
 
-Import and preview handle one dataset at a time. Parsing and validation run on the browser's main thread within the stated limits. Clustering, dashboard analytics, scoring, storage, exports and deployment remain future work.
+Import and preview handle one dataset at a time. Parsing and validation run on the browser's main thread within the stated limits. Dashboard analytics, scoring, storage, exports and deployment remain future work.
 
 ### Try a CSV import
 
@@ -78,6 +78,34 @@ Chromium ran the real pinned model in WASM. Accuracy was **83.3% (30/36)** and m
 The cloud Chromium build rejected the model host's TLS certificate. During verification, the test harness streamed the real pinned model and runtime artifacts fetched by the workspace's trusted HTTPS client. The application worker and inference code were unchanged. Normal browser runs fetch the assets directly.
 
 To reproduce, build and start with `npm run build` and `npm start`. Run `VOICELOOP_CHROMIUM=/path/to/chromium npm run evaluate:sentiment` with a current Chrome or Chromium executable. Set `VOICELOOP_URL` if the app uses a different address. The script imports the fixture through the app and prints real browser predictions, per-class metrics, the confusion matrix, and the five smoke cases.
+
+## Milestone 4
+
+Import and confirm a CSV in **Feedback Analysis**, then open **Issue Explorer** and select **Discover Feedback Groups**. Discovery uses the first 100 accepted CSV records by default, with a smaller selectable scope. Click **View evidence** to inspect original review text, source, date, rating, CSV row, available sentiment prediction, and cosine similarity to the representative review. Search or filter groups and open **Ungrouped feedback** to inspect singletons.
+
+### Model and privacy
+
+The app uses [Xenova/all-MiniLM-L6-v2](https://huggingface.co/Xenova/all-MiniLM-L6-v2/tree/751bff37182d3f1213fa05d7196b954e230abad9) at revision `751bff37182d3f1213fa05d7196b954e230abad9`, based on [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2). Both cards list Apache-2.0. Transformers.js 4.3.2 runs the q8 ONNX model in a single-threaded WASM worker. The weight file is 22,972,370 bytes (21.9 MiB) plus tokenizer and runtime files. The converted tokenizer truncates at 512 tokens. The original Sentence Transformers configuration used a 256-wordpiece default, and its training used shorter sequences. Inference uses attention-mask mean pooling and L2 normalization, validated against 384 finite float32 components and a unit norm.
+
+Hugging Face and jsDelivr supply model and runtime assets. Cache Storage can reuse the downloaded assets. Feedback, embeddings, and predictions stay in memory, and review text is processed locally. The app runs only one model at a time. Discovery releases an idle sentiment worker and retains its predictions. A discovery worker exits after each run. Cancellation retains valid partial embeddings. Dataset replacement, removal, or refresh clears associated results. Navigation preserves the dataset, results, and cutoff for the session.
+
+### Grouping method
+
+Complete-link clustering starts with one review per cluster. It repeatedly joins the pair of clusters with the highest minimum cross-cluster cosine similarity, provided that minimum meets the cutoff. Stable record IDs break ties. Recurring groups have at least two reviews, and singletons remain inspectable. Group IDs derive from sorted member IDs. Cohesion is the mean cosine similarity of all unordered within-group pairs. The representative has the highest mean similarity to the other members, with stable ID tie-breaking. Suggested headings use an excerpt from that review.
+
+The exploratory cutoff ranges from **0.60 to 0.90** in 0.05 steps and defaults to **0.75**. The app recalculates groups from the same in-memory similarity matrix. Higher cutoffs tend to create fewer or smaller groups with more singletons and false splits. Lower cutoffs can reduce false splits while increasing false merges. Cosine similarity is a geometric score. A group is marked as a potential issue only when more than half of all members have Negative sentiment predictions. Other groups remain visible, and the UI reports sentiment coverage. Review the evidence before treating any theme as a complaint.
+
+With `n ≤ 100` and `d = 384`, pairwise scores take O(n²d) time and O(n²) space, and complete-link selection takes O(n³) time with the bounded matrix. Only embedding inference runs in a worker. The matrix is computed once when the run stops. The cutoff and labels are heuristics. Negation, mixed intent, and domain vocabulary can produce false merges or splits. The model targets English and group coverage is limited to the selected sample.
+
+### Evaluation
+
+The [48-example synthetic fixture](evaluation/issues-fixture.json) uses seven author-assigned topics of six reviews each plus six distinct outliers. Labels and cutoff were set before inference and have no independent human review. Pairwise precision is the share of predicted pairs with the same reference topic, and recall is the share of reference pairs grouped together. Ungrouped reviews have no predicted partners, and each reference outlier has its own topic.
+
+At cutoff 0.75, Chromium produced **3 recurring groups and 42 ungrouped reviews**. Pairwise precision was **0.667**, recall **0.019**, and F1 **0.037** (2 correct pairs, 1 false merge, 103 false splits). The false merge paired a slow delivery with praise phrased as “not slow at all.” All three specified same-topic smoke pairs scored higher than both unrelated comparisons, but all fell below the default cutoff. The default is conservative on this fixture, with very low recall.
+
+After `npm run build` and `npm start`, run `VOICELOOP_CHROMIUM=/path/to/chromium npm run evaluate:issues`. Set `VOICELOOP_URL` for a different address. The runner uses the real application worker and prints measured similarities, pairwise metrics, and each false merge and split.
+
+Real Chromium inference and the issue workflow were verified with checksum-matched MiniLM weights fetched over trusted HTTPS and streamed by the test harness. Cloud Chromium's normal first-run download remains unverified because it rejected the model host's TLS certificate. Browser coverage was limited to Chromium. Milestone 3 retains its earlier partial status and its assistant-labelled synthetic sentiment evaluation. Milestone 4 is partial because direct cold downloads in this environment remain unverified.
 
 ## Local setup
 
@@ -118,7 +146,7 @@ The [Apple Design Skill](https://github.com/dickwu/apple-design-skill) is pinned
 | --- | --- |
 | 2 | Implemented CSV import, column mapping, row validation, duplicate detection, and searchable preview |
 | 3 | Implemented browser-based, pretrained sentiment classification with Transformers.js |
-| 4 | Use MiniLM embeddings to group related feedback and evaluate the clusters |
+| 4 | Implemented browser-based MiniLM grouping and review evidence |
 | 5 | Show feedback metrics, sentiment, trends, issue frequency, and filters |
 | 6 | Add transparent scoring, configurable weights, and evidence-backed recommendations |
 | 7 | Evaluate model quality, accessibility, browser behavior, performance, and security |
