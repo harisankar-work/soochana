@@ -5,6 +5,7 @@ import Dashboard from "@/app/page";
 import FeedbackPage from "@/app/feedback/page";
 import IssuesPage from "@/app/issues/page";
 import PrioritizationPage from "@/app/prioritization/page";
+import { FeedbackSession } from "@/features/feedback/session";
 import { AppShell } from "@/components/layout/app-shell";
 
 vi.mock("next/navigation", () => ({ usePathname: vi.fn(() => "/") }));
@@ -41,21 +42,20 @@ describe("dashboard", () => {
   it("links to feedback and marks the workflow as future work", () => {
     render(<Dashboard />);
     expect(screen.getByRole("link", { name: "Upload Feedback" })).toHaveAttribute("href", "/feedback");
-    const workflow = within(screen.getByRole("region", { name: "Planned workflow" }));
+    const workflow = within(screen.getByRole("region", { name: "Feedback workflow" }));
     expect(workflow.getAllByRole("listitem").map((step) => step.textContent)).toEqual([
       "Upload Feedback", "Analyse Sentiment", "Discover Issues", "Prioritize Actions",
     ]);
-    expect(workflow.getByText(/AI processing are planned/)).toBeVisible();
+    expect(workflow.getByText(/CSV import is available.+sentiment analysis.+planned/i)).toBeVisible();
   });
 });
 
 describe("feature pages", () => {
-  it("describes the future CSV input without exposing an upload control", () => {
-    const { container } = render(<FeedbackPage />);
-    expect(screen.getByRole("heading", { name: /Milestone 2/ })).toBeVisible();
-    expect(screen.getByText(/one feedback entry per row/)).toBeVisible();
-    expect(container.querySelector('input[type="file"]')).toBeNull();
-    expect(screen.queryByRole("button")).toBeNull();
+  it("shows the CSV upload affordance and browser-only processing note", () => {
+    const { container } = render(<FeedbackSession><FeedbackPage /></FeedbackSession>);
+    expect(screen.getByRole("button", { name: "Browse CSV" })).toBeEnabled();
+    expect(screen.getByText(/file[s]? are processed in this browser/i)).toBeVisible();
+    expect(container.querySelector('input[type="file"]')).toHaveAttribute("accept", ".csv,text/csv");
   });
 
   it("shows the issue empty state and explains how related complaints will be displayed", () => {

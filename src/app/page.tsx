@@ -46,8 +46,8 @@ export default function Dashboard() {
       </section>
 
       <section className="section panel workflow" aria-labelledby="workflow">
-        <h2 id="workflow">Planned workflow</h2>
-        <p>CSV upload and AI processing are planned for future milestones.</p>
+        <h2 id="workflow">Feedback workflow</h2>
+        <p>CSV import is available. Sentiment analysis, issue discovery and prioritization are planned for future milestones.</p>
         <ol className="workflow-list">
           {workflow.map(({ label, icon: Icon }, index) => (
             <li key={label}>
@@ -61,7 +61,7 @@ export default function Dashboard() {
 
       <div className="section">
         <EmptyState icon={Inbox} title="No feedback to analyse yet">
-          <p>Start with a CSV of reviews or support tickets once uploads become available.</p>
+          <p>Import a CSV of reviews or support tickets to preview your feedback.</p>
         </EmptyState>
       </div>
     </>

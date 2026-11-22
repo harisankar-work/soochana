@@ -97,3 +97,54 @@ main { @apply mx-auto w-full min-w-0 max-w-[77rem] px-4 pt-6 pb-10 sm:px-8 lg:px
 .empty-state { @apply flex items-start gap-3; }
 .empty-state p { @apply max-w-prose; }
 .factors ul { @apply mt-3 list-disc space-y-2 pl-5 text-sm; color: var(--muted); }
+
+.feedback-import { @apply grid min-w-0 gap-4; }
+.import-privacy, .import-note { @apply text-sm; color: var(--muted); }
+.feedback-import > [role="status"]:empty { @apply hidden; }
+.import-steps { @apply flex flex-wrap gap-x-4 gap-y-2; }
+.import-steps li { @apply flex items-center gap-2 text-sm font-semibold; color: var(--muted); }
+.import-steps li span { @apply grid size-6 place-items-center rounded-full text-xs font-bold; background: var(--tint); }
+.import-steps [aria-current="step"] { @apply font-extrabold underline underline-offset-4; color: var(--accent); }
+.import-steps [aria-current="step"] span { @apply text-white; background: var(--accent); }
+
+.import-panel { @apply grid min-w-0 gap-4 p-4 sm:p-6; }
+.import-panel h2 { @apply text-xl font-extrabold tracking-tight; }
+.import-panel form { @apply grid min-w-0 gap-4; }
+.file-info { overflow-wrap: anywhere; }
+.csv-drop { @apply grid justify-items-center gap-3 rounded-xl border border-dashed px-4 py-8 text-center; border-color: #80998b; background: var(--canvas); }
+.csv-drop .icon-tile { @apply size-11; }
+
+.import-actions { @apply flex flex-wrap items-center gap-2; }
+.import-button { @apply inline-flex min-h-11 max-w-full items-center justify-center rounded-lg border px-3 py-2 text-sm leading-snug font-bold; border-color: #a8b9ae; background: var(--surface); color: var(--ink); }
+.import-button:hover:not(:disabled) { cursor: pointer; background: var(--tint); }
+.import-primary { border-color: var(--accent); background: var(--accent); color: white; }
+.import-primary:hover:not(:disabled) { border-color: #193b32; background: #193b32; }
+.import-danger { border-color: #8f342a; background: #8f342a; color: white; }
+.import-danger:hover:not(:disabled) { border-color: #67241d; background: #67241d; }
+.import-button:active:not(:disabled) { box-shadow: inset 0 0 0 2px currentColor; }
+.import-button:disabled { @apply cursor-not-allowed; background: var(--canvas); color: var(--muted); border-color: var(--border); }
+.import-error { @apply rounded-lg border px-3 py-2 text-sm font-semibold; border-color: #e6a99d; background: #fff1ed; color: #742b22; }
+
+.mapping-fields, .preview-controls { @apply grid min-w-0 gap-3 sm:grid-cols-2; }
+.mapping-fields label, .preview-controls label { @apply block min-w-0 text-sm font-bold; }
+.import-panel select, .import-panel input[type="search"] { @apply mt-1 block min-h-11 w-full min-w-0 rounded-lg border px-3 py-2 font-medium; background: var(--surface); border-color: #a8b9ae; }
+.import-panel select { text-overflow: ellipsis; }
+
+.quality-stats { @apply grid grid-cols-2 gap-2 sm:grid-cols-3 xl:grid-cols-4; }
+.quality-stats > div { @apply rounded-lg border p-3; border-color: var(--border); background: var(--canvas); }
+.quality-stats dt { @apply text-sm font-semibold; color: var(--muted); }
+.quality-stats dd { @apply mt-1 text-xl font-extrabold tabular-nums; }
+.quality-details summary, .cell-text summary { @apply min-h-11 cursor-pointer; }
+.quality-details summary { @apply py-2 text-sm font-bold; }
+.quality-details .import-actions { @apply mt-3; }
+.import-table-scroll { @apply w-full min-w-0 overflow-x-auto rounded-lg border; border-color: var(--border); }
+.import-table { @apply w-full table-fixed text-left text-sm; min-width: 31rem; }
+.feedback-table { min-width: 46rem; }
+.import-table th, .import-table td { @apply border-b px-3 py-2 align-top; border-color: var(--border); overflow-wrap: anywhere; }
+.import-table th { background: var(--tint); }
+.import-table tbody tr:last-child td { border-bottom: none; }
+.import-table:not(.feedback-table) th:nth-child(3) { width: 55%; }
+.feedback-table th:first-child { width: 38%; }
+.cell-text { white-space: pre-wrap; overflow-wrap: anywhere; }
+.cell-text > div { @apply mt-2; }
+.details-label { color: var(--accent); font-weight: 700; }
