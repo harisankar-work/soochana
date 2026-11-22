@@ -47,7 +47,7 @@ export default function Dashboard() {
 
       <section className="section panel workflow" aria-labelledby="workflow">
         <h2 id="workflow">Feedback workflow</h2>
-        <p>CSV import is available. Sentiment analysis, issue discovery and prioritization are planned for future milestones.</p>
+        <p>CSV import and sentiment analysis are available. Issue discovery and prioritization are planned for future milestones.</p>
         <ol className="workflow-list">
           {workflow.map(({ label, icon: Icon }, index) => (
             <li key={label}>

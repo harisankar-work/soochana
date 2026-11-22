@@ -148,3 +148,6 @@ main { @apply mx-auto w-full min-w-0 max-w-[77rem] px-4 pt-6 pb-10 sm:px-8 lg:px
 .cell-text { white-space: pre-wrap; overflow-wrap: anywhere; }
 .cell-text > div { @apply mt-2; }
 .details-label { color: var(--accent); font-weight: 700; }
+
+.import-panel .sentiment-count { @apply mt-1 block min-h-11 w-full rounded-lg border px-3 py-2 font-medium; border-color: #a8b9ae; }
+.sentiment-progress { @apply block w-full; accent-color: var(--accent); }

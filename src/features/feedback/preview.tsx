@@ -24,7 +24,7 @@ function compare(a: FeedbackRecord, b: FeedbackRecord, sort: Sort) {
   return (left < right ? -1 : 1) * (sort === "newest" || sort === "highest" ? -1 : 1);
 }
 
-function Pagination({ page, pages, setPage }: { page: number; pages: number; setPage: (page: number) => void }) {
+export function Pagination({ page, pages, setPage }: { page: number; pages: number; setPage: (page: number) => void }) {
   if (pages <= 1) return null;
   return (
     <div className="import-actions" aria-label="Pagination" role="group">
@@ -35,7 +35,7 @@ function Pagination({ page, pages, setPage }: { page: number; pages: number; set
   );
 }
 
-function CellText({ text, originalText = text }: { text: string; originalText?: string }) {
+export function CellText({ text, originalText = text }: { text: string; originalText?: string }) {
   const characters = Array.from(text);
   if (characters.length <= 240 && text === originalText) return <span className="cell-text">{text}</span>;
   const excerpt = characters.length > 240 ? `${characters.slice(0, 240).join("")}…` : text;

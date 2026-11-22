@@ -2,6 +2,7 @@
 
 import { Check, FileUp } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { SentimentPanel } from "../sentiment/sentiment-panel";
 import { readCsv, type ParsedCsv } from "./csv";
 import { FeedbackPreview, QualityReport } from "./preview";
 import { useFeedbackSession } from "./session";
@@ -230,6 +231,7 @@ export function ImportWorkflow() {
           </section>
         </>
       )}
+      {dataset && mode !== "Import" && mode !== "Remove" && <SentimentPanel />}
     </div>
   );
 }

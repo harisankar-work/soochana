@@ -46,7 +46,7 @@ describe("dashboard", () => {
     expect(workflow.getAllByRole("listitem").map((step) => step.textContent)).toEqual([
       "Upload Feedback", "Analyse Sentiment", "Discover Issues", "Prioritize Actions",
     ]);
-    expect(workflow.getByText(/CSV import is available.+sentiment analysis.+planned/i)).toBeVisible();
+    expect(workflow.getByText(/CSV import and sentiment analysis are available.+planned/i)).toBeVisible();
   });
 });
 
