@@ -1,0 +1,99 @@
+@import "tailwindcss";
+
+:root {
+  color-scheme: light;
+  --canvas: #f6f7f3;
+  --surface: #fff;
+  --ink: #192923;
+  --muted: #52645b;
+  --border: #dce4dc;
+  --accent: #254e44;
+  --tint: #e8f0e9;
+}
+
+body {
+  min-width: 0;
+  background: var(--canvas);
+  color: var(--ink);
+  font-family: "Manrope Variable", system-ui, sans-serif;
+  line-height: 1.6;
+}
+
+:focus-visible { outline: 3px solid #287e65; outline-offset: 3px; }
+.skip-link {
+  position: absolute;
+  z-index: 2;
+  top: .6rem;
+  left: .6rem;
+  transform: translateY(-150%);
+  padding: .5rem 1rem;
+  background: white;
+  border-radius: .5rem;
+}
+.skip-link:focus { transform: none; }
+
+.app-shell { @apply mx-auto grid min-h-dvh max-w-[100rem] lg:grid-cols-[15rem_minmax(0,1fr)]; }
+.sidebar { @apply border-b px-4 py-4 lg:border-r lg:border-b-0 lg:px-5 lg:py-8; background: var(--surface); border-color: var(--border); }
+.brand { @apply mb-4 inline-flex min-h-11 items-center gap-3 text-xl font-extrabold tracking-tight lg:mb-9; }
+.brand-mark { @apply grid size-9 place-items-center rounded-xl text-white; background: var(--accent); }
+.nav-list { @apply grid grid-cols-2 gap-1 lg:grid-cols-1; }
+.nav-link { @apply flex min-h-11 items-center gap-2 rounded-lg px-2 py-2 text-sm leading-snug font-semibold sm:px-3; color: var(--muted); }
+.nav-link svg { flex-shrink: 0; }
+.nav-link:hover { background: var(--canvas); }
+.nav-link[aria-current="page"] { background: var(--tint); color: var(--accent); font-weight: 800; }
+.nav-link[aria-current="page"] span { text-decoration: underline; text-underline-offset: .24em; }
+.nav-link:active { background: #d7e6da; }
+
+main { @apply mx-auto w-full min-w-0 max-w-[77rem] px-4 pt-6 pb-10 sm:px-8 lg:px-10 lg:pt-8; }
+.page-header { @apply mb-6; }
+.page-header h1 { @apply text-2xl leading-tight font-extrabold tracking-tight; }
+.page-header p { @apply mt-1 text-sm; color: var(--muted); }
+
+.hero { @apply relative isolate overflow-hidden rounded-2xl p-6 text-white sm:p-9; background: #21443b; }
+.hero-content { @apply relative z-10 max-w-[37rem]; }
+.hero h2 {
+  max-width: 14em;
+  font: 500 clamp(2.3rem, 4.3vw, 4.4rem)/.99 "Newsreader Variable", Georgia, serif;
+  letter-spacing: -.035em;
+  text-wrap: balance;
+}
+.hero p { @apply mt-4 max-w-[29rem] text-sm sm:text-base; color: #e2eee6; }
+.primary-link { @apply mt-5 inline-flex min-h-11 items-center gap-3 rounded-lg px-4 py-2 text-sm font-extrabold; background: #ecf3e8; color: #1b3c33; }
+.primary-link:hover { background: #d7e8d5; }
+.primary-link:active { background: #c2dbc1; }
+.primary-link:focus-visible { outline-color: white; }
+.hero-art { @apply absolute inset-y-0 right-0 hidden w-[37%] lg:block; opacity: .64; }
+.hero-art::before {
+  content: "";
+  position: absolute;
+  width: 25rem;
+  height: 25rem;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+  border-radius: 50%;
+  background: repeating-radial-gradient(ellipse at center, transparent 0 16px, #88b29a 17px 18px, transparent 19px 27px);
+}
+.hero-art::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, #21443b, transparent 38%);
+}
+
+.section { @apply mt-6; }
+.section h2, .empty-state h2 { @apply text-base font-extrabold tracking-tight; }
+.panel { @apply rounded-xl border; background: var(--surface); border-color: var(--border); }
+.metric-grid { @apply mt-3 grid grid-cols-2 gap-3 xl:grid-cols-4; }
+.metric { @apply min-w-0 p-3 sm:p-4; }
+.icon-tile { @apply grid size-9 shrink-0 place-items-center rounded-lg; background: var(--tint); color: var(--accent); }
+.metric h3 { @apply mt-3 text-sm leading-snug font-extrabold; overflow-wrap: anywhere; }
+.metric p, .workflow p, .empty-state p { @apply mt-1 text-sm; color: var(--muted); }
+.workflow, .empty-state, .factors { @apply p-4 sm:p-5; }
+.workflow-list { @apply mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-4; }
+.workflow-list li { @apply flex min-w-0 items-center gap-2 rounded-lg px-3 py-2 text-sm font-bold; background: var(--canvas); }
+.workflow-list svg { flex-shrink: 0; color: var(--accent); }
+.step-arrow { @apply ml-auto hidden xl:block; }
+.empty-state { @apply flex items-start gap-3; }
+.empty-state p { @apply max-w-prose; }
+.factors ul { @apply mt-3 list-disc space-y-2 pl-5 text-sm; color: var(--muted); }
