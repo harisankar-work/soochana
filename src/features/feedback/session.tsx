@@ -6,20 +6,22 @@ import { useSentiment } from "../sentiment/use-sentiment";
 import type { FeedbackRecord } from "./validation";
 
 export type Dataset = { name: string; size: number; records: FeedbackRecord[] };
-type Session = { dataset: Dataset | null; setDataset: (dataset: Dataset | null) => void; sentiment: ReturnType<typeof useSentiment>; issues: ReturnType<typeof useIssues> };
+type Session = { datasetVersion: number; dataset: Dataset | null; setDataset: (dataset: Dataset | null) => void; sentiment: ReturnType<typeof useSentiment>; issues: ReturnType<typeof useIssues> };
 const FeedbackContext = createContext<Session | null>(null);
 
 export function FeedbackSession({ children }: { children: ReactNode }) {
   const [dataset, updateDataset] = useState<Dataset | null>(null);
+  const [datasetVersion, setDatasetVersion] = useState(0);
   const sentiment = useSentiment();
   const issues = useIssues();
   function setDataset(next: Dataset | null) {
     sentiment.reset();
     issues.reset();
     updateDataset(next);
+    setDatasetVersion((version) => version + 1);
   }
   return <FeedbackContext.Provider value={{
-    dataset, setDataset,
+    dataset, datasetVersion, setDataset,
     sentiment: { ...sentiment, start: (records, count) => {
       if (!issues.isRunning()) sentiment.start(records, count);
     } },

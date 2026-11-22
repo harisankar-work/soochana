@@ -157,3 +157,29 @@ main { @apply mx-auto w-full min-w-0 max-w-[77rem] px-4 pt-6 pb-10 sm:px-8 lg:px
 .issue-evidence { @apply grid w-full min-w-0 gap-3; }
 .issue-evidence label { @apply block text-sm font-bold; }
 .issue-caution { @apply rounded-md px-3 py-2 text-sm; background: #fff4d6; color: #643d12; }
+
+.analytics-dashboard, .analytics-dashboard .panel { min-width: 0; }
+.analytics-filters, .analytics-metrics { @apply grid min-w-0 gap-3 sm:grid-cols-2 xl:grid-cols-5; }
+.analytics-filters legend { @apply mb-2 font-bold; }
+.analytics-filters label { @apply grid min-w-0 gap-1 text-sm font-bold; }
+.analytics-filters input[type="date"] { @apply block min-h-11 w-full min-w-0 rounded-lg border px-2 py-2; border-color: #a8b9ae; }
+.analytics-filters .analytics-check { @apply flex items-center; }
+.analytics-metrics > div { @apply min-w-0 rounded-lg border p-3; background: var(--canvas); border-color: var(--border); }
+.analytics-metrics dt { @apply text-sm font-semibold; }
+.analytics-metrics dd { @apply my-1 text-xl font-extrabold tabular-nums; }
+.analytics-metrics span { @apply text-sm; color: var(--muted); }
+.analytics-chart-grid { @apply grid min-w-0 gap-4 xl:grid-cols-2; }
+.analytics-bars { @apply grid gap-1; }
+.analytics-bar-button { @apply grid min-h-11 w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 rounded-lg px-2 py-1.5 text-left text-sm; overflow-wrap: anywhere; }
+.analytics-bar-button:hover:not(:disabled), .analytics-bar-button[aria-pressed="true"], .analytics-trend button:hover, .analytics-trend button[aria-pressed="true"] { background: var(--tint); }
+.analytics-bar-button strong { @apply tabular-nums; }
+.analytics-bar-track { @apply col-span-2 block h-2 overflow-hidden rounded-full; background: var(--tint); }
+.analytics-bar-track span { @apply block h-full rounded-full; background: var(--accent); }
+.analytics-trend-scroll { @apply min-w-0 overflow-x-auto rounded-lg border p-2; border-color: var(--border); }
+.analytics-trend { @apply flex w-max min-w-full gap-1; }
+.analytics-trend li { @apply min-w-20 flex-1; }
+.analytics-trend button { @apply grid w-full justify-items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold; }
+.analytics-trend-plot { @apply flex h-24 w-full items-end justify-center pt-5; }
+.analytics-trend-count { @apply absolute bottom-full left-1/2 -translate-x-1/2 tabular-nums; }
+.analytics-trend-bar { @apply relative block w-5 rounded-t; background: var(--accent); }
+.analytics-source-table { min-width: 29rem; }

@@ -1,6 +1,7 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { cluster, similarityMatrix } from "./clustering";
 import type { FeedbackRecord } from "../feedback/validation";
 import { DEFAULT_THRESHOLD, LIMIT, validEmbedding, type Embedding, type Event, type Request } from "./protocol";
 
@@ -98,5 +99,9 @@ export function useIssues() {
     }
   }
 
-  return { analysis, method, configureGrouping, threshold, setThreshold, start, cancel, reset, isRunning: () => current.current !== null, busy: ["preparing", "download", "initialize", "embed"].includes(analysis.phase) };
+  const busy = ["preparing", "download", "initialize", "embed"].includes(analysis.phase);
+  const vectors = busy ? null : analysis.embeddings;
+  const matrix = useMemo(() => vectors?.length ? similarityMatrix(vectors) : null, [vectors]);
+  const result = useMemo(() => matrix ? cluster(matrix, threshold, method) : null, [matrix, threshold, method]);
+  return { analysis, method, configureGrouping, threshold, setThreshold, start, cancel, reset, result, busy, isRunning: () => current.current !== null };
 }

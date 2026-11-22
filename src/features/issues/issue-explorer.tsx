@@ -2,13 +2,13 @@
 
 import { Compass } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useState } from "react";
+import { useState } from "react";
 import { EmptyState } from "@/components/ui/empty-state";
 import { CellText } from "../feedback/preview";
 import { useFeedbackSession } from "../feedback/session";
 import type { FeedbackRecord } from "../feedback/validation";
 import type { Prediction } from "../sentiment/protocol";
-import { cluster, similarityMatrix, type IssueGroup } from "./clustering";
+import type { IssueGroup } from "./clustering";
 import { groupingDefaults } from "./use-issues";
 import { LIMIT, MODEL_ID, MODEL_REVISION } from "./protocol";
 
@@ -79,11 +79,7 @@ export function IssueExplorer() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
   const [minimum, setMinimum] = useState(2);
-  const { analysis, busy, method, configureGrouping, threshold, setThreshold } = issues;
-  // Only build the bounded matrix after a run stops, so per-row progress stays cheap.
-  const vectors = busy ? null : analysis.embeddings;
-  const matrix = useMemo(() => vectors ? similarityMatrix(vectors) : null, [vectors]);
-  const result = useMemo(() => matrix ? cluster(matrix, threshold, method) : null, [matrix, threshold, method]);
+  const { analysis, busy, method, configureGrouping, threshold, setThreshold, result } = issues;
 
   if (!dataset) {
     return <EmptyState icon={Compass} title="Import feedback to discover groups">

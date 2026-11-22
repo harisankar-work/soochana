@@ -40,7 +40,7 @@ Matching ignores case and treats spaces and hyphens in headers like underscores.
 
 CSV content is read, parsed, and previewed in the browser. The app keeps confirmed records in React memory across in-app navigation. A refresh or tab close clears them. This workflow has no upload endpoint, persistent browser storage, analytics tracking, or server-side processing. Milestone 3 also runs inference locally. See the model download details below.
 
-Import and preview handle one dataset at a time. Parsing and validation run on the browser's main thread within the stated limits. Dashboard analytics, scoring, storage, exports and deployment remain future work.
+Import and preview handle one dataset at a time. Parsing and validation run on the browser's main thread within the stated limits. Scoring, storage, exports and deployment remain future work.
 
 ### Try a CSV import
 
@@ -140,6 +140,26 @@ npm run evaluate:issues -- development
 npm run evaluate:issues -- holdout average-link-v1 0.45
 ```
 
+## Milestone 5
+
+After confirming a CSV, open **Dashboard** for feedback volume, source and rating distributions, sentiment by source, recurring feedback themes, and original review evidence. The dashboard displays imported metadata immediately. Sentiment and grouping sections update when their respective analyses are started from Feedback Analysis and Issue Explorer. Visiting Dashboard starts neither model.
+
+### Filters and denominators
+
+Use inclusive date bounds, exact source names (including missing source), rating availability, and an available sentiment class. **Reset Filters** restores the imported view. All charts, coverage, and evidence use the same filtered records. Date filters exclude undated rows. A sentiment filter excludes unanalysed rows and reports how many were excluded after applying the other filters. Filters and evidence selections reset when the dataset changes. Dashboard filters also reset when you leave the route.
+
+- **Feedback** reports matching reviews and the full accepted CSV count. **Sentiment analysed** reports real predictions in the view and full-dataset coverage. **Negative share** divides Negative predictions by classified reviews in the view. Sentiment by source uses that source's classified denominator and shows its coverage over matching imported rows. A source with fewer than ten predictions is marked as a small sample.
+- **Average rating** uses valid numeric ratings from 1 to 5. The distribution uses half-open intervals [1,2), [2,3), [3,4), [4,5), and a separate exact-5 bucket. Decimal values are preserved in review evidence. Missing ratings are excluded from the average and counted separately.
+- **Source distribution** preserves trimmed names as imported, including case. The eight most frequent named sources are shown individually. Other named sources share a bucket, and missing sources remain separate. Large source lists use exact text entry rather than rendering thousands of options.
+- **Volume over time** uses UTC calendar dates from the CSV, with no time-zone shifts. Dated spans up to 30 days are shown daily, up to 180 days weekly (Monday start), and up to 1,825 days monthly. Longer spans use calendar years or bounded multi-year buckets. Empty periods are omitted and undated reviews are counted separately.
+- **Recurring themes** use the shared Issue Explorer result at its current method and cutoff. Filtered group counts include existing groups with at least one matching member. The dashboard never reclusters the filtered view. The group summary distinguishes embedded, grouped, and ungrouped records within the view and displays embedding scope and run status. Groups are exploratory and zero detected groups can coexist with recurring issues.
+
+### Evidence and coverage
+
+Activate a chart bar by pointer or keyboard to open its underlying reviews, with original text and CSV row, source, date, rating, and available sentiment. A drilldown leaves global filters in place. The table shows 20 rows per page. Partial and cancelled runs expose the valid results received so far. Group and sentiment model coverage can differ, and both retain their existing 100-review analysis cap.
+
+The dashboard uses pure client-side selectors and native HTML buttons with CSS bars. There are no new dependencies or chart services. Filtering and metadata aggregation are bounded by imported records, and the dashboard and Issue Explorer share a memoized grouping result. Customer feedback remains in session memory. Refresh clears it. The model quality and cold-download limitations documented above still apply.
+
 ## Local setup
 
 Use Node.js 22.13 or later in the 22.x line, or Node.js 24 or later, and npm.
@@ -180,7 +200,7 @@ The [Apple Design Skill](https://github.com/dickwu/apple-design-skill) is pinned
 | 2 | Implemented CSV import, column mapping, row validation, duplicate detection, and searchable preview |
 | 3 | Implemented browser-based, pretrained sentiment classification with Transformers.js |
 | 4 | Implemented browser-based MiniLM grouping and review evidence |
-| 5 | Show feedback metrics, sentiment, trends, issue frequency, and filters |
+| 5 | Implemented filtered dashboard analytics, model coverage, and review evidence |
 | 6 | Add transparent scoring, configurable weights, and evidence-backed recommendations |
 | 7 | Evaluate model quality, accessibility, browser behavior, performance, and security |
 | 8 | Prepare a public demo dataset and deploy to Vercel after approval |

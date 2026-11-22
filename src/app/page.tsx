@@ -1,5 +1,6 @@
 import { ArrowRight, ArrowUpRight, Compass, Inbox, MessageCircle, MessagesSquare, Target, Upload } from "lucide-react";
 import Link from "next/link";
+import { DashboardData } from "@/features/analytics/dashboard";
 import { PageHeader } from "@/components/layout/app-shell";
 import { EmptyState } from "@/components/ui/empty-state";
 
@@ -21,6 +22,7 @@ export default function Dashboard() {
   return (
     <>
       <PageHeader title="Dashboard" description="An overview of your customer feedback and product issues." />
+      <DashboardData empty={<>
       <section className="hero" aria-labelledby="dashboard-intro">
         <div className="hero-content">
           <h2 id="dashboard-intro">Understand your customers. Prioritize what matters.</h2>
@@ -64,6 +66,7 @@ export default function Dashboard() {
           <p>Import a CSV of reviews or support tickets to preview your feedback.</p>
         </EmptyState>
       </div>
+      </>} />
     </>
   );
 }

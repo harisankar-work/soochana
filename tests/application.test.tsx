@@ -32,7 +32,7 @@ describe("application shell", () => {
 
 describe("dashboard", () => {
   it("shows an empty state for every metric", () => {
-    render(<Dashboard />);
+    render(<FeedbackSession><Dashboard /></FeedbackSession>);
     for (const label of ["Total Feedback", "Sentiment Breakdown", "Identified Issues", "Priority Issues"]) {
       const card = screen.getByRole("heading", { name: label }).closest("li");
       expect(card).toHaveTextContent("No data yet");
@@ -40,7 +40,7 @@ describe("dashboard", () => {
   });
 
   it("links to feedback and marks the workflow as future work", () => {
-    render(<Dashboard />);
+    render(<FeedbackSession><Dashboard /></FeedbackSession>);
     expect(screen.getByRole("link", { name: "Upload Feedback" })).toHaveAttribute("href", "/feedback");
     const workflow = within(screen.getByRole("region", { name: "Feedback workflow" }));
     expect(workflow.getAllByRole("listitem").map((step) => step.textContent)).toEqual([
