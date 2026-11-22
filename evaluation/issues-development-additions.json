@@ -1,0 +1,11 @@
+[
+  ["duplicate", "Two identical charges appeared for the same order."],
+  ["duplicate", "My card was billed twice for one purchase."],
+  ["duplicate", "There are duplicate debits on the statement for my single basket."],
+  ["cancellation", "The seller cancelled my confirmed order without warning."],
+  ["cancellation", "I received a notice that the shop had voided my order."],
+  ["cancellation", "The merchant called off my purchase after accepting it."],
+  ["extra-outlier-1", "I cancelled the order myself and the process was straightforward."],
+  ["extra-outlier-2", "The order shows two items but only one charge."],
+  ["extra-outlier-3", "Delivery was slow last month but it was on time today."]
+]

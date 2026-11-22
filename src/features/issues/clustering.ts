@@ -1,6 +1,7 @@
 import type { Embedding } from "./protocol";
 
-export const ALGORITHM = "complete-link-v1";
+export const METHODS = ["complete-link-v1", "average-link-v1", "centroid-link-v1", "mutual-nearest-v1"] as const;
+export type Method = (typeof METHODS)[number];
 const EPSILON = 1e-12;
 
 export type IssueGroup = {
@@ -43,30 +44,64 @@ export function similarityMatrix(embeddings: readonly Embedding[]) {
   return { ids, scores };
 }
 
-export function cluster({ ids, scores }: ReturnType<typeof similarityMatrix>, threshold: number) {
+export function cluster({ ids, scores }: ReturnType<typeof similarityMatrix>, threshold: number, method: Method = "complete-link-v1") {
+  if (!Number.isFinite(threshold) || threshold < -1 || threshold > 1) throw new Error("Invalid cosine cutoff.");
   const linkage = scores.map((row) => row.slice());
   const members = ids.map((_, i) => [i]);
   const active = ids.map((_, i) => i);
-  // Sorted IDs define a stable first-pair tie break. Merging retains the smaller slot.
-  while (active.length > 1) {
-    let first = -1, second = -1, best = -Infinity;
-    for (let i = 0; i < active.length; i++) {
-      for (let j = i + 1; j < active.length; j++) {
-        const left = active[i], right = active[j];
-        const score = linkage[left][right];
-        if (score >= threshold - EPSILON && score > best + EPSILON) {
-          first = left;
-          second = right;
-          best = score;
-        }
+  // Centroid cosine is computed from Gram sums of the normalized member vectors.
+  const gram = method === "centroid-link-v1" ? scores.map((row) => row.slice()) : null;
+  const nearest = method === "mutual-nearest-v1" ? ids.map((_, left) => {
+    let best = -1;
+    for (let right = 0; right < ids.length; right++) {
+      if (right !== left && (best < 0 || scores[left][right] > scores[left][best] + EPSILON)) best = right;
+    }
+    return best;
+  }) : null;
+  if (nearest) {
+    // Disjoint reciprocal top-one pairs. Neither side can grow a chain.
+    for (let left = 0; left < ids.length; left++) {
+      const right = nearest[left];
+      if (right > left && nearest[right] === left && scores[left][right] >= threshold - EPSILON) {
+        members[left].push(right);
+        active.splice(active.indexOf(right), 1);
       }
     }
-    if (first < 0) break;
-    members[first].push(...members[second]);
-    active.splice(active.indexOf(second), 1);
-    for (const other of active) {
-      if (other === first) continue;
-      linkage[first][other] = linkage[other][first] = Math.min(linkage[first][other], linkage[second][other]);
+  } else {
+    // Sorted IDs define a stable first-pair tie break. Merging retains the smaller slot.
+    while (active.length > 1) {
+      let first = -1, second = -1, best = -Infinity;
+      for (let i = 0; i < active.length; i++) {
+        for (let j = i + 1; j < active.length; j++) {
+          const left = active[i], right = active[j];
+          const score = linkage[left][right];
+          if (score >= threshold - EPSILON && score > best + EPSILON) {
+            first = left;
+            second = right;
+            best = score;
+          }
+        }
+      }
+      if (first < 0) break;
+      const firstSize = members[first].length, secondSize = members[second].length;
+      members[first].push(...members[second]);
+      active.splice(active.indexOf(second), 1);
+      if (gram) gram[first][first] += gram[second][second] + 2 * gram[first][second];
+      for (const other of active) {
+        if (other === first) continue;
+        let score;
+        if (gram) {
+          gram[first][other] += gram[second][other];
+          gram[other][first] = gram[first][other];
+          const norm = Math.sqrt(Math.max(0, gram[first][first]) * Math.max(0, gram[other][other]));
+          score = norm > EPSILON ? Math.max(-1, Math.min(1, gram[first][other] / norm)) : -Infinity;
+        } else if (method === "average-link-v1") {
+          score = (firstSize * linkage[first][other] + secondSize * linkage[second][other]) / (firstSize + secondSize);
+        } else {
+          score = Math.min(linkage[first][other], linkage[second][other]);
+        }
+        linkage[first][other] = linkage[other][first] = score;
+      }
     }
   }
 
@@ -98,5 +133,5 @@ export function cluster({ ids, scores }: ReturnType<typeof similarityMatrix>, th
     });
   }
   groups.sort((a, b) => b.feedbackIds.length - a.feedbackIds.length || (a.id < b.id ? -1 : 1));
-  return { groups, ungrouped, algorithm: ALGORITHM, threshold };
+  return { groups, ungrouped, algorithm: method, threshold };
 }

@@ -163,3 +163,74 @@ it("announces processing and displays evidence, cutoff recalculation, filters an
   expect(screen.getByText("Ungrouped feedback (3)")).toBeVisible();
   expect(FakeWorker.instances).toHaveLength(1);
 });
+
+describe("alternative linking methods", () => {
+  const angle = (id: string, radians: number) => ({ id, vector: vector(Math.cos(radians), Math.sin(radians)) });
+  const sample = [angle("a", 0), angle("b", 0.45), angle("c", 0.9)];
+
+  it.each(["average-link-v1", "centroid-link-v1"] as const)("%s recalculates linkage after a merge", (method) => {
+    const result = cluster(similarityMatrix(sample), 0.75, method);
+    expect(result.algorithm).toBe(method);
+    expect(result.groups[0].feedbackIds).toEqual(["a", "b", "c"]);
+    expect(result.groups[0].representativeId).toBe("b");
+    expect(cluster(similarityMatrix([...sample].reverse()), 0.75, method)).toEqual(result);
+    expect(cluster(similarityMatrix(sample), 0.85, method).groups[0].feedbackIds).toEqual(["a", "b"]);
+  });
+
+  it("mutual nearest neighbors cannot chain through a shared neighbor", () => {
+    const result = cluster(similarityMatrix(sample), 0.4, "mutual-nearest-v1");
+    expect(result.groups.map((group) => group.feedbackIds)).toEqual([["a", "b"]]);
+    expect(result.ungrouped).toEqual(["c"]);
+    expect(cluster(similarityMatrix([...sample].reverse()), 0.4, "mutual-nearest-v1")).toEqual(result);
+    expect(cluster(similarityMatrix(sample), 0.95, "mutual-nearest-v1").groups).toEqual([]);
+  });
+
+  it("rejects invalid cutoffs", () => {
+    expect(() => cluster(similarityMatrix(sample), NaN)).toThrow(/Invalid cosine cutoff/);
+  });
+});
+
+function MixedSentimentHarness() {
+  const { setDataset, sentiment } = useFeedbackSession();
+  const mixed = records.map((record, i) => {
+    const text = ["The delivery was slow.", "The delivery was not slow at all.", "Arrived at noon"][i];
+    return { ...record, text, originalText: text };
+  });
+  return <>
+    <button onClick={() => setDataset({ ...dataset, records: mixed })}>Load mixed reviews</button>
+    <button onClick={() => sentiment.start(mixed, 2)}>Run existing sentiment</button>
+    <IssueExplorer />
+  </>;
+}
+
+it("warns about opposite predictions without suppressing the group or its evidence", () => {
+  render(<FeedbackSession><MixedSentimentHarness /></FeedbackSession>);
+  fireEvent.click(screen.getByRole("button", { name: "Load mixed reviews" }));
+  fireEvent.click(screen.getByRole("button", { name: "Run existing sentiment" }));
+  const sentiment = FakeWorker.instances[0];
+  const run = sentiment.postMessage.mock.calls[0][0].run;
+  for (const [id, label] of [["0", "negative"], ["1", "positive"]]) {
+    const scores = ["negative", "neutral", "positive"].map((name) => ({ label: name, score: name === label ? 1 : 0 }));
+    act(() => sentiment.onmessage?.({ data: { run, type: "result", id, scores } } as unknown as MessageEvent<Event>));
+  }
+  sentiment.emit({ type: "done" });
+  fireEvent.click(screen.getByRole("button", { name: "Discover Feedback Groups" }));
+  const issues = FakeWorker.instances[1];
+  issues.emit({ type: "result", id: "0", vector: vector(1) });
+  issues.emit({ type: "result", id: "1", vector: vector(1) });
+  issues.emit({ type: "result", id: "2", vector: vector(-1) });
+  issues.emit({ type: "done" });
+  expect(screen.getByText(/Mixed sentiment/)).toBeVisible();
+  expect(screen.getByText(/Complete-link · Cutoff 0.75/)).toBeVisible();
+  fireEvent.change(screen.getByLabelText("Grouping method"), { target: { value: "average-link-v1" } });
+  expect(screen.getByText(/Average-link \(exploratory\) · Cutoff 0.45/)).toBeVisible();
+  expect(FakeWorker.instances).toHaveLength(2);
+  fireEvent.click(screen.getByRole("button", { name: "View evidence" }));
+  const card = within(screen.getByRole("article"));
+  expect(card.getByText("The delivery was slow.", { selector: "span" })).toBeVisible();
+  expect(card.getByText("The delivery was not slow at all.")).toBeVisible();
+  expect(card.getByText("Negative")).toBeVisible();
+  expect(card.getByText("Positive")).toBeVisible();
+  fireEvent.click(screen.getByRole("button", { name: "Load mixed reviews" }));
+  expect(screen.queryByRole("heading", { name: "Feedback groups" })).toBeNull();
+});

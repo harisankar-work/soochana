@@ -107,6 +107,39 @@ After `npm run build` and `npm start`, run `VOICELOOP_CHROMIUM=/path/to/chromium
 
 Real Chromium inference and the issue workflow were verified with checksum-matched MiniLM weights fetched over trusted HTTPS and streamed by the test harness. Cloud Chromium's normal first-run download remains unverified because it rejected the model host's TLS certificate. Browser coverage was limited to Chromium. Milestone 3 retains its earlier partial status and its assistant-labelled synthetic sentiment evaluation. Milestone 4 is partial because direct cold downloads in this environment remain unverified.
 
+## Milestone 4.1
+
+The Milestone 4 baseline above remains historical. The production default is still **complete-link at 0.75**. The Issue Explorer now identifies the active method and cutoff, offers **average-link (exploratory)** in Advanced grouping settings, and flags groups with both Positive and Negative predictions for manual review. The warning uses available sentiment only and leaves cluster membership unchanged. Evidence still traces to the original CSV rows. Switching methods or thresholds reuses the current matrix, and replacement or removal resets those settings.
+
+### Why recall was low
+
+The embedding configuration remains the pinned MiniLM q8 model documented above. The worker uses the model's 512-token converted tokenizer, attention-mask mean pooling, and finite, L2-normalized 384-dimensional vectors. Development and holdout examples were at most 72 characters, so model input truncation does not explain these results. The development same-topic cosine quartiles were **0.423 / 0.510 / 0.587**, versus **0.111 / 0.204 / 0.304** for different-topic pairs. The distributions still overlap. A different-topic pair reached **0.827** and the maximum same-topic score was **0.778**. The 0.75 cutoff excludes most paraphrases, and complete-link requires every pair to cross it.
+
+The historical false merge paired delayed delivery with “not slow at all” at cosine **0.763**. Shared vocabulary can dominate polarity. Lower cutoffs also admitted cross-topic pairs, so thresholds alone cannot reliably separate product issues. In the browser replay, sentiment classified that pair as Neutral and Positive, so the mixed-sentiment warning did not fire. The warning requires both a positive and a negative prediction and can miss contradictions when sentiment is absent or wrong.
+
+### Candidates and holdout
+
+The original 48 examples plus nine new examples form the **57-review development set**. The **46-review holdout** was separately written and labelled before embeddings were inspected. Labels are synthetic and assistant-assigned. The comparison swept complete-link, average-link, normalized centroid-link, and reciprocal nearest neighbors from 0.40 to 0.85 in 0.05 steps. None met the predeclared 0.80 development precision floor. The best development F1 came from average-link at 0.45. It remains opt-in because of false merges. The default and exploratory settings were fixed before the holdout run.
+
+| Fixture and setting | Precision | Recall | F1 | TP / FP / FN | Groups / singletons |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Original · complete-link 0.75 | 0.667 | 0.019 | 0.037 | 2 / 1 / 103 | 3 / 42 |
+| Original · average-link 0.45 | 0.677 | 0.619 | 0.647 | 65 / 31 / 40 | 8 / 7 |
+| Development · complete-link 0.75 | 0.667 | 0.018 | 0.035 | 2 / 1 / 109 | 3 / 51 |
+| Development · average-link 0.45 | 0.571 | 0.577 | 0.574 | 64 / 48 / 47 | 10 / 8 |
+| Holdout · complete-link 0.75 | 0.000 | 0.000 | 0.000 | 0 / 0 / 54 | 0 / 46 |
+| Holdout · average-link 0.45 | 0.431 | 0.463 | 0.446 | 25 / 33 / 29 | 10 / 11 |
+
+See the [full 40-configuration comparison](evaluation/issues-4.1-report.md) for group sizes, cohesion, timings, and machine-readable false-pair evidence. The browser coverage and cloud TLS caveats from Milestones 3 and 4 still apply. The real worker ran with checksum-verified assets staged for the test. The synthetic holdout does not establish production grouping quality.
+
+With the production app running and `VOICELOOP_CHROMIUM` set to a Chrome or Chromium executable, reproduce with:
+
+```bash
+npm run evaluate:issues -- baseline average-link-v1 0.45
+npm run evaluate:issues -- development
+npm run evaluate:issues -- holdout average-link-v1 0.45
+```
+
 ## Local setup
 
 Use Node.js 22.13 or later in the 22.x line, or Node.js 24 or later, and npm.

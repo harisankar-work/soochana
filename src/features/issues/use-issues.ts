@@ -12,6 +12,9 @@ type Analysis = {
   progress?: number;
 };
 
+type GroupingMode = "complete-link-v1" | "average-link-v1";
+export const groupingDefaults = { "complete-link-v1": DEFAULT_THRESHOLD, "average-link-v1": 0.45 } as const;
+
 const idle: Analysis = { phase: "idle", selected: 0, failed: 0, embeddings: [] };
 
 function observe(worker: Worker, message: (event: MessageEvent<Event>) => void, error: () => void) {
@@ -22,6 +25,7 @@ function observe(worker: Worker, message: (event: MessageEvent<Event>) => void, 
 
 export function useIssues() {
   const [analysis, setAnalysis] = useState(idle);
+  const [method, setMethod] = useState<GroupingMode>("complete-link-v1");
   const [threshold, setThreshold] = useState(DEFAULT_THRESHOLD);
   const current = useRef<Worker | null>(null);
   const sequence = useRef(0);
@@ -41,7 +45,12 @@ export function useIssues() {
   function reset() {
     stop();
     setAnalysis(idle);
-    setThreshold(DEFAULT_THRESHOLD);
+    configureGrouping("complete-link-v1");
+  }
+
+  function configureGrouping(next: GroupingMode) {
+    setMethod(next);
+    setThreshold(groupingDefaults[next]);
   }
 
   function cancel() {
@@ -89,5 +98,5 @@ export function useIssues() {
     }
   }
 
-  return { analysis, threshold, setThreshold, start, cancel, reset, isRunning: () => current.current !== null, busy: ["preparing", "download", "initialize", "embed"].includes(analysis.phase) };
+  return { analysis, method, configureGrouping, threshold, setThreshold, start, cancel, reset, isRunning: () => current.current !== null, busy: ["preparing", "download", "initialize", "embed"].includes(analysis.phase) };
 }

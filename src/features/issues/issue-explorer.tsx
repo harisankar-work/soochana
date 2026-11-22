@@ -9,6 +9,7 @@ import { useFeedbackSession } from "../feedback/session";
 import type { FeedbackRecord } from "../feedback/validation";
 import type { Prediction } from "../sentiment/protocol";
 import { cluster, similarityMatrix, type IssueGroup } from "./clustering";
+import { groupingDefaults } from "./use-issues";
 import { LIMIT, MODEL_ID, MODEL_REVISION } from "./protocol";
 
 const status = {
@@ -63,6 +64,9 @@ function GroupCard({ group, records, representative, predictions, potential }: {
       <h3>{excerpt}{excerpt.length < representative.text.length ? "…" : ""}</h3>
       <p>{records.length} supporting reviews · Mean pairwise similarity {group.cohesion.toFixed(3)}</p>
       <p className="import-note">{covered ? `Sentiment coverage ${covered}/${records.length} · ${mix.Negative} negative · ${mix.Neutral} neutral · ${mix.Positive} positive` : "Sentiment unavailable"}</p>
+      {mix.Positive > 0 && mix.Negative > 0 && (
+        <p className="issue-caution">Mixed sentiment. Reviews may describe different experiences. Compare the evidence.</p>
+      )}
       <button className="import-button" aria-expanded={open} onClick={() => setOpen(!open)}>{open ? "Hide evidence" : "View evidence"}</button>
       {open && <><p className="import-note">Similarities are measured against the representative review on CSV row {representative.originalRow}.</p><Evidence records={records} predictions={predictions} similarities={group.similarities} /></>}
     </article>
@@ -75,11 +79,11 @@ export function IssueExplorer() {
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
   const [minimum, setMinimum] = useState(2);
-  const { analysis, busy, threshold, setThreshold } = issues;
+  const { analysis, busy, method, configureGrouping, threshold, setThreshold } = issues;
   // Only build the bounded matrix after a run stops, so per-row progress stays cheap.
   const vectors = busy ? null : analysis.embeddings;
   const matrix = useMemo(() => vectors ? similarityMatrix(vectors) : null, [vectors]);
-  const result = useMemo(() => matrix ? cluster(matrix, threshold) : null, [matrix, threshold]);
+  const result = useMemo(() => matrix ? cluster(matrix, threshold, method) : null, [matrix, threshold, method]);
 
   if (!dataset) {
     return <EmptyState icon={Compass} title="Import feedback to discover groups">
@@ -134,13 +138,18 @@ export function IssueExplorer() {
       {result && embedded > 0 && (
         <section className="panel import-panel" aria-labelledby="results-title">
           <h2 id="results-title">Feedback groups</h2>
+          <p className="import-note">{method === "complete-link-v1" ? "Complete-link" : "Average-link (exploratory)"} · Cutoff {threshold.toFixed(2)}</p>
           <dl className="quality-stats">
             {[["Recurring groups", groups.length], ["Grouped records", embedded - result.ungrouped.length], ["Ungrouped records", result.ungrouped.length], ["Potential issues", groups.filter(({ potential }) => potential).length]].map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
           </dl>
           <p className="import-note">A recurring group needs at least two reviews. A group is marked as a potential issue when more than half of all members have negative sentiment predictions. Use the original reviews to judge whether the group describes a problem.</p>
           <div className="preview-controls">
-            <label>Cosine similarity cutoff<select value={threshold} onChange={(event) => setThreshold(Number(event.target.value))}>
-              {[0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90].map((value) => <option key={value} value={value}>{value.toFixed(2)}</option>)}
+            <label>Cosine similarity cutoff<select value={threshold} onChange={(event) => {
+              setThreshold(Number(event.target.value));
+              setFilter("all");
+            }}>
+              {(method === "complete-link-v1" ? [0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90] : [0.40, 0.45, 0.50, 0.55, 0.60, 0.65, 0.70, 0.75, 0.80, 0.85, 0.90]).map((value) =>
+                <option key={value} value={value}>{value.toFixed(2)}{value === groupingDefaults[method] ? " (default)" : ""}</option>)}
             </select></label>
             <label>Group type<select value={filter} onChange={(event) => setFilter(event.target.value)}>
               <option value="all">All groups</option><option value="potential">Potential issues</option><option value="themes">Other recurring themes</option><option value="ungrouped">Ungrouped feedback</option>
@@ -150,12 +159,27 @@ export function IssueExplorer() {
             </select></label>
             <label>Search review text or label<input type="search" value={search} onChange={(event) => setSearch(event.target.value)} /></label>
           </div>
-          <p className="import-note">The cutoff is a grouping setting, and cosine similarity is a score, not a probability. Higher cutoffs demand closer matches and can leave more reviews ungrouped.</p>
+          <p className="import-note">{method === "complete-link-v1"
+            ? "Complete-link requires every pair in a group to meet the cutoff."
+            : "Average-link uses the mean similarity between two groups to decide whether to merge them."} Higher cutoffs can leave more reviews ungrouped. Cosine is a similarity score rather than a calibrated probability.</p>
+          <details className="quality-details">
+            <summary>Advanced grouping settings</summary>
+            <div className="preview-controls">
+              <label>Grouping method<select value={method} onChange={(event) => {
+                configureGrouping(event.target.value === "average-link-v1" ? "average-link-v1" : "complete-link-v1");
+                setFilter("all");
+              }}>
+                <option value="complete-link-v1">Complete-link (default)</option>
+                <option value="average-link-v1">Average-link (exploratory)</option>
+              </select></label>
+            </div>
+            <p className="issue-caution">Average-link can group more paraphrases, but it can also merge different topics. Review the supporting evidence before drawing conclusions.</p>
+          </details>
           <p role="status">{shown.length} matching groups</p>
-          {shown.map((item) => <GroupCard key={`${threshold}:${item.group.id}`} {...item} predictions={predictions} />)}
+          {shown.map((item) => <GroupCard key={`${method}:${threshold}:${item.group.id}`} {...item} predictions={predictions} />)}
           {filter !== "ungrouped" && !shown.length && <p>No recurring groups match the current settings.</p>}
           {(filter === "all" || filter === "ungrouped") && (
-            <details className="quality-details" key={threshold}>
+            <details className="quality-details" key={`${method}:${threshold}`}>
               <summary>Ungrouped feedback ({singletons.length})</summary>
               {singletons.length > 0 ? <Evidence records={singletons} predictions={predictions} /> : <p>No ungrouped reviews match the current search.</p>}
             </details>
