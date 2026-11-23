@@ -62,7 +62,7 @@ Matching ignores case and treats spaces and hyphens in headers like underscores.
 
 CSV content is read, parsed, and previewed in the browser. The app keeps confirmed records in React memory across in-app navigation. A refresh or tab close clears them. This workflow has no upload endpoint, persistent browser storage, analytics tracking, or server-side processing. Milestone 3 also runs inference locally. See the model download details below.
 
-Import and preview handle one dataset at a time. CSV files of 256 KiB or more are parsed in a browser worker when workers are available. Smaller files and row validation run on the browser’s main thread. Persistent storage, exports and deployment remain future work.
+Import and preview handle one dataset at a time. CSV parsing and row validation run on the browser’s main thread for both local uploads and the demo dataset. The model workers handle sentiment and embedding inference. Persistent storage, exports and deployment remain future work.
 
 ### Try a CSV import
 
@@ -127,7 +127,7 @@ At cutoff 0.75, Chromium produced **3 recurring groups and 42 ungrouped reviews*
 
 After `npm run build` and `npm start`, run `VOICELOOP_CHROMIUM=/path/to/chromium npm run evaluate:issues`. Set `VOICELOOP_URL` for a different address. The runner uses the real application worker and prints measured similarities, pairwise metrics, and each false merge and split.
 
-Real Chromium inference and the issue workflow were verified with checksum-matched MiniLM weights fetched over trusted HTTPS and streamed by the test harness. Cloud Chromium's normal first-run download remains unverified because it rejected the model host's TLS certificate. Browser coverage was limited to Chromium. Milestone 3 retains its earlier partial status and its assistant-labelled synthetic sentiment evaluation. Milestone 4 is partial because direct cold downloads in this environment remain unverified.
+Real Chromium inference and the issue workflow were verified with checksum-matched MiniLM weights fetched over trusted HTTPS and streamed by the test harness. At Milestone 4, the default cloud Chromium profile rejected the model host’s TLS certificate, so direct cold downloads were unverified and the milestone remained partial. Browser coverage was limited to Chromium. Milestone 3 retains its earlier partial status and its assistant-labelled synthetic sentiment evaluation. Later cold-start results are recorded in the [release checklist](docs/demo/release-checklist.md#local-cold-start-evidence).
 
 ## Milestone 4.1
 

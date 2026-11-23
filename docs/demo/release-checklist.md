@@ -2,7 +2,7 @@
 
 ## Candidate and approval
 
-Use the Milestone 8 commit on `main` as the release candidate. Deployment and publishing a preview require separate approval. Before wiring Git integration, check the target project and account for automatic production and preview deployments, and keep those disabled until authorized.
+Use the verified Milestone 8.1 commit on `main` as the release candidate. Deployment and publishing a preview require separate approval. Before wiring Git integration, check the target project and account for automatic production and preview deployments, and keep those disabled until authorized.
 
 ## Vercel configuration
 
@@ -11,10 +11,16 @@ Use the Milestone 8 commit on `main` as the release candidate. Deployment and pu
 - The demo CSV is served from `public/demo`. The core flow needs no account, database, Vercel AI Gateway, secret, or server-side inference. Confirm the worker and static asset responses on the approved host.
 - Keep the pinned model revisions and existing privacy claims. If adding a Content Security Policy, validate the pinned Hugging Face artifact and redirect hosts and the jsDelivr WASM runtime over HTTPS. Verify worker and WASM execution under that policy. Never disable TLS checks to resolve artifact failures.
 
+## Local verification and release scope
+
+The manual portfolio flow is ready for a controlled Chromium demo. Local production verification covers importing the public synthetic CSV, user confirmation, dashboard counts and filtering, evidence-backed scoring without models, and session reset. No code blocker was found in that flow. Browser coverage is limited to the tested Chromium build. Firefox, WebKit, physical mobile devices, and screen readers remain unverified.
+
+The published demo assets contain synthetic feedback. The import stays in browser memory and the manual demo did not make external requests. Model actions can contact third-party artifact hosts and cache model files. Verify the deployed network behavior and disclose any hosting logs or analytics enabled for the release.
+
 ## Gates after approval
 
 - [ ] Confirm the release commit, Git settings, project ownership, production domain, and rollback target.
-- [ ] Verify type check, lint, tests, build, and `qa:demo` on the candidate.
+- [ ] Confirm the exact candidate still passes type check, lint, tests, build, and `qa:demo` before publishing.
 - [ ] Verify production pages and the demo asset from the approved host, including manual scoring and browser session reset.
 - [ ] In clean profiles on the intended release network, verify both genuine cold artifact downloads and real inference. Repeat with a warm cache and check network payloads. Document Chromium, Firefox, and WebKit results and the supported browser scope.
 - [ ] Verify keyboard navigation and representative assistive technology on the deployed UI.
