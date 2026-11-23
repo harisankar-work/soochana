@@ -98,11 +98,11 @@ function Analytics({ dataset, sentiment, issues }: { dataset: NonNullable<Sessio
       {filters.sentiment && <p className="import-note">{excludedUnanalysed} unanalysed reviews excluded by the sentiment filter after other filters.</p>}
       {!matched.length && <p>No reviews match these filters.</p>}
       <dl className="analytics-metrics">
-        <div><dt>Total feedback in view</dt><dd>{matched.length}</dd><span>Of {all.length} imported</span></div>
-        <div><dt>Sentiment analysed</dt><dd>{summary.analysed} / {matched.length}</dd><span>{classifiedTotal} of {all.length} imported</span></div>
-        <div><dt>Negative sentiment share</dt><dd>{summary.negativeShare === null ? "Not analysed" : percent(summary.sentiments[0].rows.length, summary.analysed)}</dd><span>{summary.sentiments[0].rows.length} of {summary.analysed} classified in view</span></div>
-        <div><dt>Average rating</dt><dd>{summary.average === null ? "Unavailable" : `${summary.average.toFixed(2)} / 5`}</dd><span>{summary.rated} rated reviews</span></div>
-        <div><dt>Recurring groups in view</dt><dd>{issues.result ? grouping.visibleGroups.length : "Unavailable"}</dd><span>{grouping.embeddedCount} embedded in view</span></div>
+        <div><dt>Total feedback in view</dt><dd><strong>{matched.length}</strong><span>Of {all.length} imported</span></dd></div>
+        <div><dt>Sentiment analysed</dt><dd><strong>{summary.analysed} / {matched.length}</strong><span>{classifiedTotal} of {all.length} imported</span></dd></div>
+        <div><dt>Negative sentiment share</dt><dd><strong>{summary.negativeShare === null ? "Not analysed" : percent(summary.sentiments[0].rows.length, summary.analysed)}</strong><span>{summary.sentiments[0].rows.length} of {summary.analysed} classified in view</span></dd></div>
+        <div><dt>Average rating</dt><dd><strong>{summary.average === null ? "Unavailable" : `${summary.average.toFixed(2)} / 5`}</strong><span>{summary.rated} rated reviews</span></dd></div>
+        <div><dt>Recurring groups in view</dt><dd><strong>{issues.result ? grouping.visibleGroups.length : "Unavailable"}</strong><span>{grouping.embeddedCount} embedded in view</span></dd></div>
       </dl>
     </Section>
 

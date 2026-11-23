@@ -76,7 +76,7 @@ export function useIssues() {
       const worker = new Worker(new URL("./embeddings.worker.ts", import.meta.url), { type: "module" });
       current.current = worker;
       observe(worker, ({ data }) => {
-        if (data.run !== run || sequence.current !== run) return;
+        if (data?.run !== run || sequence.current !== run) return;
         if (data.type === "error") {
           fail();
         } else if (data.type === "done") {
@@ -90,7 +90,7 @@ export function useIssues() {
             : { ...previous, failed: previous.failed + 1 });
         } else if (data.type === "download" || data.type === "initialize" || data.type === "embed") {
           const phase = data.type;
-          setAnalysis((previous) => ({ ...previous, phase, progress: data.type === "download" ? data.progress : undefined }));
+          setAnalysis((previous) => ({ ...previous, phase, progress: data.type === "download" && typeof data.progress === "number" && Number.isFinite(data.progress) && data.progress >= 0 && data.progress <= 100 ? data.progress : undefined }));
         }
       }, fail);
       worker.postMessage({ run, records: inputs } satisfies Request);

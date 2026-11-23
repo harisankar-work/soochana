@@ -43,10 +43,10 @@ export function PriorityDetail({ entry, grouping, imported, scored, weights, edi
     </div>}
     <h3>Observed evidence</h3>
     <dl className="quality-stats">
-      <div><dt>Evidence frequency</dt><dd>{observed.evidence.length} / {denominator}</dd><span>{percent(observed.evidence.length, denominator)} of {snapshot ? "embedded snapshot" : "imported dataset"}</span></div>
-      <div><dt>Negative sentiment</dt><dd>{observed.negativeShare === null ? "Unavailable" : percent(observed.negative, observed.classified)}</dd><span>{observed.negative} negative · {observed.classified} of {observed.evidence.length} classified</span></div>
-      <div><dt>Average rating</dt><dd>{observed.averageRating === null ? "Unavailable" : observed.averageRating.toFixed(2)}</dd><span>{observed.rated} of {observed.evidence.length} rated</span></div>
-      <div><dt>Latest feedback date</dt><dd>{observed.latest ?? "Unavailable"}</dd><span>{observed.dated} dated reviews</span></div>
+      <div><dt>Evidence frequency</dt><dd><strong>{observed.evidence.length} / {denominator}</strong><span>{percent(observed.evidence.length, denominator)} of {snapshot ? "embedded snapshot" : "imported dataset"}</span></dd></div>
+      <div><dt>Negative sentiment</dt><dd><strong>{observed.negativeShare === null ? "Unavailable" : percent(observed.negative, observed.classified)}</strong><span>{observed.negative} negative · {observed.classified} of {observed.evidence.length} classified</span></dd></div>
+      <div><dt>Average rating</dt><dd><strong>{observed.averageRating === null ? "Unavailable" : observed.averageRating.toFixed(2)}</strong><span>{observed.rated} of {observed.evidence.length} rated</span></dd></div>
+      <div><dt>Latest feedback date</dt><dd><strong>{observed.latest ?? "Unavailable"}</strong><span>{observed.dated} dated reviews</span></dd></div>
     </dl>
     <p className="import-note">{snapshot ? "Frequency share describes the embedded snapshot." : "Manually selected evidence can omit relevant reviews."} Count shares across candidate types use different denominators.</p>
     <p>{observed.trend ? `Dated review trend: ${observed.trend.recent} in the 28 days ending ${observed.trend.anchor} vs ${observed.trend.previous} in the preceding 28 days.` : "Trend unavailable. It requires a 56-day dataset span and at least four dated supporting reviews across both periods, with evidence in each."}</p>

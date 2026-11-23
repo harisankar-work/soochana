@@ -1,20 +1,23 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { chromium } from "playwright-core";
+import { stageModelAssets } from "./qa-model-assets.mjs";
 
 const examples = JSON.parse(await readFile(new URL("../evaluation/sentiment-fixture.json", import.meta.url), "utf-8"));
 const classes = ["Negative", "Neutral", "Positive"];
 const base = process.env.VOICELOOP_URL ?? "http://localhost:3000";
 const origin = new URL(base).origin;
 const browser = await chromium.launch({ executablePath: process.env.VOICELOOP_CHROMIUM });
+let staged;
 try {
   const page = await browser.newPage();
+  if (process.env.VOICELOOP_QA_STAGE_MODELS === "1") staged = await stageModelAssets(page.context());
   const unexpected = [];
   const failed = [];
   const external = new Set();
   page.context().on("request", (request) => {
     const url = new URL(request.url());
-    if (url.origin === origin || url.protocol === "blob:") return;
+    if (url.origin === origin || url.origin === staged?.origin || url.protocol === "blob:") return;
     external.add(url.hostname);
     const allowed = url.hostname === "huggingface.co" || url.hostname.endsWith(".hf.co") ||
       (url.hostname === "cdn.jsdelivr.net" && url.pathname.startsWith("/npm/onnxruntime-web@"));
@@ -83,4 +86,5 @@ try {
   }, null, 2));
 } finally {
   await browser.close();
+  await staged?.close();
 }

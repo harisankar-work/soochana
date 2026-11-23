@@ -130,3 +130,12 @@ describe("row validation", () => {
     expect(report.accepted[0].text).toHaveLength(MAX_TEXT_LENGTH);
   });
 });
+
+it("bounds the number of mapping options for wide CSV files", () => {
+  const csv = (width: number) => [
+    Array.from({ length: width }, (_, index) => `field_${index}`).join(","),
+    Array.from({ length: width }, (_, index) => `value_${index}`).join(","),
+  ].join("\n");
+  expect(parseCsv(csv(200)).headers).toHaveLength(200);
+  expect(() => parseCsv(csv(201))).toThrow(/exceeds 200 columns/);
+});

@@ -30,7 +30,7 @@ Matching ignores case and treats spaces and hyphens in headers like underscores.
 
 ### Limits and validation
 
-- MVP limits are 5 MiB per file and 10,000 data records. Files over either limit are rejected. Malformed quoting and invalid UTF-8 also reject the file.
+- MVP limits are 5 MiB per file, 10,000 data records, and 200 columns. Files over these limits are rejected. Malformed quoting and invalid UTF-8 also reject the file.
 - Each accepted row keeps its original feedback, trimmed display text, stable ID within the dataset, and logical CSV record number. The header is record 1 and a multiline quoted record counts as one row.
 - Blank feedback, feedback over the length limit, and mismatched field counts exclude a record. Blank data records count as missing feedback. The quality report shows one exclusion reason per row.
 - Duplicates use trimmed, case-insensitive feedback text with consecutive whitespace collapsed. The first eligible row wins, even when a later copy has different metadata. Similar wording remains separate. Duplicate and missing counts are subsets of rejected records.
@@ -40,7 +40,7 @@ Matching ignores case and treats spaces and hyphens in headers like underscores.
 
 CSV content is read, parsed, and previewed in the browser. The app keeps confirmed records in React memory across in-app navigation. A refresh or tab close clears them. This workflow has no upload endpoint, persistent browser storage, analytics tracking, or server-side processing. Milestone 3 also runs inference locally. See the model download details below.
 
-Import and preview handle one dataset at a time. Parsing and validation run on the browser's main thread within the stated limits. Persistent storage, exports and deployment remain future work.
+Import and preview handle one dataset at a time. CSV files of 256 KiB or more are parsed in a browser worker when workers are available. Smaller files and row validation run on the browser’s main thread. Persistent storage, exports and deployment remain future work.
 
 ### Try a CSV import
 
@@ -183,6 +183,10 @@ The deterministic scoring fixture gives Checkout **46.75** and Billing **45.25**
 
 Reviews, saved candidates, drafts, and weights live only in browser memory. Navigation keeps the active dataset's drafts and settings. Refresh, closing the tab, or confirming dataset removal or replacement clears them. Prioritization starts neither model and has no new dependencies or external services. The historical model quality, selection bias, and cloud TLS limitations still apply.
 
+## Milestone 7
+
+The release-readiness audit covers regression tests, browser accessibility, privacy, performance, and model evaluation. See the [QA report](docs/qa/milestone-7-report.md) for results and reproduction commands.
+
 ## Local setup
 
 Use Node.js 22.13 or later in the 22.x line, or Node.js 24 or later, and npm.
@@ -225,7 +229,7 @@ The [Apple Design Skill](https://github.com/dickwu/apple-design-skill) is pinned
 | 4 | Implemented browser-based MiniLM grouping and review evidence |
 | 5 | Implemented filtered dashboard analytics, model coverage, and review evidence |
 | 6 | Implemented evidence-backed prioritization, reviewer assessments, and weight sensitivity |
-| 7 | Evaluate model quality, accessibility, browser behavior, performance, and security |
+| 7 | Audited release readiness. Direct cold model downloads remain blocked in the test environment. |
 | 8 | Prepare a public demo dataset and deploy to Vercel after approval |
 
 Future exports will let teams share reports with supporting evidence.

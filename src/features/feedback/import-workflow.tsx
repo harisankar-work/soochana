@@ -31,7 +31,7 @@ function UploadArea({ busy, onFile }: { busy: boolean; onFile: (files: FileList)
     }}>
       <span className="icon-tile"><FileUp aria-hidden="true" size={20} /></span>
       <p>Drop a CSV here or browse for a file.</p>
-      <p id="csv-limits" className="import-note">UTF-8 CSV · up to 5 MiB and 10,000 data rows</p>
+      <p id="csv-limits" className="import-note">UTF-8 CSV · up to 5 MiB, 10,000 data rows and 200 columns</p>
       <input ref={input} hidden type="file" accept=".csv,text/csv" aria-label="CSV file" onChange={(event) => {
         if (event.target.files?.length) onFile(event.target.files);
         event.target.value = "";

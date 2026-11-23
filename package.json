@@ -10,7 +10,12 @@
     "lint": "eslint .",
     "typecheck": "next typegen && tsc --noEmit",
     "evaluate:sentiment": "node scripts/evaluate-sentiment.mjs",
-    "evaluate:issues": "node --experimental-strip-types scripts/evaluate-issues.mjs"
+    "evaluate:issues": "node --experimental-strip-types scripts/evaluate-issues.mjs",
+    "qa:browser": "node scripts/qa-browser.mjs smoke",
+    "qa:cold": "node scripts/qa-browser.mjs cold",
+    "qa:benchmark": "node scripts/qa-browser.mjs benchmark",
+    "qa:calculations": "vitest bench --run --disableConsoleIntercept",
+    "qa:models": "node scripts/qa-models.mjs"
   },
   "license": "MIT",
   "private": true,
@@ -35,6 +40,7 @@
     "@types/papaparse": "^5.5.2",
     "@types/react": "^19.3.0",
     "@types/react-dom": "^19.3.0",
+    "axe-core": "^4.14.1",
     "eslint": "^9.39.5",
     "eslint-config-next": "^16.4.6",
     "jsdom": "^31.0.1",

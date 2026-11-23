@@ -77,10 +77,10 @@ export function useSentiment() {
       const current = worker.current ?? new Worker(new URL("./sentiment.worker.ts", import.meta.url), { type: "module" });
       worker.current = current;
       observeWorker(current, ({ data }) => {
-        if (sequence.current !== run || data.run !== run || !active.current) return;
+        if (sequence.current !== run || data?.run !== run || !active.current) return;
         switch (data.type) {
           case "download":
-            setAnalysis((previous) => ({ ...previous, phase: "download", progress: data.progress }));
+            setAnalysis((previous) => ({ ...previous, phase: "download", progress: typeof data.progress === "number" && Number.isFinite(data.progress) && data.progress >= 0 && data.progress <= 100 ? data.progress : undefined }));
             break;
           case "initialize":
           case "analyse":
@@ -108,7 +108,7 @@ export function useSentiment() {
             break;
           }
           case "error":
-            fail(data.message);
+            fail(typeof data.message === "string" ? data.message : "The analysis worker returned an invalid error. Retry the analysis.");
             break;
         }
       }, fail);

@@ -2,6 +2,7 @@ import Papa from "papaparse";
 
 export const MAX_FILE_BYTES = 5 * 1024 * 1024;
 export const MAX_ROWS = 10_000;
+export const MAX_COLUMNS = 200;
 
 export type CsvRow = { cells: string[]; originalRow: number };
 export type ParsedCsv = { headers: string[]; rows: CsvRow[] };
@@ -58,6 +59,7 @@ export function parseCsv(content: string): ParsedCsv {
 
   checkQuoteSyntax(content.replace(/^\uFEFF/, ""), meta.delimiter);
   const [headers, ...records] = data;
+  if (headers.length > MAX_COLUMNS) throw new Error("The CSV exceeds 200 columns. Remove unused columns and try again.");
   if (!headers.some((header) => header.trim())) {
     throw new Error("The first CSV record must contain column headers.");
   }

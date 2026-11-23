@@ -86,6 +86,7 @@ it("rejects stale, duplicate, unknown, invalid and missing results and resets on
   act(() => result.current.issues.start(records, 3));
   const worker = FakeWorker.instances[0];
   expect(worker.postMessage).toHaveBeenCalledOnce();
+  act(() => worker.onmessage?.(new MessageEvent<Event>("message")));
   worker.emit({ type: "result", id: "0", vector: vector(1) }, -1);
   worker.emit({ type: "result", id: "0", vector: vector(1) });
   worker.emit({ type: "result", id: "0", vector: vector(1) });

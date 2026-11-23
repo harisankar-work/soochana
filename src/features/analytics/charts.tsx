@@ -12,8 +12,8 @@ export function BarChart({ title, buckets, choose, selected, denominator }: Char
   return <ul className="analytics-bars" aria-label={title}>
     {buckets.map((bucket) => (
       <li key={bucket.key}>
-        <button type="button" className="analytics-bar-button" aria-label={`${bucket.label} ${bucket.rows.length}${denominator ? ` · ${percent(bucket.rows.length, denominator)}` : ""}`} aria-pressed={selected === bucket.key} disabled={!bucket.rows.length} onClick={() => choose(bucket)}>
-          <span>{bucket.label}</span>
+        <button type="button" className="analytics-bar-button" aria-pressed={selected === bucket.key} disabled={!bucket.rows.length} onClick={() => choose(bucket)}>
+          <span>{bucket.label}</span>{" "}
           <strong>{bucket.rows.length}{denominator ? ` · ${percent(bucket.rows.length, denominator)}` : ""}</strong>
           <span className="analytics-bar-track" aria-hidden="true"><span style={{ width: `${bucket.rows.length / maximum * 100}%` }} /></span>
         </button>

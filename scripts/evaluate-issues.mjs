@@ -1,6 +1,7 @@
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { chromium } from "playwright-core";
+import { stageModelAssets } from "./qa-model-assets.mjs";
 import { cluster, METHODS, similarityMatrix } from "../src/features/issues/clustering.ts";
 import { validEmbedding } from "../src/features/issues/protocol.ts";
 
@@ -16,13 +17,15 @@ const fixture = mode === "holdout" ? await loadFixture("issues-holdout") : await
 if (mode === "development") fixture.push(...await loadFixture("issues-development-additions"));
 const base = new URL(process.env.VOICELOOP_URL ?? "http://localhost:3000");
 const browser = await chromium.launch({ executablePath: process.env.VOICELOOP_CHROMIUM });
+let staged;
 try {
   const page = await browser.newPage();
+  if (process.env.VOICELOOP_QA_STAGE_MODELS === "1") staged = await stageModelAssets(page.context());
   const unexpected = [];
   const failed = [];
   page.context().on("request", (request) => {
     const url = new URL(request.url());
-    if (url.origin === base.origin || url.protocol === "blob:") return;
+    if (url.origin === base.origin || url.origin === staged?.origin || url.protocol === "blob:") return;
     const assetHost = url.hostname === "huggingface.co" || url.hostname.endsWith(".hf.co") ||
       (url.hostname === "cdn.jsdelivr.net" && url.pathname.startsWith("/npm/onnxruntime-web@"));
     if (!assetHost || !["GET", "HEAD"].includes(request.method()) || request.postData() ||
@@ -123,4 +126,7 @@ try {
     configurations,
     ...(mode === "development" && selected ? { selected: evaluate(selected.strategy, selected.threshold, true) } : {}),
   }, null, 2));
-} finally { await browser.close(); }
+} finally {
+  await browser.close();
+  await staged?.close();
+}

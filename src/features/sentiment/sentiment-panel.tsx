@@ -124,7 +124,7 @@ export function SentimentPanel() {
               <dl className="quality-stats">
                 {labels.map((label) => {
                   const total = analysis.predictions.filter((prediction) => prediction.label === label).length;
-                  return <div key={label}><dt>{label}</dt><dd>{total}</dd><meter className="sentiment-progress" min={0} max={completed} value={total} aria-label={`${label} among analysed records`} /></div>;
+                  return <div key={label}><dt>{label}</dt><dd>{total}<meter className="sentiment-progress" min={0} max={completed} value={total} aria-label={`${label} among analysed records`} /></dd></div>;
                 })}
               </dl>
               <SentimentResults predictions={analysis.predictions} records={dataset.records} />

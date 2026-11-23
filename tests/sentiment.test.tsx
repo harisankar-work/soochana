@@ -61,6 +61,9 @@ describe("analysis worker lifecycle", () => {
     expect(result.current.analysis.phase).toBe("preparing");
     const worker = FakeWorker.workers[0];
     expect(worker.postMessage).toHaveBeenCalledExactlyOnceWith({ run: 1, records: records.map(({ id, text }) => ({ id, text })) });
+    worker.emit(null as unknown as WorkerEvent);
+    worker.emit({ run: 1, type: "download", progress: Infinity });
+    expect(result.current.analysis.progress).toBeUndefined();
     worker.emit({ run: 1, type: "download", progress: 47 });
     expect(result.current.analysis).toMatchObject({ phase: "download", progress: 47 });
     worker.emit({ run: 1, type: "initialize" });

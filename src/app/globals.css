@@ -167,7 +167,7 @@ main { @apply mx-auto w-full min-w-0 max-w-[77rem] px-4 pt-6 pb-10 sm:px-8 lg:px
 .analytics-metrics > div { @apply min-w-0 rounded-lg border p-3; background: var(--canvas); border-color: var(--border); }
 .analytics-metrics dt { @apply text-sm font-semibold; }
 .analytics-metrics dd { @apply my-1 text-xl font-extrabold tabular-nums; }
-.analytics-metrics span { @apply text-sm; color: var(--muted); }
+.analytics-metrics span, .priority-detail .quality-stats dd span { @apply block text-sm font-normal; color: var(--muted); }
 .analytics-chart-grid { @apply grid min-w-0 gap-4 xl:grid-cols-2; }
 .analytics-bars { @apply grid gap-1; }
 .analytics-bar-button { @apply grid min-h-11 w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-x-3 rounded-lg px-2 py-1.5 text-left text-sm; overflow-wrap: anywhere; }
