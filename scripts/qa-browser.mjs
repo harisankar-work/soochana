@@ -6,10 +6,10 @@ import { createRequire } from "node:module";
 import { chromium } from "playwright-core";
 
 const require = createRequire(import.meta.url);
-const base = new URL(process.env.VOICELOOP_URL ?? "http://localhost:3000");
+const base = new URL((process.env.SOOCHANA_URL ?? process.env.VOICELOOP_URL) ?? "http://localhost:3000");
 const mode = process.argv[2] ?? "smoke";
 assert.ok(["smoke", "cold", "benchmark"].includes(mode), "Choose smoke, cold, or benchmark.");
-const browser = await chromium.launch({ executablePath: process.env.VOICELOOP_CHROMIUM });
+const browser = await chromium.launch({ executablePath: (process.env.SOOCHANA_CHROMIUM ?? process.env.VOICELOOP_CHROMIUM) });
 
 function controls(page) {
   const button = (name) => page.getByRole("button", { name, exact: true });
@@ -83,7 +83,7 @@ async function benchmark() {
       new PerformanceObserver((list) => window.qaLongTasks.push(...list.getEntries().map(({ duration }) => duration))).observe({ type: "longtask" });
     }
   });
-  const directory = await mkdtemp(join(tmpdir(), "voiceloop-csv-qa-"));
+  const directory = await mkdtemp(join(tmpdir(), "soochana-csv-qa-"));
   const file = join(directory, "synthetic.csv");
   const results = [];
   try {

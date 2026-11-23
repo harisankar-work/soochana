@@ -5,13 +5,13 @@ import { stageModelAssets } from "./qa-model-assets.mjs";
 
 const examples = JSON.parse(await readFile(new URL("../evaluation/sentiment-fixture.json", import.meta.url), "utf-8"));
 const classes = ["Negative", "Neutral", "Positive"];
-const base = process.env.VOICELOOP_URL ?? "http://localhost:3000";
+const base = (process.env.SOOCHANA_URL ?? process.env.VOICELOOP_URL) ?? "http://localhost:3000";
 const origin = new URL(base).origin;
-const browser = await chromium.launch({ executablePath: process.env.VOICELOOP_CHROMIUM });
+const browser = await chromium.launch({ executablePath: (process.env.SOOCHANA_CHROMIUM ?? process.env.VOICELOOP_CHROMIUM) });
 let staged;
 try {
   const page = await browser.newPage();
-  if (process.env.VOICELOOP_QA_STAGE_MODELS === "1") staged = await stageModelAssets(page.context());
+  if ((process.env.SOOCHANA_QA_STAGE_MODELS ?? process.env.VOICELOOP_QA_STAGE_MODELS) === "1") staged = await stageModelAssets(page.context());
   const unexpected = [];
   const failed = [];
   const external = new Set();

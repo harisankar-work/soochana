@@ -25,7 +25,7 @@ export default function Dashboard() {
       <DashboardData empty={<>
       <section className="hero" aria-labelledby="dashboard-intro">
         <div className="hero-content">
-          <h2 id="dashboard-intro">Understand your customers. Prioritize what matters.</h2>
+          <h2 id="dashboard-intro">Turn customer feedback into clear product decisions.</h2>
           <p>Start with synthetic shop reviews or import your own CSV. Trace patterns back to individual reviews before deciding what to investigate.</p>
           <div className="hero-actions">
             <Link href="/feedback#start-import" className="primary-link">

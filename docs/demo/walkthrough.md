@@ -1,6 +1,6 @@
-# VoiceLoop portfolio walkthrough
+# Soochana portfolio walkthrough
 
-You are reviewing feedback for a fictional online shop. Find an issue worth investigating and show the reviews that support it. The demo contains 96 synthetic reviews across four channels and eight categories, with dates and ratings for filtering. The same [demo CSV](../../public/demo/voiceloop-demo.csv) can be downloaded and imported manually.
+You are reviewing feedback for a fictional online shop. Find an issue worth investigating and show the reviews that support it. The demo contains 96 synthetic reviews across four channels and eight categories, with dates and ratings for filtering. The same [demo CSV](../../public/demo/soochana-demo.csv) can be downloaded and imported manually.
 
 ## 1. Import and validate
 
@@ -29,4 +29,4 @@ The two model actions download pinned browser artifacts on first use. If the dow
 
 ![Prioritization with a real manual issue saved against synthetic evidence](screenshots/prioritization-demo.png)
 
-VoiceLoop keeps feedback, results, issues and drafts in the current browser session. Refreshing clears that session. Browser caches can retain downloaded model artifacts.
+Soochana keeps feedback, results, issues and drafts in the current browser session. Refreshing clears that session. Browser caches can retain downloaded model artifacts.

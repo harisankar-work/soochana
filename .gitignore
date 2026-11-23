@@ -11,7 +11,7 @@
 /datasets/
 /models/
 *.csv
-!/public/demo/voiceloop-demo.csv
+!/public/demo/soochana-demo.csv
 *.parquet
 *.safetensors
 *.onnx

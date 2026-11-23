@@ -1,16 +1,18 @@
-# VoiceLoop
+# Soochana
 
-**Turn customer feedback into product decisions.**
+**Turn customer feedback into clear product decisions.**
 
-VoiceLoop is a customer feedback intelligence workspace for product managers, product and business analysts, customer experience and operations teams, and founders. Reviews and support tickets often arrive in separate tools and describe the same problem in different words. VoiceLoop aims to bring that feedback together and help teams decide what to investigate, with links back to the original evidence.
+Soochana is a customer feedback intelligence workspace for product managers, product and business analysts, customer experience and operations teams, and founders. Reviews and support tickets often arrive in separate tools and describe the same problem in different words. Soochana aims to bring that feedback together and help teams decide what to investigate, with links back to the original evidence.
+
+Soochana means a clue, indication, or signal. Earlier milestone reports use the former name, VoiceLoop.
 
 ## Portfolio demo
 
-Start VoiceLoop locally, select **Try Demo Dataset**, and confirm the import of 96 synthetic shop reviews. Explore feedback by source and date, and inspect category and rating in the original reviews. Run browser-based sentiment and semantic grouping when model downloads are available, then rank a manual or discovered issue using review evidence and your own assessments.
+Start Soochana locally, select **Try Demo Dataset**, and confirm the import of 96 synthetic shop reviews. Explore feedback by source and date, and inspect category and rating in the original reviews. Run browser-based sentiment and semantic grouping when model downloads are available, then rank a manual or discovered issue using review evidence and your own assessments.
 
-![VoiceLoop dashboard populated from the synthetic demo CSV](docs/demo/screenshots/dashboard-demo.png)
+![Soochana dashboard populated from the synthetic demo CSV](docs/demo/screenshots/dashboard-demo.png)
 
-- [Step-by-step demo](docs/demo/walkthrough.md) · [Empty dashboard](docs/demo/screenshots/dashboard-empty.png) · [Synthetic CSV](public/demo/voiceloop-demo.csv) · [Vercel release plan and checklist](docs/demo/release-checklist.md)
+- [Step-by-step demo](docs/demo/walkthrough.md) · [Empty dashboard](docs/demo/screenshots/dashboard-empty.png) · [Synthetic CSV](public/demo/soochana-demo.csv) · [Vercel release plan and checklist](docs/demo/release-checklist.md)
 - [Milestone 7 QA and evaluation](docs/qa/milestone-7-report.md)
 
 Use Node.js 24 and run:
@@ -20,7 +22,7 @@ npm ci
 npm run dev
 ```
 
-Open [localhost:3000](http://localhost:3000). For production-style demo verification, run `npm run build` and `npm start`, then use `VOICELOOP_CHROMIUM=/path/to/chromium npm run qa:demo` in a second terminal. Set `VOICELOOP_URL` for a different local port and `VOICELOOP_SCREENSHOTS` to save screenshots.
+Open [localhost:3000](http://localhost:3000). For production-style demo verification, run `npm run build` and `npm start`, then use `SOOCHANA_CHROMIUM=/path/to/chromium npm run qa:demo` in a second terminal. Set `SOOCHANA_URL` for a different local port and `SOOCHANA_SCREENSHOTS` to save screenshots.
 
 CSV processing and inference run in the browser. Session data clears on refresh. First-time inference requires network access to the model and WASM hosts. The manual demo requires neither model. Deployment approval is pending.
 
@@ -83,7 +85,7 @@ After confirming a dataset in **Feedback Analysis**, choose a scope and select *
 
 ### Model and browser privacy
 
-VoiceLoop runs [Xenova/twitter-roberta-base-sentiment-latest](https://huggingface.co/Xenova/twitter-roberta-base-sentiment-latest) at revision `f3ec4d0925f90c3ca7ee7814f52d6ee7cf180445`, using Transformers.js 4.3.2 and ONNX Runtime WASM in a dedicated module Web Worker. This is Xenova's quantized ONNX conversion of [Twitter-roBERTa-base for Sentiment Analysis](https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment-latest) by CardiffNLP, whose model card specifies [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The conversion card links the original and lists no separate license. Transformers.js is [Apache-2.0](https://github.com/huggingface/transformers.js/blob/main/LICENSE).
+Soochana runs [Xenova/twitter-roberta-base-sentiment-latest](https://huggingface.co/Xenova/twitter-roberta-base-sentiment-latest) at revision `f3ec4d0925f90c3ca7ee7814f52d6ee7cf180445`, using Transformers.js 4.3.2 and ONNX Runtime WASM in a dedicated module Web Worker. This is Xenova's quantized ONNX conversion of [Twitter-roBERTa-base for Sentiment Analysis](https://huggingface.co/cardiffnlp/twitter-roberta-base-sentiment-latest) by CardiffNLP, whose model card specifies [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/). The conversion card links the original and lists no separate license. Transformers.js is [Apache-2.0](https://github.com/huggingface/transformers.js/blob/main/LICENSE).
 
 Model indices are **0 Negative, 1 Neutral, 2 Positive**. The quantized model file is 125,905,426 bytes (120.1 MiB), plus tokenizer, configuration and WASM assets. Use a current browser with Web Workers and WebAssembly, available memory, and internet access for the initial download. Model files come from Hugging Face and runtime files come from jsDelivr. Cache Storage can retain model and runtime assets where available, subject to browser limits and eviction. **The browser downloads model files. Customer feedback is analysed locally and is never uploaded for inference.** Reviews and predictions are held only in session memory.
 
@@ -99,7 +101,7 @@ Chromium ran the real pinned model in WASM. Accuracy was **83.3% (30/36)** and m
 
 The cloud Chromium build rejected the model host's TLS certificate. During verification, the test harness streamed the real pinned model and runtime artifacts fetched by the workspace's trusted HTTPS client. The application worker and inference code were unchanged. Normal browser runs fetch the assets directly.
 
-To reproduce, build and start with `npm run build` and `npm start`. Run `VOICELOOP_CHROMIUM=/path/to/chromium npm run evaluate:sentiment` with a current Chrome or Chromium executable. Set `VOICELOOP_URL` if the app uses a different address. The script imports the fixture through the app and prints real browser predictions, per-class metrics, the confusion matrix, and the five smoke cases.
+To reproduce, build and start with `npm run build` and `npm start`. Run `SOOCHANA_CHROMIUM=/path/to/chromium npm run evaluate:sentiment` with a current Chrome or Chromium executable. Set `SOOCHANA_URL` if the app uses a different address. The script imports the fixture through the app and prints real browser predictions, per-class metrics, the confusion matrix, and the five smoke cases.
 
 ## Milestone 4
 
@@ -125,7 +127,7 @@ The [48-example synthetic fixture](evaluation/issues-fixture.json) uses seven au
 
 At cutoff 0.75, Chromium produced **3 recurring groups and 42 ungrouped reviews**. Pairwise precision was **0.667**, recall **0.019**, and F1 **0.037** (2 correct pairs, 1 false merge, 103 false splits). The false merge paired a slow delivery with praise phrased as “not slow at all.” All three specified same-topic smoke pairs scored higher than both unrelated comparisons, but all fell below the default cutoff. The default is conservative on this fixture, with very low recall.
 
-After `npm run build` and `npm start`, run `VOICELOOP_CHROMIUM=/path/to/chromium npm run evaluate:issues`. Set `VOICELOOP_URL` for a different address. The runner uses the real application worker and prints measured similarities, pairwise metrics, and each false merge and split.
+After `npm run build` and `npm start`, run `SOOCHANA_CHROMIUM=/path/to/chromium npm run evaluate:issues`. Set `SOOCHANA_URL` for a different address. The runner uses the real application worker and prints measured similarities, pairwise metrics, and each false merge and split.
 
 Real Chromium inference and the issue workflow were verified with checksum-matched MiniLM weights fetched over trusted HTTPS and streamed by the test harness. At Milestone 4, the default cloud Chromium profile rejected the model host’s TLS certificate, so direct cold downloads were unverified and the milestone remained partial. Browser coverage was limited to Chromium. Milestone 3 retains its earlier partial status and its assistant-labelled synthetic sentiment evaluation. Later cold-start results are recorded in the [release checklist](docs/demo/release-checklist.md#local-cold-start-evidence).
 
@@ -154,7 +156,7 @@ The original 48 examples plus nine new examples form the **57-review development
 
 See the [full 40-configuration comparison](evaluation/issues-4.1-report.md) for group sizes, cohesion, timings, and machine-readable false-pair evidence. The browser coverage and cloud TLS caveats from Milestones 3 and 4 still apply. The real worker ran with checksum-verified assets staged for the test. The synthetic holdout does not establish production grouping quality.
 
-With the production app running and `VOICELOOP_CHROMIUM` set to a Chrome or Chromium executable, reproduce with:
+With the production app running and `SOOCHANA_CHROMIUM` set to a Chrome or Chromium executable, reproduce with:
 
 ```bash
 npm run evaluate:issues -- baseline average-link-v1 0.45
@@ -214,16 +216,16 @@ The release-readiness audit covers regression tests, browser accessibility, priv
 Use Node.js 22.13 or later in the 22.x line, or Node.js 24 or later, and npm.
 
 ```bash
-git clone --recurse-submodules https://github.com/harisankar-work/voiceloop.git
-cd voiceloop
+git clone --recurse-submodules https://github.com/harisankar-work/soochana.git
+cd soochana
 git submodule update --init --recursive
 npm ci
 npm run dev
 ```
 
-When the optional ONNX Runtime Node GPU download is blocked, use `ONNXRUNTIME_NODE_INSTALL=skip npm ci`. VoiceLoop uses the browser WASM runtime.
+When the optional ONNX Runtime Node GPU download is blocked, use `ONNXRUNTIME_NODE_INSTALL=skip npm ci`. Soochana uses the browser WASM runtime.
 
-For an existing checkout, start with the submodule command from the project root. Open [VoiceLoop locally](http://localhost:3000).
+For an existing checkout, start with the submodule command from the project root. Open [Soochana locally](http://localhost:3000).
 
 ```bash
 npm run typecheck
@@ -258,4 +260,4 @@ Future exports will let teams share reports with supporting evidence.
 
 ## License
 
-VoiceLoop application code is available under the [MIT License](LICENSE). The design reference retains its upstream terms.
+Soochana application code is available under the [MIT License](LICENSE). The design reference retains its upstream terms.

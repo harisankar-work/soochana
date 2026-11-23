@@ -6,10 +6,15 @@ import { AppShell } from "@/components/layout/app-shell";
 import { FeedbackSession } from "@/features/feedback/session";
 import "./globals.css";
 
+const tagline = "Turn customer feedback into clear product decisions.";
+
 export const metadata: Metadata = {
-  title: { default: "Dashboard | VoiceLoop", template: "%s | VoiceLoop" },
-  description: "Turn customer feedback into product decisions.",
-  icons: { icon: "/voiceloop.svg" },
+  title: { default: "Dashboard | Soochana", template: "%s | Soochana" },
+  description: tagline,
+  applicationName: "Soochana",
+  openGraph: { title: "Soochana", description: tagline, siteName: "Soochana", type: "website" },
+  twitter: { card: "summary", title: "Soochana", description: tagline },
+  icons: { icon: "/soochana.svg" },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

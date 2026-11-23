@@ -15,12 +15,12 @@ if (mode === "holdout") {
 const loadFixture = async (name) => JSON.parse(await readFile(new URL(`../evaluation/${name}.json`, import.meta.url), "utf-8"));
 const fixture = mode === "holdout" ? await loadFixture("issues-holdout") : await loadFixture("issues-fixture");
 if (mode === "development") fixture.push(...await loadFixture("issues-development-additions"));
-const base = new URL(process.env.VOICELOOP_URL ?? "http://localhost:3000");
-const browser = await chromium.launch({ executablePath: process.env.VOICELOOP_CHROMIUM });
+const base = new URL((process.env.SOOCHANA_URL ?? process.env.VOICELOOP_URL) ?? "http://localhost:3000");
+const browser = await chromium.launch({ executablePath: (process.env.SOOCHANA_CHROMIUM ?? process.env.VOICELOOP_CHROMIUM) });
 let staged;
 try {
   const page = await browser.newPage();
-  if (process.env.VOICELOOP_QA_STAGE_MODELS === "1") staged = await stageModelAssets(page.context());
+  if ((process.env.SOOCHANA_QA_STAGE_MODELS ?? process.env.VOICELOOP_QA_STAGE_MODELS) === "1") staged = await stageModelAssets(page.context());
   const unexpected = [];
   const failed = [];
   page.context().on("request", (request) => {

@@ -3,9 +3,9 @@ import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
 import { chromium } from "playwright-core";
 
-const base = process.env.VOICELOOP_URL ?? "http://localhost:3000";
-const screenshots = process.env.VOICELOOP_SCREENSHOTS;
-const browser = await chromium.launch({ executablePath: process.env.VOICELOOP_CHROMIUM });
+const base = (process.env.SOOCHANA_URL ?? process.env.VOICELOOP_URL) ?? "http://localhost:3000";
+const screenshots = (process.env.SOOCHANA_SCREENSHOTS ?? process.env.VOICELOOP_SCREENSHOTS);
+const browser = await chromium.launch({ executablePath: (process.env.SOOCHANA_CHROMIUM ?? process.env.VOICELOOP_CHROMIUM) });
 
 async function verify(width) {
   const page = await browser.newPage({ viewport: { width, height: 1000 } });
@@ -29,14 +29,19 @@ async function verify(width) {
 
   try {
     await page.goto(base);
+    assert.equal(await page.title(), "Dashboard | Soochana");
+    await page.getByRole("link", { name: "Soochana", exact: true }).waitFor();
+    assert.equal(await page.locator('meta[property="og:site_name"]').getAttribute("content"), "Soochana");
+    assert.equal((await (await page.request.get(new URL("/manifest.webmanifest", base).href)).json()).name, "Soochana");
+    assert.doesNotMatch(await page.locator("body").innerText(), /voiceloop/i);
     await capture("dashboard-empty");
     await page.getByRole("link", { name: "Try Demo Dataset" }).click();
-    const demoAsset = "**/demo/voiceloop-demo.csv";
+    const demoAsset = "**/demo/soochana-demo.csv";
     await page.route(demoAsset, (route) => route.fulfill({ status: 503 }), { times: 1 });
     await button("Try Demo Dataset").click();
     await page.getByRole("alert").filter({ hasText: "The demo CSV could not be loaded" }).waitFor();
     await button("Browse CSV").waitFor();
-    const response = page.waitForResponse((result) => new URL(result.url()).pathname === "/demo/voiceloop-demo.csv" && result.ok());
+    const response = page.waitForResponse((result) => new URL(result.url()).pathname === "/demo/soochana-demo.csv" && result.ok());
     await button("Try Demo Dataset").click();
     await response;
     await page.getByRole("heading", { name: "Map Columns" }).waitFor();
@@ -56,6 +61,8 @@ async function verify(width) {
     await page.getByText(/96 records/).waitFor();
     await nav("Dashboard");
     await page.getByText(/96 of 96 reviews/).waitFor();
+    await page.getByText("2.93 / 5", { exact: true }).waitFor();
+    await page.getByText("96 rated reviews", { exact: true }).waitFor();
     await capture("dashboard-demo");
     await page.getByLabel("Feedback source").selectOption({ label: "App review" });
     await page.getByText("24 of 96 reviews in this view · Filters active", { exact: true }).waitFor();

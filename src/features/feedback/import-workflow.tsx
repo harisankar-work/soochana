@@ -117,9 +117,9 @@ export function ImportWorkflow() {
   function selectDemo() {
     void loadFile(async () => {
       try {
-        const response = await fetch("/demo/voiceloop-demo.csv");
+        const response = await fetch("/demo/soochana-demo.csv");
         if (!response.ok) throw new Error("Demo download failed");
-        return new File([await response.blob()], "voiceloop-demo.csv", { type: "text/csv" });
+        return new File([await response.blob()], "soochana-demo.csv", { type: "text/csv" });
       } catch {
         throw new Error("The demo CSV could not be loaded. Try again or browse for your own CSV.");
       }

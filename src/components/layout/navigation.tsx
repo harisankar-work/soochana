@@ -18,7 +18,7 @@ export function Navigation() {
     <aside className="sidebar">
       <Link href="/" className="brand">
         <span className="brand-mark"><AudioLines aria-hidden="true" size={21} /></span>
-        VoiceLoop
+        Soochana
       </Link>
       <nav aria-label="Main navigation">
         <ul className="nav-list">

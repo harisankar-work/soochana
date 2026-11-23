@@ -2,8 +2,8 @@ import assert from "node:assert/strict";
 import { chromium } from "playwright-core";
 import { stageModelAssets } from "./qa-model-assets.mjs";
 
-const browser = await chromium.launch({ executablePath: process.env.VOICELOOP_CHROMIUM });
-const origin = new URL(process.env.VOICELOOP_URL ?? "http://localhost:3000").origin;
+const browser = await chromium.launch({ executablePath: (process.env.SOOCHANA_CHROMIUM ?? process.env.VOICELOOP_CHROMIUM) });
+const origin = new URL((process.env.SOOCHANA_URL ?? process.env.VOICELOOP_URL) ?? "http://localhost:3000").origin;
 let staged;
 try {
   const page = await browser.newPage();

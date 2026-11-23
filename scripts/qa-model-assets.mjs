@@ -22,7 +22,7 @@ const models = {
 };
 
 export async function stageModelAssets(context) {
-  const directory = await mkdtemp(join(tmpdir(), "voiceloop-model-qa-"));
+  const directory = await mkdtemp(join(tmpdir(), "soochana-model-qa-"));
   const assets = new Map();
   const server = createServer(async (request, response) => {
     const asset = assets.get(request.url);

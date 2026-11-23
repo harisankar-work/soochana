@@ -142,7 +142,7 @@ it("bounds the number of mapping options for wide CSV files", () => {
 });
 
 it("accepts all 96 portfolio demo reviews with their mapped metadata", () => {
-  const csv = parseCsv(readFileSync("public/demo/voiceloop-demo.csv", "utf8"));
+  const csv = parseCsv(readFileSync("public/demo/soochana-demo.csv", "utf8"));
   const mapping = suggestMapping(csv.headers);
   expect(mapping).toEqual({ text: 0, date: 1, source: 2, rating: 3, category: 4 });
   const report = validateRows(csv, mapping);

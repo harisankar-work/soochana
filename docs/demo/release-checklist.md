@@ -1,8 +1,8 @@
-# VoiceLoop release plan
+# Soochana release plan
 
 ## Candidate and approval
 
-Use the verified Milestone 8.1 commit on `main` as the release candidate. Deployment and publishing a preview require separate approval. Before wiring Git integration, check the target project and account for automatic production and preview deployments, and keep those disabled until authorized.
+Use the verified Soochana release commit on `main` as the candidate. The Vercel project is `soochana` under `harisankar-dev`. Verify a staged build before assigning the production domain. Check automatic deployment settings before connecting a Git integration.
 
 ## Vercel configuration
 
