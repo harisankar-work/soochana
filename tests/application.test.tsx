@@ -39,14 +39,14 @@ describe("dashboard", () => {
     }
   });
 
-  it("links to feedback and marks the workflow as future work", () => {
+  it("links to feedback and outlines the workspace workflow", () => {
     render(<FeedbackSession><Dashboard /></FeedbackSession>);
     expect(screen.getByRole("link", { name: "Upload Feedback" })).toHaveAttribute("href", "/feedback");
     const workflow = within(screen.getByRole("region", { name: "Feedback workflow" }));
     expect(workflow.getAllByRole("listitem").map((step) => step.textContent)).toEqual([
       "Upload Feedback", "Analyse Sentiment", "Discover Issues", "Prioritize Actions",
     ]);
-    expect(workflow.getByText(/CSV import, sentiment analysis and issue discovery are available.+planned/i)).toBeVisible();
+    expect(workflow.getByText(/Import feedback, analyse sentiment, discover themes, and prioritize investigations/i)).toBeVisible();
   });
 });
 
@@ -64,11 +64,9 @@ describe("feature pages", () => {
     expect(screen.getByRole("link", { name: "Go to Feedback Analysis" })).toHaveAttribute("href", "/feedback");
   });
 
-  it("presents scoring factors as planned and shows the priority empty state", () => {
-    render(<PrioritizationPage />);
-    expect(screen.getByRole("heading", { name: "No issues to prioritize yet" })).toBeVisible();
-    const factors = within(screen.getByRole("region", { name: "Planned scoring factors" }));
-    expect(factors.getAllByRole("listitem")).toHaveLength(5);
-    expect(factors.getByText("Business impact when supported by evidence")).toBeVisible();
+  it("shows the prioritization empty state and links to feedback import", () => {
+    render(<FeedbackSession><PrioritizationPage /></FeedbackSession>);
+    expect(screen.getByRole("heading", { name: "Import feedback to prioritize issues" })).toBeVisible();
+    expect(screen.getByRole("link", { name: "Go to Feedback Analysis" })).toHaveAttribute("href", "/feedback");
   });
 });

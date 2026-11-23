@@ -40,7 +40,7 @@ Matching ignores case and treats spaces and hyphens in headers like underscores.
 
 CSV content is read, parsed, and previewed in the browser. The app keeps confirmed records in React memory across in-app navigation. A refresh or tab close clears them. This workflow has no upload endpoint, persistent browser storage, analytics tracking, or server-side processing. Milestone 3 also runs inference locally. See the model download details below.
 
-Import and preview handle one dataset at a time. Parsing and validation run on the browser's main thread within the stated limits. Scoring, storage, exports and deployment remain future work.
+Import and preview handle one dataset at a time. Parsing and validation run on the browser's main thread within the stated limits. Persistent storage, exports and deployment remain future work.
 
 ### Try a CSV import
 
@@ -160,6 +160,29 @@ Activate a chart bar by pointer or keyboard to open its underlying reviews, with
 
 The dashboard uses pure client-side selectors and native HTML buttons with CSS bars. There are no new dependencies or chart services. Filtering and metadata aggregation are bounded by imported records, and the dashboard and Issue Explorer share a memoized grouping result. Customer feedback remains in session memory. Refresh clears it. The model quality and cold-download limitations documented above still apply.
 
+## Milestone 6
+
+Open **Prioritization** after importing feedback. Create a manual issue by naming it and selecting supporting reviews in the searchable, paginated picker. Manual issues work without sentiment or grouping. To use a discovered theme, choose **Add Discovered Group**, inspect the original evidence, and save the draft. The queue reports distinct supporting reviews once even when a review supports several candidates. Reviews are units of evidence, and the dataset has no customer identity.
+
+Discovered candidates retain the member IDs, representative CSV row, grouping method and cutoff, and the embedded population at selection time. If the current grouping changes or disappears, the candidate keeps its saved evidence and shows a stale-snapshot warning. **Review grouping snapshot** lets you choose a current group and inspect it in a draft before explicitly saving replacement evidence. Existing assessments remain editable. Discovered groups are unverified automatic suggestions.
+
+### Evidence and assessments
+
+Evidence frequency counts distinct selected review IDs. Manual share uses the imported dataset. Discovered share uses the saved embedded population and shows overall import coverage. Manual curation may be incomplete, and both evidence selection methods can bias cross-type ranking. Filter by candidate type to examine a single provenance. Negative share uses only available sentiment predictions among the supporting reviews, and average rating uses only valid ratings. The detail view lists sources, ratings, dates, original CSV rows, and latest dated feedback. The optional trend compares two 28-day windows anchored to the latest imported date. It requires an imported date span covering both windows and at least four dated supporting reviews with evidence in each window.
+
+Severity, business impact, and evidence confidence are separate reviewer-entered 1–5 judgments. Business impact is an ordinal assessment. Evidence confidence concerns whether the chosen reviews support the issue. A reviewer can also record status and rationale. “Validated by reviewer” records a human decision about the evidence.
+
+### Scoring and sensitivity
+
+- Frequency is `100 × min(unique evidence count / 20, 1)`. Twenty supporting reviews is the fixed benchmark, independent of dataset size or candidate type.
+- Assessments normalize with `25 × (rating − 1)`, so the minimum assessment contributes zero and the maximum contributes the full factor weight.
+- The priority score is the sum of normalized factors multiplied by weight fractions. Defaults are **30% frequency, 30% severity, 25% business impact, 15% evidence confidence**. The queue hides updated scores until all weights are finite, nonnegative, and total 100%. Candidates with missing assessments or evidence remain visible as unscored.
+- Rank sorts by full-precision score, then evidence count, then stable candidate ID. Table filters and alternate sorts preserve the full-queue rank. The sensitivity table compares default and active scores and ranks, and identifies the largest absolute contribution change. These scenarios show how assumptions change the ordering.
+
+The deterministic scoring fixture gives Checkout **46.75** and Billing **45.25** under defaults. At 100% business impact the scores become **25.00** and **100.00**, reversing the ranks. The fixture includes shared and duplicate reviews, incomplete assessments, and missing model and metadata fields. Tests verify the intermediate contributions, score bounds, tie-breaks, and draft lifecycle.
+
+Reviews, saved candidates, drafts, and weights live only in browser memory. Navigation keeps the active dataset's drafts and settings. Refresh, closing the tab, or confirming dataset removal or replacement clears them. Prioritization starts neither model and has no new dependencies or external services. The historical model quality, selection bias, and cloud TLS limitations still apply.
+
 ## Local setup
 
 Use Node.js 22.13 or later in the 22.x line, or Node.js 24 or later, and npm.
@@ -201,7 +224,7 @@ The [Apple Design Skill](https://github.com/dickwu/apple-design-skill) is pinned
 | 3 | Implemented browser-based, pretrained sentiment classification with Transformers.js |
 | 4 | Implemented browser-based MiniLM grouping and review evidence |
 | 5 | Implemented filtered dashboard analytics, model coverage, and review evidence |
-| 6 | Add transparent scoring, configurable weights, and evidence-backed recommendations |
+| 6 | Implemented evidence-backed prioritization, reviewer assessments, and weight sensitivity |
 | 7 | Evaluate model quality, accessibility, browser behavior, performance, and security |
 | 8 | Prepare a public demo dataset and deploy to Vercel after approval |
 

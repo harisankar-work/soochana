@@ -135,7 +135,7 @@ export function ImportWorkflow() {
           <p className="file-info"><strong>{dataset.name}</strong> · {fileSize(dataset.size)} · {dataset.records.length} records</p>
           {mode === "Remove" ? (
             <>
-              <p>This removes the dataset from this browser session.</p>
+              <p>This removes the dataset, its model results, and its prioritization issues and drafts from this browser session.</p>
               <div className="import-actions">
                 <button className="import-button" onClick={() => show("Summary")}>Keep dataset</button>
                 <button className="import-button import-danger" onClick={() => {
@@ -220,7 +220,7 @@ export function ImportWorkflow() {
             {step === "Confirm" && report && (
               <>
                 <p>{report.accepted.length} accepted · {report.counts.rejected} excluded</p>
-                {dataset && <p>This replaces <strong className="file-info">{dataset.name}</strong> and removes its records from this session.</p>}
+                {dataset && <p>This replaces <strong className="file-info">{dataset.name}</strong> and clears its records, model results, and prioritization issues and drafts from this session.</p>}
                 <div className="import-actions">
                   <button className="import-button" onClick={() => goTo("Preview")}>Back to preview</button>
                   <button className="import-button import-primary" onClick={confirmImport}>{dataset ? "Replace dataset and import" : "Import"} {report.accepted.length} feedback {report.accepted.length === 1 ? "record" : "records"}</button>

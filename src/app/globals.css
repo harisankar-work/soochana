@@ -183,3 +183,22 @@ main { @apply mx-auto w-full min-w-0 max-w-[77rem] px-4 pt-6 pb-10 sm:px-8 lg:px
 .analytics-trend-count { @apply absolute bottom-full left-1/2 -translate-x-1/2 tabular-nums; }
 .analytics-trend-bar { @apply relative block w-5 rounded-t; background: var(--accent); }
 .analytics-source-table { min-width: 29rem; }
+
+.priority-workspace h3, .priority-fields legend { @apply font-bold; }
+.priority-fields label, label.priority-fields { @apply block min-w-0 text-sm font-bold; }
+.priority-fields input[type="text"], .priority-fields input[type="number"], .priority-fields textarea {
+  @apply mt-1 block min-h-11 w-full min-w-0 rounded-lg border px-3 py-2 font-medium; border-color: #a8b9ae;
+}
+.priority-fields textarea { resize: vertical; }
+.priority-fields .priority-checkbox { @apply my-2 flex min-h-11 items-center gap-2; }
+.priority-picker { @apply my-3 grid gap-2; }
+.priority-picker li { @apply flex min-w-0 items-start gap-3 rounded-lg border p-3; border-color: var(--border); }
+.priority-picker li > div { @apply min-w-0; overflow-wrap: anywhere; }
+.priority-picker input[type="checkbox"] { @apply size-5 shrink-0; accent-color: var(--accent); }
+.priority-confirm { @apply grid gap-2 rounded-lg border p-3; border-color: var(--border); background: var(--canvas); }
+.priority-title-button { @apply min-h-11 text-left font-bold underline underline-offset-4; color: var(--accent); overflow-wrap: anywhere; }
+.priority-queue { min-width: 61rem; }
+.priority-queue th:nth-child(2), .priority-comparison th:first-child { width: 23%; }
+.priority-comparison { min-width: 48rem; }
+.priority-breakdown { min-width: 28rem; }
+.priority-text { white-space: pre-wrap; overflow-wrap: anywhere; }
