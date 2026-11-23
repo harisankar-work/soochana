@@ -81,20 +81,17 @@ export function ImportWorkflow() {
     goTo("Upload");
   }
 
-  async function selectFile(files: FileList) {
+  async function loadFile(getFile: () => File | Promise<File>) {
     if (pendingRead.current) return;
     setError("");
     setNotice("");
-    if (files.length !== 1) {
-      setError("Choose one CSV file at a time.");
-      return;
-    }
-    const file = files[0];
-    const info = { name: file.name, size: file.size };
-    setSelected(info);
+    setSelected(null);
     pendingRead.current = true;
     setBusy(true);
     try {
+      const file = await getFile();
+      const info = { name: file.name, size: file.size };
+      setSelected(info);
       const csv = await readCsv(file);
       setDraft({ file: info, csv, mapping: suggestMapping(csv.headers) });
       goTo("Map Columns");
@@ -104,6 +101,29 @@ export function ImportWorkflow() {
       pendingRead.current = false;
       setBusy(false);
     }
+  }
+
+  function selectFile(files: FileList) {
+    if (pendingRead.current) return;
+    if (files.length !== 1) {
+      setNotice("");
+      setError("Choose one CSV file at a time.");
+      return;
+    }
+    const file = files[0];
+    void loadFile(() => file);
+  }
+
+  function selectDemo() {
+    void loadFile(async () => {
+      try {
+        const response = await fetch("/demo/voiceloop-demo.csv");
+        if (!response.ok) throw new Error("Demo download failed");
+        return new File([await response.blob()], "voiceloop-demo.csv", { type: "text/csv" });
+      } catch {
+        throw new Error("The demo CSV could not be loaded. Try again or browse for your own CSV.");
+      }
+    });
   }
 
   function reviewMapping() {
@@ -163,13 +183,17 @@ export function ImportWorkflow() {
               <span aria-hidden="true">{steps.indexOf(step) > index ? <Check size={15} /> : index + 1}</span>{label}
             </li>)}
           </ol>
-          <section className="panel import-panel" aria-labelledby="import-stage">
+          <section id="start-import" className="panel import-panel" aria-labelledby="import-stage">
             <h2 id="import-stage" ref={stageTitle} tabIndex={-1}>{step === "Upload" ? "Upload feedback" : step}</h2>
             {selected && <p className="file-info"><strong>{selected.name}</strong> · {fileSize(selected.size)}</p>}
             {error && <p className="import-error" role="alert">{error}</p>}
             {step === "Upload" && (
               <>
-                <UploadArea busy={busy} onFile={(files) => { void selectFile(files); }} />
+                <UploadArea busy={busy} onFile={selectFile} />
+                <div className="import-actions">
+                  <button type="button" className="import-button" disabled={busy} aria-describedby="demo-description" onClick={selectDemo}>Try Demo Dataset</button>
+                </div>
+                <p id="demo-description" className="import-note">Review and import 96 synthetic reviews from a fictional online shop.</p>
                 {busy && <p role="status">Reading CSV…</p>}
               </>
             )}

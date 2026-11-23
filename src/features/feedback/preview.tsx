@@ -117,7 +117,7 @@ export function QualityReport({ report }: { report: ImportReport }) {
         <details className="quality-details">
           <summary>Inspect row issues ({issues.length})</summary>
           <div className="import-table-scroll" role="region" aria-label="Row issues table" tabIndex={0}>
-            <table className="import-table">
+            <table className="import-table row-issues-table">
               <caption className="sr-only">Validation issues by original CSV row</caption>
               <thead><tr><th scope="col">Original row</th><th scope="col">Result</th><th scope="col">Reason</th></tr></thead>
               <tbody>

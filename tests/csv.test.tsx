@@ -1,3 +1,4 @@
+import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { MAX_FILE_BYTES, MAX_ROWS, parseCsv, readCsv, validateFile } from "@/features/feedback/csv";
 import { MAX_TEXT_LENGTH, mappingError, suggestMapping, validateRows } from "@/features/feedback/validation";
@@ -138,4 +139,15 @@ it("bounds the number of mapping options for wide CSV files", () => {
   ].join("\n");
   expect(parseCsv(csv(200)).headers).toHaveLength(200);
   expect(() => parseCsv(csv(201))).toThrow(/exceeds 200 columns/);
+});
+
+it("accepts all 96 portfolio demo reviews with their mapped metadata", () => {
+  const csv = parseCsv(readFileSync("public/demo/voiceloop-demo.csv", "utf8"));
+  const mapping = suggestMapping(csv.headers);
+  expect(mapping).toEqual({ text: 0, date: 1, source: 2, rating: 3, category: 4 });
+  const report = validateRows(csv, mapping);
+  expect(report.accepted).toHaveLength(96);
+  expect(report.issues).toEqual([]);
+  expect(new Set(report.accepted.map(({ source }) => source)).size).toBe(4);
+  expect(new Set(report.accepted.map(({ category }) => category)).size).toBe(8);
 });

@@ -58,6 +58,10 @@ main { @apply mx-auto w-full min-w-0 max-w-[77rem] px-4 pt-6 pb-10 sm:px-8 lg:px
   text-wrap: balance;
 }
 .hero p { @apply mt-4 max-w-[29rem] text-sm sm:text-base; color: #e2eee6; }
+.hero-actions { @apply mt-5 flex flex-wrap items-center gap-x-4 gap-y-2; }
+.hero-actions .primary-link { @apply mt-0; }
+.hero-upload { @apply inline-flex min-h-11 items-center text-sm font-bold underline underline-offset-4; color: #ecf3e8; }
+.hero-upload:focus-visible { outline-color: white; }
 .primary-link { @apply mt-5 inline-flex min-h-11 items-center gap-3 rounded-lg px-4 py-2 text-sm font-extrabold; background: #ecf3e8; color: #1b3c33; }
 .primary-link:hover { background: #d7e8d5; }
 .primary-link:active { background: #c2dbc1; }
@@ -143,7 +147,7 @@ main { @apply mx-auto w-full min-w-0 max-w-[77rem] px-4 pt-6 pb-10 sm:px-8 lg:px
 .import-table th, .import-table td { @apply border-b px-3 py-2 align-top; border-color: var(--border); overflow-wrap: anywhere; }
 .import-table th { background: var(--tint); }
 .import-table tbody tr:last-child td { border-bottom: none; }
-.import-table:not(.feedback-table) th:nth-child(3) { width: 55%; }
+.row-issues-table th:nth-child(3) { width: 55%; }
 .feedback-table th:first-child { width: 38%; }
 .cell-text { white-space: pre-wrap; overflow-wrap: anywhere; }
 .cell-text > div { @apply mt-2; }
@@ -175,7 +179,7 @@ main { @apply mx-auto w-full min-w-0 max-w-[77rem] px-4 pt-6 pb-10 sm:px-8 lg:px
 .analytics-bar-button strong { @apply tabular-nums; }
 .analytics-bar-track { @apply col-span-2 block h-2 overflow-hidden rounded-full; background: var(--tint); }
 .analytics-bar-track span { @apply block h-full rounded-full; background: var(--accent); }
-.analytics-trend-scroll { @apply min-w-0 overflow-x-auto rounded-lg border p-2; border-color: var(--border); }
+.analytics-trend-scroll { @apply relative min-w-0 overflow-x-auto rounded-lg border p-2; border-color: var(--border); }
 .analytics-trend { @apply flex w-max min-w-full gap-1; }
 .analytics-trend li { @apply min-w-20 flex-1; }
 .analytics-trend button { @apply grid w-full justify-items-center gap-1 rounded-lg px-2 py-1 text-xs font-semibold; }

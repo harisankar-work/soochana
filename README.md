@@ -4,6 +4,28 @@
 
 VoiceLoop is a customer feedback intelligence workspace for product managers, product and business analysts, customer experience and operations teams, and founders. Reviews and support tickets often arrive in separate tools and describe the same problem in different words. VoiceLoop aims to bring that feedback together and help teams decide what to investigate, with links back to the original evidence.
 
+## Portfolio demo
+
+Start VoiceLoop locally, select **Try Demo Dataset**, and confirm the import of 96 synthetic shop reviews. Explore feedback by source and date, and inspect category and rating in the original reviews. Run browser-based sentiment and semantic grouping when model downloads are available, then rank a manual or discovered issue using review evidence and your own assessments.
+
+![VoiceLoop dashboard populated from the synthetic demo CSV](docs/demo/screenshots/dashboard-demo.png)
+
+- [Step-by-step demo](docs/demo/walkthrough.md) · [Empty dashboard](docs/demo/screenshots/dashboard-empty.png) · [Synthetic CSV](public/demo/voiceloop-demo.csv) · [Vercel release plan and checklist](docs/demo/release-checklist.md)
+- [Milestone 7 QA and evaluation](docs/qa/milestone-7-report.md)
+
+Use Node.js 24 and run:
+
+```sh
+npm ci
+npm run dev
+```
+
+Open [localhost:3000](http://localhost:3000). For production-style demo verification, run `npm run build` and `npm start`, then use `VOICELOOP_CHROMIUM=/path/to/chromium npm run qa:demo` in a second terminal. Set `VOICELOOP_URL` for a different local port and `VOICELOOP_SCREENSHOTS` to save screenshots.
+
+CSV processing and inference run in the browser. Session data clears on refresh. First-time inference requires network access to the model and WASM hosts. The manual demo requires neither model. Deployment approval is pending.
+
+## Implementation history
+
 ## Milestone 1
 
 The workspace includes a responsive Dashboard, Feedback Analysis, Issue Explorer, and Prioritization. The dashboard displays empty states for four metrics and links to the feedback page. Issue Explorer and Prioritization explain their planned functionality.
@@ -230,7 +252,7 @@ The [Apple Design Skill](https://github.com/dickwu/apple-design-skill) is pinned
 | 5 | Implemented filtered dashboard analytics, model coverage, and review evidence |
 | 6 | Implemented evidence-backed prioritization, reviewer assessments, and weight sensitivity |
 | 7 | Audited release readiness. Direct cold model downloads remain blocked in the test environment. |
-| 8 | Prepare a public demo dataset and deploy to Vercel after approval |
+| 8 | Prepared the portfolio demo and release plan. Deployment requires separate approval. |
 
 Future exports will let teams share reports with supporting evidence.
 

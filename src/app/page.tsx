@@ -26,10 +26,13 @@ export default function Dashboard() {
       <section className="hero" aria-labelledby="dashboard-intro">
         <div className="hero-content">
           <h2 id="dashboard-intro">Understand your customers. Prioritize what matters.</h2>
-          <p>Turn customer reviews, support tickets and feedback into actionable product insights.</p>
-          <Link href="/feedback" className="primary-link">
-            Upload Feedback <ArrowUpRight aria-hidden="true" size={16} />
-          </Link>
+          <p>Start with synthetic shop reviews or import your own CSV. Trace patterns back to individual reviews before deciding what to investigate.</p>
+          <div className="hero-actions">
+            <Link href="/feedback#start-import" className="primary-link">
+              Try Demo Dataset <ArrowUpRight aria-hidden="true" size={16} />
+            </Link>
+            <Link href="/feedback" className="hero-upload">Upload Feedback</Link>
+          </div>
         </div>
         <div className="hero-art" aria-hidden="true" />
       </section>
