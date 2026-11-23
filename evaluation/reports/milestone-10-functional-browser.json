@@ -1,0 +1,312 @@
+{
+  "build": "Local optimized production build",
+  "origin": "http://localhost:3142",
+  "runs": {
+    "chromium_responsive": {
+      "mode": "flows",
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "cases": [
+        {
+          "name": "responsive workflow",
+          "width": 320,
+          "status": "pass",
+          "ms": 14421
+        },
+        {
+          "name": "responsive workflow",
+          "width": 390,
+          "status": "pass",
+          "ms": 20370
+        },
+        {
+          "name": "responsive workflow",
+          "width": 768,
+          "status": "pass",
+          "ms": 21904
+        },
+        {
+          "name": "responsive workflow",
+          "width": 1024,
+          "status": "pass",
+          "ms": 26421
+        },
+        {
+          "name": "responsive workflow",
+          "width": 1440,
+          "status": "pass",
+          "ms": 17871
+        }
+      ],
+      "errors": [],
+      "unexpectedRequests": [],
+      "violations": [],
+      "axeScans": 40
+    },
+    "chromium_datasets": {
+      "mode": "datasets",
+      "engine": "chromium",
+      "browser": "156.0.8078.79",
+      "cases": [
+        {
+          "name": "tiny-10",
+          "width": 1440,
+          "status": "pass",
+          "ms": 3884,
+          "accepted": 10,
+          "rejected": 0
+        },
+        {
+          "name": "small-25",
+          "width": 1440,
+          "status": "pass",
+          "ms": 3310,
+          "accepted": 25,
+          "rejected": 0
+        },
+        {
+          "name": "medium-50",
+          "width": 1440,
+          "status": "pass",
+          "ms": 4368,
+          "accepted": 50,
+          "rejected": 0
+        },
+        {
+          "name": "demo-96",
+          "width": 1440,
+          "status": "pass",
+          "ms": 3410,
+          "accepted": 96,
+          "rejected": 0
+        },
+        {
+          "name": "benchmark-100",
+          "width": 1440,
+          "status": "pass",
+          "ms": 2681,
+          "accepted": 100,
+          "rejected": 0
+        },
+        {
+          "name": "jira-200",
+          "width": 1440,
+          "status": "pass",
+          "ms": 3027,
+          "accepted": 196,
+          "rejected": 4
+        },
+        {
+          "name": "large-500",
+          "width": 1440,
+          "status": "pass",
+          "ms": 2749,
+          "accepted": 482,
+          "rejected": 18
+        },
+        {
+          "name": "stress-1000",
+          "width": 1440,
+          "status": "pass",
+          "ms": 2716,
+          "accepted": 959,
+          "rejected": 41
+        },
+        {
+          "name": "limit-10000",
+          "width": 1440,
+          "status": "pass",
+          "ms": 3948,
+          "accepted": 9554,
+          "rejected": 446
+        },
+        {
+          "name": "malformed-quote",
+          "width": 1440,
+          "status": "pass",
+          "ms": 1758
+        },
+        {
+          "name": "malformed-control",
+          "width": 1440,
+          "status": "pass",
+          "ms": 1387
+        },
+        {
+          "name": "malformed-header-only",
+          "width": 1440,
+          "status": "pass",
+          "ms": 1247
+        },
+        {
+          "name": "malformed-mapping",
+          "width": 1440,
+          "status": "pass",
+          "ms": 1436
+        },
+        {
+          "name": "malformed-width",
+          "width": 1440,
+          "status": "pass",
+          "ms": 2384,
+          "accepted": 1,
+          "rejected": 1
+        },
+        {
+          "name": "malformed-row-limit",
+          "width": 1440,
+          "status": "pass",
+          "ms": 1868
+        },
+        {
+          "name": "malformed-column-limit",
+          "width": 1440,
+          "status": "pass",
+          "ms": 1711
+        },
+        {
+          "name": "file size and encoding limits",
+          "width": 1440,
+          "status": "pass",
+          "ms": 4842
+        },
+        {
+          "name": "high-cardinality source filters",
+          "width": 1440,
+          "status": "pass",
+          "ms": 2614
+        }
+      ],
+      "errors": [],
+      "unexpectedRequests": [],
+      "violations": []
+    },
+    "webkit_responsive": {
+      "mode": "flows",
+      "engine": "webkit",
+      "browser": "27.2",
+      "cases": [
+        {
+          "name": "responsive workflow",
+          "width": 320,
+          "status": "pass",
+          "ms": 16647
+        },
+        {
+          "name": "responsive workflow",
+          "width": 390,
+          "status": "pass",
+          "ms": 22704
+        },
+        {
+          "name": "responsive workflow",
+          "width": 768,
+          "status": "pass",
+          "ms": 30444
+        },
+        {
+          "name": "responsive workflow",
+          "width": 1024,
+          "status": "pass",
+          "ms": 26892
+        },
+        {
+          "name": "responsive workflow",
+          "width": 1440,
+          "status": "pass",
+          "ms": 18559
+        }
+      ],
+      "errors": [],
+      "unexpectedRequests": [],
+      "violations": [],
+      "axeScans": 40
+    },
+    "firefox_full_axe_attempt": {
+      "mode": "flows",
+      "engine": "firefox",
+      "browser": "159.0",
+      "cases": [
+        {
+          "name": "responsive workflow",
+          "width": 320,
+          "status": "fail",
+          "message": "locator.evaluate: Page crashed\nCall log:\n  - waiting for getByRole('region', { name: 'Row issues table' })\n",
+          "ms": 9908
+        },
+        {
+          "name": "responsive workflow",
+          "width": 390,
+          "status": "fail",
+          "message": "locator.evaluate: Page crashed\nCall log:\n  - waiting for getByRole('region', { name: 'Row issues table' })\n",
+          "ms": 9609
+        },
+        {
+          "name": "responsive workflow",
+          "width": 768,
+          "status": "fail",
+          "message": "page.evaluate: Page crashed",
+          "ms": 14635
+        },
+        {
+          "name": "responsive workflow",
+          "width": 1024,
+          "status": "fail",
+          "message": "page.evaluate: Page crashed",
+          "ms": 12564
+        },
+        {
+          "name": "responsive workflow",
+          "width": 1440,
+          "status": "fail",
+          "message": "page.evaluate: Page crashed",
+          "ms": 20357
+        }
+      ],
+      "errors": [],
+      "unexpectedRequests": [],
+      "violations": []
+    },
+    "firefox_functional_without_axe": {
+      "mode": "flows",
+      "engine": "firefox",
+      "browser": "159.0",
+      "cases": [
+        {
+          "name": "responsive workflow",
+          "width": 320,
+          "status": "pass",
+          "ms": 14505
+        },
+        {
+          "name": "responsive workflow",
+          "width": 390,
+          "status": "pass",
+          "ms": 9218
+        },
+        {
+          "name": "responsive workflow",
+          "width": 768,
+          "status": "pass",
+          "ms": 9816
+        },
+        {
+          "name": "responsive workflow",
+          "width": 1024,
+          "status": "pass",
+          "ms": 10447
+        },
+        {
+          "name": "responsive workflow",
+          "width": 1440,
+          "status": "pass",
+          "ms": 9762
+        }
+      ],
+      "errors": [],
+      "unexpectedRequests": [],
+      "axeScans": 0,
+      "violations": []
+    }
+  }
+}

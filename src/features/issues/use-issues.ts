@@ -30,21 +30,32 @@ export function useIssues() {
   const [threshold, setThreshold] = useState(DEFAULT_THRESHOLD);
   const current = useRef<Worker | null>(null);
   const sequence = useRef(0);
+  const active = useRef(false);
+  const source = useRef<FeedbackRecord[] | null>(null);
+  const cache = useRef(new Map<string, Embedding>());
 
-  useEffect(() => () => {
-    current.current?.terminate();
-    current.current = null;
-    sequence.current++;
+  useEffect(() => {
+    const embeddings = cache.current;
+    return () => {
+      current.current?.terminate();
+      current.current = null;
+      active.current = false;
+      source.current = null;
+      embeddings.clear();
+    };
   }, []);
 
   function stop() {
     sequence.current++;
+    active.current = false;
     current.current?.terminate();
     current.current = null;
   }
 
   function reset() {
     stop();
+    source.current = null;
+    cache.current.clear();
     setAnalysis(idle);
     configureGrouping("complete-link-v1");
   }
@@ -55,38 +66,54 @@ export function useIssues() {
   }
 
   function cancel() {
-    if (!current.current) return;
+    if (!active.current) return;
     stop();
     setAnalysis((previous) => ({ ...previous, phase: "cancelled", progress: undefined }));
   }
 
   function start(records: FeedbackRecord[], count: number) {
-    if (current.current || !Number.isInteger(count) || count < 1 || count > Math.min(LIMIT, records.length)) return;
+    if (active.current || !Number.isInteger(count) || count < 1 || count > Math.min(LIMIT, records.length)) return;
+    if (records !== source.current) {
+      source.current = records;
+      cache.current.clear();
+    }
     const run = ++sequence.current;
-    const inputs = records.slice(0, count).map(({ id, text }) => ({ id, text }));
+    const selected = records.slice(0, count);
+    const reused = selected.flatMap(({ id }) => {
+      const embedding = cache.current.get(id);
+      return embedding ? [embedding] : [];
+    });
+    const inputs = selected.filter(({ id }) => !cache.current.has(id)).map(({ id, text }) => ({ id, text }));
+    if (!inputs.length) {
+      setAnalysis({ ...idle, phase: "complete", selected: count, embeddings: reused });
+      return;
+    }
     const pending = new Set(inputs.map(({ id }) => id));
-    setAnalysis({ ...idle, phase: "preparing", selected: count });
+    active.current = true;
+    setAnalysis({ ...idle, phase: "preparing", selected: count, embeddings: reused });
     function fail() {
-      if (run !== sequence.current) return;
+      if (run !== sequence.current || !active.current) return;
       stop();
       setAnalysis((previous) => ({ ...previous, phase: "error", progress: undefined }));
     }
     try {
       if (typeof WebAssembly === "undefined") throw new Error("WebAssembly is unavailable");
-      const worker = new Worker(new URL("./embeddings.worker.ts", import.meta.url), { type: "module" });
+      const worker = current.current ?? new Worker(new URL("./embeddings.worker.ts", import.meta.url), { type: "module" });
       current.current = worker;
       observe(worker, ({ data }) => {
-        if (data?.run !== run || sequence.current !== run) return;
+        if (data?.run !== run || sequence.current !== run || !active.current) return;
         if (data.type === "error") {
           fail();
         } else if (data.type === "done") {
-          stop();
+          active.current = false;
           setAnalysis((previous) => ({ ...previous, phase: "complete", failed: previous.failed + pending.size }));
         } else if (data.type === "result" || data.type === "row-error") {
           if (!pending.delete(data.id)) return;
           const vector = data.type === "result" && validEmbedding(data.vector) ? data.vector : null;
-          setAnalysis((previous) => vector
-            ? { ...previous, embeddings: [...previous.embeddings, { id: data.id, vector }] }
+          const embedding = vector ? { id: data.id, vector } : null;
+          if (embedding) cache.current.set(data.id, embedding);
+          setAnalysis((previous) => embedding
+            ? { ...previous, embeddings: [...previous.embeddings, embedding] }
             : { ...previous, failed: previous.failed + 1 });
         } else if (data.type === "download" || data.type === "initialize" || data.type === "embed") {
           const phase = data.type;
@@ -99,9 +126,15 @@ export function useIssues() {
     }
   }
 
+  function releaseIdleWorker() {
+    if (active.current) return false;
+    stop();
+    return true;
+  }
+
   const busy = ["preparing", "download", "initialize", "embed"].includes(analysis.phase);
   const vectors = busy ? null : analysis.embeddings;
   const matrix = useMemo(() => vectors?.length ? similarityMatrix(vectors) : null, [vectors]);
   const result = useMemo(() => matrix ? cluster(matrix, threshold, method) : null, [matrix, threshold, method]);
-  return { analysis, method, configureGrouping, threshold, setThreshold, start, cancel, reset, result, busy, isRunning: () => current.current !== null };
+  return { analysis, method, configureGrouping, threshold, setThreshold, start, cancel, reset, result, busy, releaseIdleWorker };
 }

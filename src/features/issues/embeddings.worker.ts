@@ -14,21 +14,32 @@ const worker = globalThis as unknown as {
   postMessage(event: Event, transfer?: Transferable[]): void;
 };
 
+type Extractor = Awaited<ReturnType<typeof loadExtractor>>;
+let extractor: Extractor | undefined;
+
+function loadExtractor(run: number) {
+  return pipeline("feature-extraction", MODEL_ID, {
+    device: "wasm", dtype: "q8", revision: MODEL_REVISION,
+    progress_callback(event) {
+      if (!("file" in event) || !event.file.endsWith(".onnx")) return;
+      if (event.status === "progress" && Number.isFinite(event.progress) && event.total > 0) {
+        worker.postMessage({ run, type: "download", progress: Math.max(0, Math.min(100, event.progress)) });
+      }
+      if (event.status === "done") worker.postMessage({ run, type: "initialize" });
+    },
+  });
+}
+
 worker.onmessage = async ({ data: { run, records } }) => {
   const send = (event: Event) => worker.postMessage(event);
   try {
-    send({ run, type: "download" });
-    const embed = await pipeline("feature-extraction", MODEL_ID, {
-      device: "wasm", dtype: "q8", revision: MODEL_REVISION,
-      progress_callback(event) {
-        if (!("file" in event) || !event.file.endsWith(".onnx")) return;
-        if (event.status === "progress" && Number.isFinite(event.progress) && event.total > 0) {
-          send({ run, type: "download", progress: Math.max(0, Math.min(100, event.progress)) });
-        }
-        if (event.status === "done") send({ run, type: "initialize" });
-      },
-    });
+    if (!extractor) {
+      send({ run, type: "download" });
+      extractor = await loadExtractor(run);
+    }
+    const embed = extractor;
     send({ run, type: "embed" });
+    // Quantized outputs can drift when different reviews share an inference batch.
     for (const { id, text } of records) {
       try {
         const output = await embed(text, { pooling: "mean", normalize: true });

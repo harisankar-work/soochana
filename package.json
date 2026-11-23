@@ -16,7 +16,9 @@
     "qa:benchmark": "node scripts/qa-browser.mjs benchmark",
     "qa:calculations": "vitest bench --run --disableConsoleIntercept",
     "qa:models": "node scripts/qa-models.mjs",
-    "qa:demo": "node scripts/verify-demo.mjs"
+    "qa:demo": "node scripts/verify-demo.mjs",
+    "evaluate:datasets": "node --experimental-strip-types scripts/evaluate-datasets.mjs",
+    "evaluate:segmentation": "node --experimental-strip-types scripts/evaluate-segmentation.mjs"
   },
   "license": "MIT",
   "private": true,

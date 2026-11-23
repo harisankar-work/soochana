@@ -69,7 +69,7 @@ class FakeWorker {
   terminate = vi.fn();
   constructor() { FakeWorker.instances.push(this); }
   emit(event: Omit<Event, "run"> | ({ type: "result"; id: string; vector: Float32Array }), prior?: number) {
-    const run = prior ?? this.postMessage.mock.calls[0][0].run;
+    const run = prior ?? this.postMessage.mock.lastCall![0].run;
     act(() => this.onmessage?.({ data: { run, ...event } } as MessageEvent<Event>));
   }
 }
@@ -95,14 +95,15 @@ it("rejects stale, duplicate, unknown, invalid and missing results and resets on
   worker.emit({ type: "done" });
   expect(result.current.issues.analysis).toMatchObject({ failed: 2, embeddings: [{ id: "0" }] });
   act(() => result.current.issues.start(records, 3));
-  const replacement = FakeWorker.instances[1];
+  const replacement = FakeWorker.instances[0];
+  expect(replacement.postMessage.mock.lastCall?.[0].records.map(({ id }) => id)).toEqual(["1", "2"]);
   act(() => result.current.setDataset({ ...dataset, name: "replacement.csv" }));
   replacement.emit({ type: "result", id: "0", vector: vector(1) });
   expect(replacement.terminate).toHaveBeenCalledOnce();
   expect(result.current.issues.analysis).toMatchObject({ phase: "idle", embeddings: [] });
   act(() => result.current.issues.start(records, 3));
   act(() => result.current.setDataset(null));
-  expect(FakeWorker.instances[2].terminate).toHaveBeenCalledOnce();
+  expect(FakeWorker.instances[1].terminate).toHaveBeenCalledOnce();
 });
 
 it("prevents concurrent models, preserves partial results on cancel, and allows retry", () => {
@@ -124,6 +125,25 @@ it("prevents concurrent models, preserves partial results on cancel, and allows 
   expect(result.current.issues.analysis.phase).toBe("error");
   act(() => result.current.issues.start(records, 3));
   expect(FakeWorker.instances).toHaveLength(3);
+});
+
+it("reuses validated embeddings and releases the idle model before sentiment", () => {
+  const { result } = renderHook(useFeedbackSession, { wrapper: FeedbackSession });
+  act(() => result.current.setDataset(dataset));
+  act(() => result.current.issues.start(records, 2));
+  const worker = FakeWorker.instances[0];
+  for (const id of ["0", "1"]) worker.emit({ type: "result", id, vector: vector(1) });
+  worker.emit({ type: "done" });
+  act(() => result.current.issues.start(records, 1));
+  expect(worker.postMessage).toHaveBeenCalledOnce();
+  expect(result.current.issues.analysis).toMatchObject({ phase: "complete", selected: 1, embeddings: [{ id: "0" }] });
+  act(() => result.current.issues.start(records, 3));
+  expect(worker.postMessage.mock.lastCall?.[0].records).toEqual([{ id: "2", text: records[2].text }]);
+  worker.emit({ type: "result", id: "2", vector: vector(1) });
+  worker.emit({ type: "done" });
+  act(() => result.current.sentiment.start(records, 1));
+  expect(worker.terminate).toHaveBeenCalledOnce();
+  expect(FakeWorker.instances).toHaveLength(2);
 });
 
 function Harness() {

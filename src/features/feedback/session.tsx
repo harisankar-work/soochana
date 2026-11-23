@@ -26,7 +26,7 @@ export function FeedbackSession({ children }: { children: ReactNode }) {
   return <FeedbackContext.Provider value={{
     dataset, datasetVersion, setDataset, prioritization,
     sentiment: { ...sentiment, start: (records, count) => {
-      if (!issues.isRunning()) sentiment.start(records, count);
+      if (issues.releaseIdleWorker()) sentiment.start(records, count);
     } },
     issues: { ...issues, start: (records, count) => {
       if (sentiment.releaseIdleWorker()) issues.start(records, count);

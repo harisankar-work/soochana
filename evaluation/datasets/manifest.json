@@ -1,0 +1,11 @@
+{
+  "tiny-10": {"rows": 10, "accepted": 10, "format": "comma CSV", "semantic": "authored prefix"},
+  "small-25": {"rows": 25, "accepted": 25, "format": "semicolon CSV", "semantic": "authored prefix"},
+  "medium-50": {"rows": 50, "accepted": 50, "format": "tab-delimited CSV", "semantic": "authored prefix"},
+  "demo-96": {"rows": 96, "accepted": 96, "format": "existing portfolio CSV", "semantic": null},
+  "benchmark-100": {"rows": 100, "accepted": 100, "format": "comma CSV", "semantic": "full authored fixture"},
+  "jira-200": {"rows": 200, "accepted": 196, "format": "comma CSV with UTF-8 BOM, CRLF and multiline Jira-style descriptions", "semantic": null},
+  "large-500": {"rows": 500, "accepted": 482, "format": "comma CSV", "semantic": null},
+  "stress-1000": {"rows": 1000, "accepted": 959, "format": "comma CSV", "semantic": null},
+  "limit-10000": {"rows": 10000, "accepted": 9554, "format": "comma CSV", "semantic": null}
+}

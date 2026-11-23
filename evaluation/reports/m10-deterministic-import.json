@@ -1,0 +1,567 @@
+{
+  "comparison": "Identical counts, accepted row projections, error and warning messages",
+  "baseline": "0529b059e5e5755a7ba9cb9b9b79644856d0ed4e",
+  "candidate": "codex/m10-segmentation-performance",
+  "os": "linux 6.18.57",
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "runtime": "v24.22.3",
+  "measurements": [
+    {
+      "name": "tiny-10",
+      "bytes": 1231,
+      "expected": {
+        "total": 10,
+        "accepted": 10,
+        "rejected": 0,
+        "duplicates": 0,
+        "missingText": 0,
+        "invalidRating": 0,
+        "invalidDate": 0,
+        "averageRating": 3,
+        "rated": 10,
+        "dated": 10,
+        "sources": {
+          "App review": 3,
+          "Support ticket": 3,
+          "Web survey": 2,
+          "Help centre": 2
+        },
+        "filters": {
+          "source": "App review",
+          "sourceCount": 3,
+          "window": [
+            "2026-10-01",
+            "2026-10-14"
+          ],
+          "windowCount": 10,
+          "combinedCount": 3
+        }
+      },
+      "actual": {
+        "total": 10,
+        "rejected": 0,
+        "duplicates": 0,
+        "missingText": 0,
+        "invalidRating": 0,
+        "invalidDate": 0,
+        "accepted": 10
+      },
+      "baselineMs": {
+        "parseAndMapping": 2.8547609999999963,
+        "validation": 1.9635260000000017
+      },
+      "candidateMs": {
+        "parseAndMapping": 2.936731999999992,
+        "validation": 1.8216370000000097
+      }
+    },
+    {
+      "name": "small-25",
+      "bytes": 2895,
+      "expected": {
+        "total": 25,
+        "accepted": 25,
+        "rejected": 0,
+        "duplicates": 0,
+        "missingText": 0,
+        "invalidRating": 0,
+        "invalidDate": 0,
+        "averageRating": 3,
+        "rated": 25,
+        "dated": 25,
+        "sources": {
+          "App review": 7,
+          "Support ticket": 6,
+          "Web survey": 6,
+          "Help centre": 6
+        },
+        "filters": {
+          "source": "App review",
+          "sourceCount": 7,
+          "window": [
+            "2026-10-01",
+            "2026-10-14"
+          ],
+          "windowCount": 14,
+          "combinedCount": 4
+        }
+      },
+      "actual": {
+        "total": 25,
+        "rejected": 0,
+        "duplicates": 0,
+        "missingText": 0,
+        "invalidRating": 0,
+        "invalidDate": 0,
+        "accepted": 25
+      },
+      "baselineMs": {
+        "parseAndMapping": 0.3905059999999878,
+        "validation": 0.1963999999999828
+      },
+      "candidateMs": {
+        "parseAndMapping": 0.4261580000000009,
+        "validation": 0.21413600000001054
+      }
+    },
+    {
+      "name": "medium-50",
+      "bytes": 5663,
+      "expected": {
+        "total": 50,
+        "accepted": 50,
+        "rejected": 0,
+        "duplicates": 0,
+        "missingText": 0,
+        "invalidRating": 0,
+        "invalidDate": 0,
+        "averageRating": 3,
+        "rated": 50,
+        "dated": 50,
+        "sources": {
+          "App review": 13,
+          "Support ticket": 13,
+          "Web survey": 12,
+          "Help centre": 12
+        },
+        "filters": {
+          "source": "App review",
+          "sourceCount": 13,
+          "window": [
+            "2026-10-01",
+            "2026-10-14"
+          ],
+          "windowCount": 28,
+          "combinedCount": 8
+        }
+      },
+      "actual": {
+        "total": 50,
+        "rejected": 0,
+        "duplicates": 0,
+        "missingText": 0,
+        "invalidRating": 0,
+        "invalidDate": 0,
+        "accepted": 50
+      },
+      "baselineMs": {
+        "parseAndMapping": 0.5728750000000105,
+        "validation": 0.2809050000000184
+      },
+      "candidateMs": {
+        "parseAndMapping": 0.6499290000000002,
+        "validation": 0.3835550000000012
+      }
+    },
+    {
+      "name": "demo-96",
+      "bytes": 9873,
+      "expected": {
+        "total": 96,
+        "accepted": 96,
+        "rejected": 0,
+        "duplicates": 0,
+        "missingText": 0,
+        "invalidRating": 0,
+        "invalidDate": 0,
+        "averageRating": 2.9270833333333335,
+        "rated": 96,
+        "dated": 96,
+        "sources": {
+          "App review": 24,
+          "Post-purchase survey": 24,
+          "Support ticket": 24,
+          "Web review": 24
+        },
+        "filters": {
+          "source": "App review",
+          "sourceCount": 24,
+          "window": [
+            "2026-10-01",
+            "2026-10-14"
+          ],
+          "windowCount": 7,
+          "combinedCount": 2
+        }
+      },
+      "actual": {
+        "total": 96,
+        "rejected": 0,
+        "duplicates": 0,
+        "missingText": 0,
+        "invalidRating": 0,
+        "invalidDate": 0,
+        "accepted": 96
+      },
+      "baselineMs": {
+        "parseAndMapping": 0.9426909999999964,
+        "validation": 1.5165269999999964
+      },
+      "candidateMs": {
+        "parseAndMapping": 1.03031,
+        "validation": 0.61721
+      }
+    },
+    {
+      "name": "benchmark-100",
+      "bytes": 11479,
+      "expected": {
+        "total": 100,
+        "accepted": 100,
+        "rejected": 0,
+        "duplicates": 0,
+        "missingText": 0,
+        "invalidRating": 0,
+        "invalidDate": 0,
+        "averageRating": 3,
+        "rated": 100,
+        "dated": 100,
+        "sources": {
+          "App review": 25,
+          "Support ticket": 25,
+          "Web survey": 25,
+          "Help centre": 25
+        },
+        "filters": {
+          "source": "App review",
+          "sourceCount": 25,
+          "window": [
+            "2026-10-01",
+            "2026-10-14"
+          ],
+          "windowCount": 56,
+          "combinedCount": 16
+        }
+      },
+      "actual": {
+        "total": 100,
+        "rejected": 0,
+        "duplicates": 0,
+        "missingText": 0,
+        "invalidRating": 0,
+        "invalidDate": 0,
+        "accepted": 100
+      },
+      "baselineMs": {
+        "parseAndMapping": 1.6574040000000139,
+        "validation": 0.6369400000000098
+      },
+      "candidateMs": {
+        "parseAndMapping": 3.523998000000006,
+        "validation": 0.3567859999999996
+      }
+    },
+    {
+      "name": "jira-200",
+      "bytes": 48609,
+      "expected": {
+        "total": 200,
+        "accepted": 196,
+        "rejected": 4,
+        "duplicates": 2,
+        "missingText": 2,
+        "invalidRating": 0,
+        "invalidDate": 3,
+        "averageRating": null,
+        "rated": 0,
+        "dated": 189,
+        "sources": {
+          "App review": 47,
+          "Support ticket": 48,
+          "Web survey": 48,
+          "Help centre": 48,
+          "No source recorded": 5
+        },
+        "filters": {
+          "source": "App review",
+          "sourceCount": 47,
+          "window": [
+            "2026-10-01",
+            "2026-10-14"
+          ],
+          "windowCount": 98,
+          "combinedCount": 0
+        }
+      },
+      "actual": {
+        "total": 200,
+        "rejected": 4,
+        "duplicates": 2,
+        "missingText": 2,
+        "invalidRating": 0,
+        "invalidDate": 3,
+        "accepted": 196
+      },
+      "baselineMs": {
+        "parseAndMapping": 3.245476999999994,
+        "validation": 2.5734460000000183
+      },
+      "candidateMs": {
+        "parseAndMapping": 3.6793070000000085,
+        "validation": 2.1227109999999954
+      }
+    },
+    {
+      "name": "large-500",
+      "bytes": 77627,
+      "expected": {
+        "total": 500,
+        "accepted": 482,
+        "rejected": 18,
+        "duplicates": 10,
+        "missingText": 8,
+        "invalidRating": 11,
+        "invalidDate": 13,
+        "averageRating": 3.0065645514223194,
+        "rated": 457,
+        "dated": 452,
+        "sources": {
+          "App review": 115,
+          "Support ticket": 116,
+          "Web survey": 115,
+          "Help centre": 115,
+          "No source recorded": 21
+        },
+        "filters": {
+          "source": "App review",
+          "sourceCount": 115,
+          "window": [
+            "2026-10-01",
+            "2026-10-14"
+          ],
+          "windowCount": 229,
+          "combinedCount": 60
+        }
+      },
+      "actual": {
+        "total": 500,
+        "rejected": 18,
+        "duplicates": 10,
+        "missingText": 8,
+        "invalidRating": 11,
+        "invalidDate": 13,
+        "accepted": 482
+      },
+      "baselineMs": {
+        "parseAndMapping": 2.3830549999999846,
+        "validation": 3.626098000000013
+      },
+      "candidateMs": {
+        "parseAndMapping": 1.1773259999999937,
+        "validation": 2.721535000000003
+      }
+    },
+    {
+      "name": "stress-1000",
+      "bytes": 149058,
+      "expected": {
+        "total": 1000,
+        "accepted": 959,
+        "rejected": 41,
+        "duplicates": 22,
+        "missingText": 19,
+        "invalidRating": 25,
+        "invalidDate": 29,
+        "averageRating": 3,
+        "rated": 903,
+        "dated": 893,
+        "sources": {
+          "App review": 227,
+          "Support ticket": 229,
+          "Web survey": 229,
+          "Help centre": 229,
+          "No source recorded": 45
+        },
+        "filters": {
+          "source": "App review",
+          "sourceCount": 227,
+          "window": [
+            "2026-10-01",
+            "2026-10-14"
+          ],
+          "windowCount": 450,
+          "combinedCount": 115
+        }
+      },
+      "actual": {
+        "total": 1000,
+        "rejected": 41,
+        "duplicates": 22,
+        "missingText": 19,
+        "invalidRating": 25,
+        "invalidDate": 29,
+        "accepted": 959
+      },
+      "baselineMs": {
+        "parseAndMapping": 6.597191000000009,
+        "validation": 5.260048000000012
+      },
+      "candidateMs": {
+        "parseAndMapping": 3.6037649999999957,
+        "validation": 3.4025589999999966
+      }
+    },
+    {
+      "name": "limit-10000",
+      "bytes": 1436085,
+      "expected": {
+        "total": 10000,
+        "accepted": 9554,
+        "rejected": 446,
+        "duplicates": 236,
+        "missingText": 210,
+        "invalidRating": 257,
+        "invalidDate": 306,
+        "averageRating": 3.0007795100222716,
+        "rated": 8980,
+        "dated": 8851,
+        "sources": {
+          "App review": 2263,
+          "Support ticket": 2264,
+          "Web survey": 2264,
+          "Help centre": 2265,
+          "No source recorded": 498
+        },
+        "filters": {
+          "source": "App review",
+          "sourceCount": 2263,
+          "window": [
+            "2026-10-01",
+            "2026-10-14"
+          ],
+          "windowCount": 4433,
+          "combinedCount": 1119
+        }
+      },
+      "actual": {
+        "total": 10000,
+        "rejected": 446,
+        "duplicates": 236,
+        "missingText": 210,
+        "invalidRating": 257,
+        "invalidDate": 306,
+        "accepted": 9554
+      },
+      "baselineMs": {
+        "parseAndMapping": 93.75172399999997,
+        "validation": 86.674666
+      },
+      "candidateMs": {
+        "parseAndMapping": 39.849598000000015,
+        "validation": 39.12660199999999
+      }
+    },
+    {
+      "name": "malformed-quote",
+      "bytes": 18,
+      "error": "Malformed CSV near record 2. Check that quotes are closed and escaped.",
+      "baselineMs": {
+        "parseAndMapping": 0.6256530000000566
+      },
+      "candidateMs": {
+        "parseAndMapping": 0.5123949999999979
+      }
+    },
+    {
+      "name": "malformed-control",
+      "bytes": 16,
+      "error": "The file contains unsupported control characters. Export it as a UTF-8 CSV.",
+      "baselineMs": {
+        "parseAndMapping": 0.07006300000000465
+      },
+      "candidateMs": {
+        "parseAndMapping": 0.03577300000000605
+      }
+    },
+    {
+      "name": "malformed-header-only",
+      "bytes": 14,
+      "error": "The CSV contains headers but no feedback rows.",
+      "baselineMs": {
+        "parseAndMapping": 0.1325849999999491
+      },
+      "candidateMs": {
+        "parseAndMapping": 0.11840499999999565
+      }
+    },
+    {
+      "name": "malformed-mapping",
+      "bytes": 38,
+      "error": "Choose a column for Feedback text.",
+      "baselineMs": {
+        "parseAndMapping": 0.1329160000000229
+      },
+      "candidateMs": {
+        "parseAndMapping": 0.11965699999998947
+      }
+    },
+    {
+      "name": "malformed-width",
+      "bytes": 47,
+      "expected": {
+        "total": 2,
+        "accepted": 1,
+        "rejected": 1,
+        "duplicates": 0,
+        "missingText": 0,
+        "invalidRating": 0,
+        "invalidDate": 0,
+        "averageRating": null,
+        "rated": 0,
+        "dated": 0,
+        "sources": {
+          "Support": 1
+        },
+        "filters": {
+          "source": "Support",
+          "sourceCount": 1,
+          "window": [
+            "2026-10-01",
+            "2026-10-14"
+          ],
+          "windowCount": 0,
+          "combinedCount": 0
+        }
+      },
+      "actual": {
+        "total": 2,
+        "rejected": 1,
+        "duplicates": 0,
+        "missingText": 0,
+        "invalidRating": 0,
+        "invalidDate": 0,
+        "accepted": 1
+      },
+      "baselineMs": {
+        "parseAndMapping": 0.18467299999997522,
+        "validation": 0.043574000000035085
+      },
+      "candidateMs": {
+        "parseAndMapping": 0.13594100000000253,
+        "validation": 0.055842000000012604
+      }
+    },
+    {
+      "name": "malformed-row-limit",
+      "bytes": 118913,
+      "error": "The CSV exceeds 10,000 data rows. Split it into smaller CSV files.",
+      "baselineMs": {
+        "parseAndMapping": 15.117558000000031
+      },
+      "candidateMs": {
+        "parseAndMapping": 12.450275000000033
+      }
+    },
+    {
+      "name": "malformed-column-limit",
+      "bytes": 3107,
+      "error": "The CSV exceeds 200 columns. Remove unused columns and try again.",
+      "baselineMs": {
+        "parseAndMapping": 0.18137799999999515
+      },
+      "candidateMs": {
+        "parseAndMapping": 0.2701190000000224
+      }
+    }
+  ]
+}

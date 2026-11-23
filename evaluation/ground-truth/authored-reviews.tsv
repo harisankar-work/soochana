@@ -1,0 +1,101 @@
+sentiment	category	topic	review
+Negative	E-commerce	delivery-delay	My parcel was due Friday. The tracking link now says Tuesday, after the party.
+Negative	Fintech	payment-failure	The transfer fails right after I enter the verification code.
+Negative	Food delivery	missing-items	The bag was sealed, but the rice and soup weren't inside.
+Negative	SaaS	performance	The report editor freezes whenever I open a dashboard with more than ten charts.
+Negative	Mobile app	crash	The Android app closes before I can open my saved list.
+Negative	Customer support	slow-response	I submitted a ticket a week ago and have only had the automated reply.
+Positive	E-commerce	refund-complete	The refund showed in my account the morning after I dropped off the return.
+Positive	Fintech	payment-success	The instant transfer reached my other account before I put my phone down.
+Positive	Food delivery	accurate-order	The restaurant followed both allergy notes and packed the substitutions separately.
+Positive	SaaS	easy-workflow	The spreadsheet import matched the columns automatically and saved me an hour.
+Positive	Mobile app	easy-workflow	The new home screen makes my most-used shortcut much easier to reach.
+Positive	Customer support	resolved-ticket	The first agent understood the problem and reversed the charge while we were on the call.
+Neutral	E-commerce	return-info	Can returns be dropped off on Saturdays?
+Neutral	Fintech	transaction-info	Where can I find the reference number for a bank transfer?
+Neutral	Food delivery	order-info	The receipt lists the sauces on a separate line.
+Neutral	SaaS	feature-request	Could you add an option to export only selected columns?
+Neutral	Mobile app	release-info	I'm using version 4.2.1 on Android 15.
+Neutral	Customer support	ticket-info	My case moved from the billing queue to the accounts queue.
+Negative	E-commerce	delivery-delay	Still no package, three days after the promised delivery window.
+Negative	Fintech	payment-failure	The app says my payment can't be completed, even with plenty of available funds.
+Negative	Food delivery	missing-items	My order was two drinks and a sandwich. All I got was the sandwich.
+Negative	SaaS	performance	Clicking between tabs in the analytics workspace takes about thirty seconds.
+Negative	Mobile app	crash	I tap a saved item and the app immediately returns me to my phone's home screen.
+Negative	Customer support	slow-response	The chat queue said ten minutes, but nobody replied that evening.
+Positive	E-commerce	delivery-success	It didn't arrive late this time. It actually turned up a day early.
+Negative	E-commerce	refund-delay	I returned the lamps a month ago, and the refund is still missing.
+Negative	Fintech	reversal-delay	The failed cash withdrawal was debited and hasn't been reversed after five days.
+Negative	Food delivery	late-food	My dinner arrived ninety minutes after the estimate and was cold.
+Negative	SaaS	subscription-charge	I switched to the free plan, but the old subscription renewed anyway.
+Negative	Mobile app	login-problem	The app sends the sign-in code, then claims it has expired as soon as I paste it.
+Negative	Customer support	unresolved-ticket	They closed the case as resolved even though the account still doesn't work.
+Positive	E-commerce	return-success	The return label was ready as soon as I requested it.
+Positive	Fintech	reversal-complete	The cash withdrawal failed, but the pending debit was reversed immediately.
+Positive	Food delivery	timely-food	The driver got here early and everything was still hot.
+Positive	SaaS	performance-improved	A report that used to take a minute now opens before I finish clicking.
+Positive	Mobile app	stability-improved	No crashes since the latest update, even with all my saved lists open.
+Positive	Customer support	resolved-ticket	The technician stayed on chat until the replacement router connected.
+Neutral	E-commerce	delivery-info	Tracking currently says "Label created".
+Neutral	Fintech	transaction-info	Is the reversal reference shown in the PDF statement?
+Neutral	Food delivery	order-info	The order contains a small pizza and one canned drink.
+Neutral	SaaS	feature-request	A per-workspace setting for the reporting week would be useful.
+Neutral	Mobile app	release-info	The store listing says the next version needs Android 14.
+Neutral	Customer support	ticket-info	I have attached the requested invoice to my support case.
+Negative	E-commerce	checkout-failure	Checkout takes me back to the basket when I hit Pay. Nothing is ordered.
+Negative	Fintech	login-problem	I can't sign in because each one-time passcode is rejected.
+Negative	Food delivery	wrong-items	I ordered a vegetarian wrap and the label on the delivered wrap says chicken.
+Negative	SaaS	performance	Great, another coffee break while a two-row dashboard loads.
+Negative	Mobile app	crash	Crashes. 😞
+Negative	Customer support	unresolved-ticket	Three agents asked me to restart the router; it still won't connect.
+Positive	E-commerce	refund-complete	I was expecting a fight over the refund, but the money was back the next day.
+Negative	E-commerce	refund-delay	The email says the refund was approved. Two statements later, there is still no credit.
+Negative	Fintech	reversal-delay	It has been a week since the terminal declined my withdrawal and the debit remains.
+Negative	Food delivery	late-food	They marked the meal delivered at 7. It reached us after 8:30.
+Negative	SaaS	subscription-charge	Why was I charged again after cancelling before the renewal date?
+Negative	Mobile app	login-problem	Every time I enter a fresh SMS code, it loops straight back to the login screen.
+Negative	Customer support	unresolved-ticket	I have a closure email and a case number, but the original fault is unchanged.
+Positive	E-commerce	delivery-success	Courier used the correct entrance, and the parcel arrived well within the window.
+Positive	Fintech	payment-success	The payment confirmation was immediate and the balance updated correctly.
+Positive	Food delivery	accurate-order	Every modifier was right, including dairy-free sauce and no onions.
+Positive	SaaS	easy-workflow	The shared report link finally works for our whole team.
+Positive	Mobile app	easy-workflow	Love it ✨
+Positive	Customer support	resolved-ticket	Support spotted the duplicate charge immediately and fixed it on the first call.
+Neutral	E-commerce	return-info	Should I include the outer sleeve when sending the keyboard back?
+Neutral	Fintech	transaction-info	My statement lists the card purchase on the day it settled.
+Neutral	Food delivery	order-info	The confirmation page includes the restaurant's pickup address.
+Neutral	SaaS	feature-request	Please consider exposing the audit history through the export API.
+Neutral	Mobile app	release-info	La versión instalada es la 4.2.1.
+Neutral	Customer support	ticket-info	Please confirm which ticket queue handles warranty questions.
+Negative	E-commerce	checkout-failure	The confirmation screen never appears and my basket stays full after payment.
+Negative	Fintech	payment-failure	The bank rejects the same bill payment on both Wi-Fi and mobile data.
+Negative	Food delivery	missing-items	The lid note said "all items packed", but the side dish wasn't there.
+Negative	SaaS	performance	It took eleven seconds for an empty workspace to open.
+Negative	Mobile app	crash	Wenn ich die Favoriten öffne, stürzt die App jedes Mal ab.
+Negative	Customer support	slow-response	My first human reply landed nine days after the ticket opened.
+Positive	E-commerce	return-success	I could print a new return label without talking to an agent.
+Positive	Fintech	reversal-complete	Le débit annulé a disparu de mon compte le jour même.
+Positive	Food delivery	timely-food	I placed the order at 6 and it arrived before the estimate, still warm.
+Positive	SaaS	performance-improved	The new release made the account list feel instant.
+Positive	Mobile app	stability-improved	The app stays open when I scroll my saved items now.
+Positive	Customer support	resolved-ticket	Agent explained the error clearly and fixed the original problem.
+Neutral	E-commerce	delivery-info	The estimated delivery date changed from Friday to Monday before I placed the order.
+Neutral	Fintech	transaction-info	Which date does the app use when labelling a pending transaction?
+Neutral	Food delivery	order-info	There are two delivery windows listed for this restaurant.
+Neutral	SaaS	feature-request	Our team wants a reusable template for next quarter's report.
+Neutral	Mobile app	release-info	端末は Android 15、アプリは 4.2.1 です。
+Neutral	Customer support	ticket-info	I've added the extra screenshots to the ticket.
+Negative	E-commerce	delivery-delay	Customer service was polite, but the package is now a week overdue.
+Negative	Fintech	reversal-delay	The interface looks great, yet the duplicate debit still hasn't been returned.
+Negative	Food delivery	wrong-items	The courier was on time. My order was still wrong: beef instead of tofu.
+Negative	SaaS	subscription-charge	I cancelled and saved the cancellation email. The billing screen shows a new monthly charge anyway.
+Negative	Mobile app	crash	Brilliant, the app closed again just as I was about to save.
+Negative	Customer support	slow-response	"Fast support" apparently means two weeks and another generic response.
+Positive	E-commerce	delivery-success	The tracking page didn't refresh, but the parcel arrived in perfect condition before the window ended.
+Positive	Fintech	payment-success	The old transfer screen was clunky; this time sending money was easy and it arrived instantly.
+Positive	Food delivery	accurate-order	I expected another mix-up, but every item and dressing arrived exactly as ordered.
+Neutral	SaaS	feature-request	Can the workspace show who last edited a scheduled report?
+Neutral	Mobile app	visual-preference	The refresh icon moved from the toolbar to the overflow menu.
+Negative	Mobile app	visual-defect	The refresh icon overlaps the menu on a small screen, so I can't open the menu at all.
+Negative	Customer support	unresolved-ticket	First reply: "Please restart the router." Second reply: "Closing as resolved." The line never came back.
+Neutral	E-commerce	return-info	Does the prepaid return label expire before the end of the return window?
