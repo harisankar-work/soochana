@@ -2,6 +2,7 @@
 
 import { Compass } from "lucide-react";
 import Link from "next/link";
+import { PreparedDemoButton } from "../demo/demo-controls";
 import { IssueManagement } from "./issue-management";
 import { useState } from "react";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -75,7 +76,7 @@ function GroupCard({ group, records, representative, predictions, potential }: {
 }
 
 function DiscoveryPanel() {
-  const { dataset, issues, sentiment } = useFeedbackSession();
+  const { dataset, issues, sentiment, demoMode } = useFeedbackSession();
   const [count, setCount] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
@@ -87,6 +88,7 @@ function DiscoveryPanel() {
       <p>Upload and confirm a CSV in Feedback Analysis to explore recurring themes and their supporting reviews.</p>
       <Link className="import-button import-primary mt-3" href="/feedback">Go to Feedback Analysis</Link>
       <Link className="import-button mt-3" href="/feedback#demo">Try Demo Dataset</Link>
+      <PreparedDemoButton />
     </EmptyState><IssueManagement /></>;
   }
 
@@ -126,12 +128,12 @@ function DiscoveryPanel() {
         </div>
         <p id="issue-scope" className="import-note">Choose 1–{maximum} records, starting at the first accepted CSV row. Groups describe only the analysed sample.</p>
         <div className="import-actions">
-          <button className="import-button import-primary" disabled={busy || sentiment.busy || !valid} onClick={() => issues.start(dataset.records, selected)}>Discover Feedback Groups</button>
-          {!busy && analysis.phase !== "idle" && <button className="import-button" disabled={sentiment.busy || !valid} onClick={() => issues.start(dataset.records, selected)}>Retry discovery</button>}
+          <button className="import-button import-primary" disabled={demoMode === "prepared" || busy || sentiment.busy || !valid} onClick={() => issues.start(dataset.records, selected)}>Discover Feedback Groups</button>
+          {!busy && analysis.phase !== "idle" && <button className="import-button" disabled={demoMode === "prepared" || sentiment.busy || !valid} onClick={() => issues.start(dataset.records, selected)}>Retry discovery</button>}
           {busy && <button className="import-button" onClick={issues.cancel}>Cancel discovery</button>}
         </div>
         {sentiment.busy && <p className="import-note">Wait for sentiment analysis to finish before starting discovery.</p>}
-        <p role="status">{status[analysis.phase]}{busy && analysis.phase === "embed" ? ` · ${embedded + analysis.failed} of ${analysis.selected} attempted` : ""}</p>
+        <p role="status">{demoMode === "prepared" ? "Prepared discovery results" : status[analysis.phase]}{busy && analysis.phase === "embed" ? ` · ${embedded + analysis.failed} of ${analysis.selected} attempted` : ""}</p>
         {analysis.phase === "download" && <progress className="sentiment-progress" aria-label="Model download progress" max={100} value={analysis.progress} />}
         {analysis.phase === "embed" && <progress className="sentiment-progress" aria-label="Embedding progress" max={analysis.selected} value={embedded + analysis.failed} />}
         {analysis.phase === "error" && <p className="import-error" role="alert">Check your connection, available memory, and WebAssembly support, then retry discovery.</p>}
@@ -142,6 +144,7 @@ function DiscoveryPanel() {
       {result && embedded > 0 && (
         <section className="panel import-panel" aria-labelledby="results-title">
           <h2 id="results-title">Feedback groups</h2>
+          {issues.usedBroaderSuggestions && <p className="issue-caution">Strict discovery found no recurring groups. These broader suggestions can combine distinct issues. Review their evidence before using them.</p>}
           {!groups.length && method === "complete-link-v1" && <button className="import-button" onClick={() => configureGrouping("average-link-v1")}>Explore broader suggestions</button>}
           <p className="import-note">{method === "complete-link-v1" ? "Complete-link" : "Average-link (exploratory)"} · Cutoff {threshold.toFixed(2)}</p>
           <dl className="quality-stats">

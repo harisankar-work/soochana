@@ -8,7 +8,7 @@ import { mappingError, suggestMapping, validateRows } from "../src/features/feed
 
 const directory = dirname(fileURLToPath(import.meta.url));
 const authoredPath = resolve(directory, "../evaluation/ground-truth/authored-reviews.tsv");
-const demoPath = resolve(directory, "../public/demo/soochana-demo.csv");
+const demoPath = resolve(directory, "../evaluation/datasets/historical-demo-96.csv");
 
 const manifest = JSON.parse(readFileSync(resolve(directory, "../evaluation/datasets/manifest.json"), "utf8"));
 const headers = ["External ID", "Feedback", "Date", "Source", "Rating", "Category"];

@@ -68,12 +68,12 @@ try {
   await link("Try Demo Dataset").click();
   await heading("Map Columns").waitFor();
   assert.equal(artifactRequests, 0);
-  await confirm(96);
-  await button("Cancel discovery").click();
-  await page.getByText("Issue discovery cancelled.", { exact: true }).waitFor();
+  await confirm(100);
+  await button("Cancel demo analysis").click();
+  await page.getByText("Live demo cancelled during sentiment.", { exact: true }).waitFor();
   const retry = performance.now();
-  await button("Retry discovery").click();
-  await complete(96, retry, "retry after cancellation");
+  await button("Rerun live analysis").click();
+  await complete(100, retry, "retry after cancellation");
   if (await button("Explore broader suggestions").count()) await button("Explore broader suggestions").click();
   else {
     await page.getByText("Advanced grouping settings", { exact: true }).click();
@@ -174,7 +174,7 @@ try {
   await nav("Feedback Analysis");
   await button("Replace dataset").click();
   await button("Try Demo Dataset").click();
-  await complete(96, await confirm(96, true));
+  await complete(100, await confirm(100, true));
   await page.reload();
   await heading("Import feedback to discover groups").waitFor();
   assert.deepEqual(errors, []);

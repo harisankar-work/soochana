@@ -1,6 +1,6 @@
 # Soochana evaluation datasets
 
-The [fixture manifest](manifest.json) lists the exact positive-case row counts and input formats. The generator materializes the fixtures from [100 authored reviews](../ground-truth/authored-reviews.tsv) and explicit metadata and validation rules. It reuses the checked-in [96-review demo](../../public/demo/soochana-demo.csv) unchanged. The malformed files are named cases in the loader. Export the input with its row-level reference for browser testing.
+The [fixture manifest](manifest.json) lists the exact positive-case row counts and input formats. The generator materializes the fixtures from [100 authored reviews](../ground-truth/authored-reviews.tsv) and explicit metadata and validation rules. It reuses the checked-in [96-review demo](historical-demo-96.csv) unchanged. The malformed files are named cases in the loader. Export the input with its row-level reference for browser testing.
 
 ```sh
 node --experimental-strip-types scripts/evaluate-datasets.mjs --export jira-200 /tmp/soochana-fixtures

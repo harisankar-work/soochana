@@ -255,3 +255,20 @@ it("warns about opposite predictions without suppressing the group or its eviden
   fireEvent.click(screen.getByRole("button", { name: "Load mixed reviews" }));
   expect(screen.queryByRole("heading", { name: "Feedback groups" })).toBeNull();
 });
+
+it("offers broader groups after an automatic strict run returns zero groups", () => {
+  const { result } = renderHook(useFeedbackSession, { wrapper: FeedbackSession });
+  act(() => result.current.setDataset(dataset, true));
+  const worker = FakeWorker.instances[0];
+  worker.emit({ type: "result", id: "0", vector: vector(1) });
+  worker.emit({ type: "result", id: "1", vector: vector(0.6, 0.8) });
+  worker.emit({ type: "result", id: "2", vector: vector(-1) });
+  worker.emit({ type: "done" });
+  expect(result.current.issues.usedBroaderSuggestions).toBe(true);
+  expect(result.current.issues.result?.groups[0].feedbackIds).toEqual(["0", "1"]);
+  expect(result.current.prioritization.candidates[0].severity).toBeNull();
+  act(() => result.current.issues.configureGrouping("complete-link-v1"));
+  expect(result.current.issues.usedBroaderSuggestions).toBe(false);
+  expect(result.current.issues.result?.groups).toEqual([]);
+  expect(FakeWorker.instances).toHaveLength(1);
+});

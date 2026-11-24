@@ -27,17 +27,17 @@ type ExportEntry = { candidate: Candidate; observed: { evidence: Row[] }; score?
 
 export function exportIssues(entries: ExportEntry[]) {
   downloadCsv("soochana-prioritized-issues.csv", [
-    ["Issue ID", "Title", "Description", "Origin", "Review", "Evidence count", "Severity", "Business impact", "Evidence confidence", "Urgency", "Effort", "Score", "Reassessment", "Rationale"],
+    ["Issue ID", "Title", "Description", "Origin", "Review", "Evidence count", "Severity", "Business impact", "Evidence confidence", "Urgency", "Effort", "Score", "Reassessment", "Illustrative demo assessments", "Rationale"],
     ...entries.map(({ candidate: c, observed, score }) => [c.id, c.title, c.description, c.origin ? "AI" : "Manual", c.review ?? "Needs review", observed.evidence.length,
-      c.severity, c.impact, c.confidence, c.urgency, c.effort, score?.toFixed(2), needsReassessment(c) ? "Required" : "", c.notes]),
+      c.severity, c.impact, c.confidence, c.urgency, c.effort, score?.toFixed(2), needsReassessment(c) ? "Required" : "", c.illustrative ? "Yes" : "", c.notes]),
   ]);
 }
 
 export function exportEvidence(entries: ExportEntry[]) {
   downloadCsv("soochana-issue-evidence.csv", [
-    ["Issue ID", "Issue", "CSV row", "Source", "Date", "Category", "Rating", "Sentiment", "Original feedback", "Severity", "Business impact", "Evidence confidence", "Urgency", "Effort", "Reassessment"],
+    ["Issue ID", "Issue", "CSV row", "Feedback ID", "Source", "Date", "Category", "Platform", "Customer segment", "Rating", "Sentiment", "Original feedback", "Severity", "Business impact", "Evidence confidence", "Urgency", "Effort", "Reassessment"],
     ...entries.flatMap(({ candidate: c, observed }) => (observed.evidence.length ? observed.evidence : [null]).map((row) => [
-      c.id, c.title, row?.record.originalRow, row?.record.source, row?.date, row?.record.category, row?.rating, row?.sentiment, row?.record.originalText,
+      c.id, c.title, row?.record.originalRow, row?.record.marketplace?.feedbackId, row?.record.source, row?.date, row?.record.category, row?.record.marketplace?.platform, row?.record.marketplace?.segment, row?.rating, row?.sentiment, row?.record.originalText,
       c.severity, c.impact, c.confidence, c.urgency, c.effort, needsReassessment(c) ? "Required" : "",
     ])),
   ]);
@@ -57,7 +57,7 @@ export function JiraDraft({ candidate, evidence }: { candidate: Candidate; evide
       `User-confirmed priority: ${priority || "Unconfirmed"}`,
       `Labels: customer-feedback${candidate.origin ? ", ai-suggested" : ""}`,
       "Supporting feedback:",
-      ...evidence.map(({ record }) => `- CSV row ${record.originalRow} (${record.source ?? "source unavailable"}): ${record.originalText}`),
+      ...evidence.map(({ record }) => `- CSV row ${record.originalRow}${record.marketplace ? ` / ${record.marketplace.feedbackId}` : ""} (${record.source ?? "source unavailable"}): ${record.originalText}`),
       "Acceptance criteria draft (review before use):",
       "- Define a reproducible customer scenario and a measurable expected outcome.",
     ].join("\n"));

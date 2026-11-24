@@ -28,7 +28,8 @@ function observe(worker: Worker, message: (event: MessageEvent<Event>) => void, 
 export function useIssues() {
   const [analysis, setAnalysis] = useState(idle);
   const [method, setMethod] = useState<GroupingMode>("complete-link-v1");
-  const [threshold, setThreshold] = useState(DEFAULT_THRESHOLD);
+  const [threshold, updateThreshold] = useState(DEFAULT_THRESHOLD);
+  const [allowBroaderSuggestions, setAllowBroaderSuggestions] = useState(false);
   const current = useRef<Worker | null>(null);
   const sequence = useRef(0);
   const active = useRef(false);
@@ -61,9 +62,19 @@ export function useIssues() {
     configureGrouping("complete-link-v1");
   }
 
+  function seed(records: FeedbackRecord[], embeddings: Embedding[], next: GroupingMode) {
+    stop();
+    source.current = records;
+    cache.current.clear();
+    for (const item of embeddings) cache.current.set(item.id, item);
+    configureGrouping(next);
+    setAnalysis({ ...idle, phase: "complete", selected: embeddings.length, embeddings, analysedIds: embeddings.map(({ id }) => id) });
+  }
+
   function configureGrouping(next: GroupingMode) {
     setMethod(next);
-    setThreshold(groupingDefaults[next]);
+    updateThreshold(groupingDefaults[next]);
+    setAllowBroaderSuggestions(false);
   }
 
   function cancel() {
@@ -72,8 +83,10 @@ export function useIssues() {
     setAnalysis((previous) => ({ ...previous, phase: "cancelled", progress: undefined }));
   }
 
-  function start(records: FeedbackRecord[], count: number) {
+  function start(records: FeedbackRecord[], count: number, automatic = false) {
     if (active.current || !Number.isInteger(count) || count < 1 || count > Math.min(LIMIT, records.length)) return;
+    if (!automatic && usedBroaderSuggestions) configureGrouping("average-link-v1");
+    setAllowBroaderSuggestions(automatic);
     if (records !== source.current) {
       source.current = records;
       cache.current.clear();
@@ -137,7 +150,19 @@ export function useIssues() {
   const busy = ["preparing", "download", "initialize", "embed"].includes(analysis.phase);
   const vectors = busy ? null : analysis.embeddings;
   const matrix = useMemo(() => vectors?.length ? similarityMatrix(vectors) : null, [vectors]);
-  const result = useMemo(() => matrix ? cluster(matrix, threshold, method) : null, [matrix, threshold, method]);
+  const strictResult = useMemo(() => matrix ? cluster(matrix, threshold, method) : null, [matrix, threshold, method]);
+  const broaderResult = useMemo(() => matrix && allowBroaderSuggestions && analysis.phase === "complete" &&
+    method === "complete-link-v1" && threshold === DEFAULT_THRESHOLD && strictResult?.groups.length === 0
+      ? cluster(matrix, groupingDefaults["average-link-v1"], "average-link-v1") : null,
+    [matrix, allowBroaderSuggestions, analysis.phase, method, threshold, strictResult]);
+  const usedBroaderSuggestions = Boolean(broaderResult?.groups.length);
+  const result = usedBroaderSuggestions ? broaderResult : strictResult;
+
+  function setThreshold(next: number) {
+    if (usedBroaderSuggestions) setMethod("average-link-v1");
+    setAllowBroaderSuggestions(false);
+    updateThreshold(next);
+  }
   function matchAssignments(rowIds: string[], candidates: { id: string; evidenceIds: string[] }[]) {
     const byId = cache.current;
     const evidence = candidates.flatMap(({ id: issueId, evidenceIds }) =>
@@ -157,5 +182,6 @@ export function useIssues() {
     });
   }
 
-  return { analysis, matchAssignments, method, configureGrouping, threshold, setThreshold, start, cancel, reset, result, busy, releaseIdleWorker };
+  return { analysis, matchAssignments, method: usedBroaderSuggestions ? "average-link-v1" as const : method,
+    usedBroaderSuggestions, configureGrouping, threshold: usedBroaderSuggestions ? groupingDefaults["average-link-v1"] : threshold, setThreshold, start, seed, cancel, reset, result, busy, releaseIdleWorker };
 }

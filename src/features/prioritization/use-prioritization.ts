@@ -1,5 +1,6 @@
 "use client";
 
+import { illustrateMarketplaceIssues } from "../demo/marketplace";
 import { useMemo, useState } from "react";
 import type { FeedbackRecord } from "../feedback/validation";
 import type { Candidate, Grouping } from "./candidates";
@@ -8,14 +9,17 @@ import { defaults, type Factor } from "./scoring";
 
 export const defaultWeightInputs = Object.fromEntries(Object.entries(defaults).map(([key, value]) => [key, String(value)])) as Record<Factor, string>;
 
-export function usePrioritization(records: FeedbackRecord[], grouping: Grouping | null) {
+export function usePrioritization(records: FeedbackRecord[], grouping: Grouping | null, marketplace = false) {
   const [history, setHistory] = useState<Organization[]>([emptyOrganization]);
   const [draft, setDraft] = useState<Candidate | null>(null);
   const [focused, setFocused] = useState<string | null>(null);
   const [problem, setProblem] = useState("");
   const [weightInputs, setWeightInputs] = useState(defaultWeightInputs);
   const state = history.at(-1)!;
-  const incoming = useMemo(() => suggestions(grouping, records), [grouping, records]);
+  const incoming = useMemo(() => {
+    const raw = suggestions(grouping, records);
+    return marketplace ? illustrateMarketplaceIssues(raw, records) : raw;
+  }, [grouping, records, marketplace]);
   const candidates = useMemo(() => availableIssues(state, incoming), [state, incoming]);
 
   function edit(action: Edit) {

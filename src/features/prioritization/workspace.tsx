@@ -6,6 +6,7 @@ import { makeRows } from "../analytics/calculations";
 import { useFeedbackSession } from "../feedback/session";
 import { CandidateEditor } from "./candidate-editor";
 import { attachGroup, needsReassessment, newCandidate, statuses, type Candidate, type Grouping } from "./candidates";
+import { PreparedDemoButton } from "../demo/demo-controls";
 import { exportEvidence, exportIssues } from "./exports";
 import { PriorityDetail } from "./priority-detail";
 import { defaults, evidenceFor, factorLabels, factors, rank, sensitivity, validWeights, type Weights } from "./scoring";
@@ -21,14 +22,14 @@ function QueueTable({ entries, ranked, open, title }: { entries: Entry[]; ranked
   return <div className="import-table-scroll" role="region" aria-label={`${title} table`} tabIndex={0}>
     <table className="import-table priority-queue">
       <caption className="sr-only">{title}</caption>
-      <thead><tr>{["Rank", "Issue", "Type", "Evidence / frequency", "Severity", "Business impact", "Urgency", "Effort", "Score", "Review", "Reassessment"].map((column) => <th key={column} scope="col">{column}</th>)}</tr></thead>
+      <thead><tr>{["Rank", "Issue", "Type", "Evidence / frequency", "Severity", "Business impact", "Evidence confidence", "Urgency", "Effort", "Score", "Review", "Reassessment"].map((column) => <th key={column} scope="col">{column}</th>)}</tr></thead>
       <tbody>{entries.map(({ candidate, observed }) => {
         const scored = ranked.get(candidate.id);
         return <tr key={candidate.id}>
           <td>{scored?.rank ?? "—"}</td>
-          <th scope="row"><button className="priority-title-button" onClick={() => open(candidate.id)} aria-label={`View ${candidate.title}`}>{candidate.title}</button></th>
+          <th scope="row"><button className="priority-title-button" onClick={() => open(candidate.id)} aria-label={`View ${candidate.title}`}>{candidate.title}</button>{candidate.illustrative && <span className="import-note block">Illustrative demo assessments</span>}</th>
           <td>{candidate.origin ? "Discovered" : "Manual"}</td><td>{observed.evidence.length}</td>
-          <td>{candidate.severity ?? "—"}</td><td>{candidate.impact ?? "—"}</td><td>{candidate.urgency ?? "—"}</td><td>{candidate.effort ?? "—"}</td>
+          <td>{candidate.severity ?? "—"}</td><td>{candidate.impact ?? "—"}</td><td>{candidate.confidence ?? "—"}</td><td>{candidate.urgency ?? "—"}</td><td>{candidate.effort ?? "—"}</td>
           <td>{scored?.result.total.toFixed(2) ?? "Unscored"}</td><td>{candidate.review ?? "Needs review"}</td><td>{needsReassessment(candidate) ? "Required" : "—"}</td>
         </tr>;
       })}</tbody>
@@ -135,7 +136,7 @@ function Workspace({ dataset, session }: { dataset: Session["dataset"]; session:
       {dataset ? <p className="file-info"><strong>{dataset.name}</strong> · {rows.length} imported reviews</p> : <>
         <h3>Import feedback to prioritize issues</h3>
         <p>No feedback is loaded. You can record a problem now and add evidence after importing.</p>
-        <div className="import-actions"><Link className="import-button" href="/feedback">Go to Feedback Analysis</Link><Link className="import-button" href="/feedback#demo">Try Demo Dataset</Link></div>
+        <div className="import-actions"><Link className="import-button" href="/feedback">Go to Feedback Analysis</Link><Link className="import-button" href="/feedback#demo">Try Demo Dataset</Link><PreparedDemoButton /></div>
       </>}
       {prioritization.problem && <p className="import-error" role="alert">{prioritization.problem}</p>}
       <p role="status">{candidates.length} candidates · {active.length} scored · {candidates.length - active.length} unscored · {distinctEvidence} distinct supporting reviews</p>

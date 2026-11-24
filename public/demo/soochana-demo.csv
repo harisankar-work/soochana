@@ -1,97 +1,101 @@
-review,date,source,rating,category
-My card was charged twice after the payment page timed out.,2026-08-03,App review,1,Checkout
-"The tracking page says delivered, but there was no parcel at my door.",2026-08-03,Post-purchase survey,1,Delivery
-The return portal rejected the order number from my confirmation email.,2026-08-04,Support ticket,2,Returns
-The password reset link said it had expired as soon as I opened it.,2026-08-05,Web review,2,Account
-The welcome code was accepted in the basket and vanished at payment.,2026-08-05,App review,2,Promotions
-"The colour in the listing looked beige, but the item arrived grey.",2026-08-06,Post-purchase survey,2,Product details
-My support ticket was marked resolved without a reply or refund.,2026-08-07,Support ticket,1,Support
-"The product page showed in stock, but my order was cancelled a day later.",2026-08-07,Web review,2,Stock
-"I never received the sign-in code, even after asking for a new one.",2026-08-08,Web review,1,Account
-"The banner promised free delivery, but checkout still charged for it.",2026-08-09,App review,1,Promotions
-The dimensions on the product page were wrong and the shelf will not fit.,2026-08-09,Post-purchase survey,1,Product details
-I explained the delivery problem twice when the chat switched agents.,2026-08-10,Support ticket,2,Support
-I got a back-in-stock email for an item that still could not be ordered.,2026-08-11,Web review,1,Stock
-Apple Pay sent me back to my basket without placing the order.,2026-08-11,App review,1,Checkout
-My parcel arrived five days after the last date in the estimate.,2026-08-12,Post-purchase survey,2,Delivery
-The refund still hasn't arrived two weeks after the warehouse accepted the return.,2026-08-13,Support ticket,1,Returns
-The reply asked for tracking details I'd already added to the form.,2026-08-13,Support ticket,2,Support
-The colour selector didn't show that my chosen size was sold out.,2026-08-14,Web review,2,Stock
-The checkout button stayed grey after I entered my postcode.,2026-08-15,App review,2,Checkout
-The courier handed my order to a neighbour without leaving a note.,2026-08-15,Post-purchase survey,2,Delivery
-The return QR code would not scan at the parcel shop.,2026-08-16,Support ticket,2,Returns
-My saved addresses disappeared after I changed my email.,2026-08-17,Web review,2,Account
-The sale price only showed up if I refreshed the product page.,2026-08-17,App review,2,Promotions
-There was no warning that the lamp did not include a bulb.,2026-08-18,Post-purchase survey,2,Product details
-"Tracking sat at ""label created"" for a week and the order never moved.",2026-08-19,Post-purchase survey,1,Delivery
-"My refund missed the more expensive item, even though both were in the box.",2026-08-19,Support ticket,1,Returns
-Guest orders don't show up after creating an account with the same email.,2026-08-20,Web review,2,Account
-The discount code expired a day before the date in the email.,2026-08-21,App review,2,Promotions
-The jacket runs small compared with the shop's size chart.,2026-08-21,Post-purchase survey,2,Product details
-My order was cancelled while I was waiting for a response from support.,2026-08-22,Support ticket,1,Support
-Only one of the two items was available for immediate dispatch.,2026-08-23,Web review,3,Stock
-"My bank approved the payment, but the shop still showed a declined card.",2026-08-23,App review,2,Checkout
-"The two offers couldn't be combined, which the basket explained.",2026-08-24,App review,3,Promotions
-"The photos show the front and back, but I'd like a close-up of the fabric.",2026-08-25,Post-purchase survey,3,Product details
-The chatbot offered an article before routing me to a person.,2026-08-25,Support ticket,3,Support
-The restock email arrived in time for me to choose my size.,2026-08-26,Web review,4,Stock
-I pressed Pay once and got two order confirmation emails.,2026-08-27,App review,1,Checkout
-I paid for next-day delivery and the gift came after the party.,2026-08-27,Post-purchase survey,2,Delivery
-The return label link opened a blank page on my phone.,2026-08-28,Support ticket,2,Returns
-The password reset screen got stuck on a spinner for ten minutes.,2026-08-29,Web review,1,Account
-I switched to an available colour and the shop kept the rest of my basket.,2026-08-29,Web review,5,Stock
-The shop lost my basket when I signed in to complete checkout.,2026-08-30,App review,2,Checkout
-"The package arrived on time, but the tracking link never updated.",2026-08-31,Post-purchase survey,3,Delivery
-I exchanged one item and returned the other in the same parcel.,2026-08-31,Support ticket,3,Returns
-Signing in on my tablet asked me to verify my email one more time.,2026-09-01,Web review,3,Account
-The bundle discount appeared as soon as I added the second item.,2026-09-02,App review,4,Promotions
-The fit notes helped me choose a size without needing an exchange.,2026-09-02,Post-purchase survey,4,Product details
-Support spotted the address typo and fixed it before dispatch.,2026-09-03,Support ticket,4,Support
-The return instructions were clear once I found them in my account.,2026-09-04,Support ticket,4,Returns
-I found my older orders and downloaded the invoices easily.,2026-09-04,Web review,4,Account
-I could see exactly how much the discount saved before paying.,2026-09-05,App review,5,Promotions
-The measurements matched exactly and everything fit in the space.,2026-09-06,Post-purchase survey,5,Product details
-The agent sent a replacement before I had finished explaining the damage.,2026-09-06,Support ticket,5,Support
-The stock indicator showed which pickup location actually had the item.,2026-09-07,Web review,4,Stock
-"My first card failed, but the second card went through.",2026-09-08,App review,3,Checkout
-The parcel arrived a day early and fit through the letterbox.,2026-09-08,Post-purchase survey,5,Delivery
-The care instructions made it easy to compare two similar products.,2026-09-09,Post-purchase survey,5,Product details
-The support email included dates and clear next steps.,2026-09-10,Support ticket,4,Support
-The limited stock notice appeared next to the largest size.,2026-09-10,Web review,3,Stock
-"Guest checkout was quick, though I had to re-enter the delivery address.",2026-09-11,App review,4,Checkout
-The live delivery window was accurate enough to plan around.,2026-09-12,Post-purchase survey,4,Delivery
-I dropped the parcel off on Friday and had my refund on Monday.,2026-09-12,Support ticket,5,Returns
-My basket was still there when I switched from phone to laptop.,2026-09-13,Web review,5,Account
-My voucher balance stayed available after I cancelled checkout.,2026-09-14,App review,4,Promotions
-I paid with my phone and got the confirmation immediately.,2026-09-14,App review,5,Checkout
-Both items came in one package with no excess plastic.,2026-09-15,Post-purchase survey,5,Delivery
-Exchanging the shirt for a smaller size was straightforward.,2026-09-16,Support ticket,4,Returns
-The account page shows which email receives delivery updates.,2026-09-16,Web review,3,Account
-I qualified for free shipping after adding a small item.,2026-09-17,App review,3,Promotions
-The listing clearly showed which parts came in the box.,2026-09-18,Post-purchase survey,4,Product details
-"I got a reply the next morning, in line with the published hours.",2026-09-18,Support ticket,3,Support
-I couldn't tell which products were preorders until I reached the basket.,2026-09-19,Web review,2,Stock
-Updating my default shipping address took less than a minute.,2026-09-20,Web review,5,Account
-The sale filter made it easy to find items within my budget.,2026-09-20,App review,4,Promotions
-The product video shows the finish in natural light.,2026-09-21,Post-purchase survey,3,Product details
-The same agent followed up to check the missing parcel had arrived.,2026-09-22,Support ticket,5,Support
-The preorder listing gave a shipping week and the item arrived then.,2026-09-22,Web review,5,Stock
-The order total updated correctly when I switched shipping options.,2026-09-23,App review,4,Checkout
-The courier made a second attempt the following morning.,2026-09-24,Post-purchase survey,3,Delivery
-The return cost was displayed before I requested the label.,2026-09-24,Support ticket,3,Returns
-The chat closed while I was looking up the order number.,2026-09-25,Support ticket,2,Support
-Out-of-stock sizes were greyed out clearly on the product page.,2026-09-26,Web review,4,Stock
-I used a gift card for part of the order and paid the rest by card.,2026-09-26,App review,3,Checkout
-"Delivery to the pickup locker worked, even late in the evening.",2026-09-27,Post-purchase survey,4,Delivery
-The drop-off location accepted the code without needing a printer.,2026-09-28,Support ticket,5,Returns
-I was able to turn off marketing emails directly in my account.,2026-09-28,Web review,4,Account
-The reward points dropped off when I changed my shipping method.,2026-09-29,App review,2,Promotions
-"The description said machine washable, but the care label says hand wash.",2026-09-30,Post-purchase survey,2,Product details
-The box was left outside in the rain instead of in the porch.,2026-09-30,Post-purchase survey,2,Delivery
-My refund came through in two separate transactions.,2026-10-01,Support ticket,3,Returns
-The sign-in form clears my email every time a verification code fails.,2026-10-02,Web review,2,Account
-A new code replaced the old one and the total changed as expected.,2026-10-02,App review,3,Promotions
-The customer photos gave a better sense of the size on a desk.,2026-10-03,Post-purchase survey,4,Product details
-I liked getting a transcript so I could keep the return instructions.,2026-10-04,Support ticket,4,Support
-The email reminder let me remove my restock subscription after ordering.,2026-10-04,Web review,3,Stock
-"I could check my address before paying, which saved me from a mistake.",2026-10-05,App review,4,Checkout
+feedback_id,feedback,rating,date,source,category,client_platform,customer_segment
+MKT-054,"I get a new code every time I try to sign in, but none of them are accepted.",2,2026-08-03,App review,Account,iOS,First-time
+MKT-032,A replacement parcel is overdue as well. The new tracking link looks just as stale.,2,2026-08-20,Website feedback,Delivery,Android,Returning
+MKT-059,The app takes nearly a minute to load the home screen on a strong Wi-Fi connection.,2,2026-09-06,Customer survey,Performance,Web,Marketplace member
+MKT-030,It's been ten days since dispatch and the delivery estimate now just says pending.,1,2026-09-23,Support ticket,Delivery,iOS,First-time
+MKT-074,"The support form doesn't show whether my ticket was received, so I sent it again.",2,2026-08-15,Support ticket,Support,Android,Returning
+MKT-061,Product photos load slowly and scrolling stutters badly after every few listings.,2,2026-09-01,App review,Performance,Web,Marketplace member
+MKT-029,"The courier apologized for the delivery delay, and the parcel turned up the next morning.",3,2026-09-18,Website feedback,Delivery,iOS,First-time
+MKT-003,The payment page timed out after I clicked Pay and charged my card twice.,1,2026-08-10,Customer survey,Checkout,Android,Returning
+MKT-036,The seller accepted my refund but the money hasn't reached my card after ten working days.,2,2026-08-27,Customer survey,Returns,Web,Marketplace member
+MKT-048,The app told me to wait five days for my refund. It's now the third week and there's no update.,2,2026-09-13,Support ticket,Returns,iOS,First-time
+MKT-084,I'd like a way to share my saved list without sharing my account.,3,2026-08-05,App review,Shopping tools,Android,Returning
+MKT-081,The search results show the right brand but make it hard to distinguish different versions.,3,2026-08-22,Website feedback,Discovery,Web,Marketplace member
+MKT-015,Card payment worked in the browser after failing in the app.,3,2026-09-08,Website feedback,Checkout,iOS,First-time
+MKT-063,The app crashes if I open several product pages in a row.,1,2026-09-25,Customer survey,Performance,Android,Returning
+MKT-023,"Tracking shows the courier has the parcel, but there hasn't been a delivery update in six days.",2,2026-08-17,Support ticket,Delivery,Web,Marketplace member
+MKT-014,"The checkout screen says my payment method isn't supported, even though I used that card last week.",2,2026-09-03,App review,Checkout,iOS,First-time
+MKT-035,My return arrived at the warehouse three weeks ago and the refund is still pending.,1,2026-09-20,App review,Returns,Android,Returning
+MKT-013,Three failed payment attempts left three pending charges and no order.,1,2026-08-12,Website feedback,Checkout,Web,Marketplace member
+MKT-072,I keep getting the same automated reply instead of an answer from a support agent.,2,2026-08-29,Customer survey,Support,iOS,First-time
+MKT-017,The amount changed when the payment window opened. I cancelled the checkout because I couldn't see why.,2,2026-09-15,Support ticket,Checkout,Android,Returning
+MKT-094,The pickup locker was easy to find and the collection instructions were clear.,4,2026-08-07,Support ticket,Shopping experience,Web,Marketplace member
+MKT-037,My cancelled order was never refunded even though the cancellation email promised a week.,1,2026-08-24,App review,Returns,iOS,First-time
+MKT-086,Could you let frequent buyers export their monthly order receipts in one spreadsheet?,3,2026-09-10,Website feedback,Shopping tools,Android,Returning
+MKT-012,I got a payment error when combining a gift voucher and a card at checkout.,2,2026-09-27,Customer survey,Checkout,Web,Marketplace member
+MKT-046,The return was approved immediately and the refund hasn't progressed past processing for two weeks.,2,2026-08-19,Customer survey,Returns,iOS,First-time
+MKT-001,"My card payment failed at checkout, yet my banking app shows the full amount pending.",1,2026-09-05,Support ticket,Checkout,Android,Returning
+MKT-034,"The promised overnight delivery didn't arrive until the weekend, after I had left town.",2,2026-09-22,App review,Delivery,Web,Marketplace member
+MKT-031,I can't plan around the delivery slot because it keeps getting pushed to tomorrow.,2,2026-08-14,Website feedback,Delivery,iOS,First-time
+MKT-051,The log-in screen keeps rejecting my verification code and locks me out of my account.,1,2026-08-31,Website feedback,Account,Android,Returning
+MKT-043,The seller agreed the item was damaged. I am still waiting for the refund a month later.,1,2026-09-17,Customer survey,Returns,Web,Marketplace member
+MKT-071,Nobody responded to my support request until after the return window closed.,1,2026-08-09,Support ticket,Support,iOS,First-time
+MKT-077,The price filter still shows listings outside my selected budget.,2,2026-08-26,App review,Discovery,Android,Returning
+MKT-079,Filters reset every time I go back from a product page to the search results.,2,2026-09-12,App review,Discovery,Web,Marketplace member
+MKT-095,I received the refund the next morning and could see exactly what was refunded.,5,2026-08-04,Website feedback,Shopping experience,iOS,First-time
+MKT-028,"My click-and-collect order missed the promised pickup time, so I made a wasted trip.",2,2026-08-21,Customer survey,Delivery,Android,Returning
+MKT-010,"The checkout button kept spinning, so I tried again. Two card charges appeared for one order.",1,2026-09-07,Support ticket,Checkout,Web,Marketplace member
+MKT-011,The bank verification page returned me to an empty basket after approving the payment.,2,2026-09-24,Support ticket,Checkout,iOS,First-time
+MKT-049,"I never receive the sign-in verification code, even after requesting another.",1,2026-08-16,App review,Account,Android,Returning
+MKT-091,I found an equivalent product for less money after using the filters.,4,2026-09-02,Website feedback,Shopping experience,Web,Marketplace member
+MKT-005,Every checkout attempt with my debit card ends in a payment error. The bank says the card is fine.,1,2026-09-19,Customer survey,Checkout,iOS,First-time
+MKT-056,The password reset email never comes. I checked spam and tried twice.,2,2026-08-11,Customer survey,Account,Android,Returning
+MKT-067,The website is responsive. The mobile app still hesitates every time I open a listing.,3,2026-08-28,Support ticket,Performance,Web,Marketplace member
+MKT-078,"Searching for a seller works, but the category results make it hard to find their products.",3,2026-09-14,App review,Discovery,iOS,First-time
+MKT-020,I paid for next-day delivery. The parcel arrived four days after the promised date.,2,2026-08-06,Website feedback,Delivery,Android,Returning
+MKT-026,The marketplace switched my express delivery to a slower service without warning.,2,2026-08-23,Website feedback,Delivery,Web,Marketplace member
+MKT-060,Opening my order history freezes the whole app and sometimes crashes it.,1,2026-09-09,Customer survey,Performance,iOS,First-time
+MKT-053,The app signed me out and now the login step won't accept the same credentials used on the site.,1,2026-09-26,Support ticket,Account,Android,Returning
+MKT-040,The marketplace kept moving the refund date and now the estimate is gone.,1,2026-08-18,App review,Returns,Web,Marketplace member
+MKT-073,"The agent sorted it out eventually, but I had to explain the whole situation twice.",3,2026-09-04,App review,Support,iOS,First-time
+MKT-027,Two consecutive orders missed the estimated delivery date and neither tracking link explained why.,1,2026-09-21,Website feedback,Delivery,Android,Returning
+MKT-002,Apple Pay returned me to checkout with a payment failed message. I can't tell whether the order was created.,2,2026-08-13,Customer survey,Checkout,Web,Marketplace member
+MKT-025,The app still quotes Monday delivery even though Monday passed and the order hasn't shipped.,1,2026-08-30,Support ticket,Delivery,iOS,First-time
+MKT-018,"Checkout marked my order as payment failed, then sent a payment receipt for the same amount.",1,2026-09-16,Support ticket,Checkout,Android,Returning
+MKT-016,I can't finish checkout at all. The final payment confirmation says something went wrong each time.,1,2026-08-08,App review,Checkout,Web,Marketplace member
+MKT-100,I accidentally sent my delivery confirmation to my work printer.,3,2026-08-25,Website feedback,Marketplace,iOS,First-time
+MKT-057,The marketplace won't let me sign in without a code sent to an old phone number.,1,2026-09-11,Customer survey,Account,Android,Returning
+MKT-075,Chat said my case was escalated but I haven't heard back in a week.,1,2026-08-03,Customer survey,Support,Web,Marketplace member
+MKT-085,A side-by-side product comparison would help when I'm choosing between similar listings.,4,2026-08-20,Support ticket,Shopping tools,iOS,First-time
+MKT-052,After changing my email I get stuck in a loop between login and account verification.,2,2026-09-06,App review,Account,Android,Returning
+MKT-009,"The payment went through on a second card, but I still see an authorization on my first card.",3,2026-09-23,Website feedback,Checkout,Web,Marketplace member
+MKT-058,The app closes whenever I tap Sign in with Google. The browser login works.,2,2026-08-15,Website feedback,Account,iOS,First-time
+MKT-039,I mailed both items back and got only one refund. The second has been pending for days.,2,2026-09-01,Customer survey,Returns,Android,Returning
+MKT-045,I can see the pending refund in the app. I wish it showed a realistic completion date.,3,2026-09-18,Support ticket,Returns,Web,Marketplace member
+MKT-093,Support replaced a damaged item in one conversation and followed up the next day.,5,2026-08-10,App review,Shopping experience,iOS,First-time
+MKT-070,Live chat transferred me between three agents and none of them could answer my question.,2,2026-08-27,App review,Support,Android,Returning
+MKT-096,I liked the useful size guide. The jacket fit without an exchange.,4,2026-09-13,Website feedback,Shopping experience,Web,Marketplace member
+MKT-062,"The checkout works, but switching tabs in the app feels sluggish.",3,2026-08-05,Customer survey,Performance,iOS,First-time
+MKT-007,My payment was taken but checkout gave me no order number. I can't find a receipt anywhere.,1,2026-08-22,Support ticket,Checkout,Android,Returning
+MKT-050,The password reset link says it has expired seconds after the email arrives.,2,2026-09-08,Support ticket,Account,Web,Marketplace member
+MKT-055,"I could sign in on my laptop, but account login still loops on my phone.",3,2026-09-25,App review,Account,iOS,First-time
+MKT-042,I have proof of return delivery and support still can't tell me when the refund will be issued.,2,2026-08-17,Website feedback,Returns,Android,Returning
+MKT-089,The seller packed everything carefully and the parcel arrived in perfect condition.,5,2026-09-03,Customer survey,Shopping experience,Web,Marketplace member
+MKT-004,"PayPal says the payment went through, but the marketplace says the order is unpaid.",2,2026-09-20,Customer survey,Checkout,iOS,First-time
+MKT-006,I entered the one-time payment code and got a blank checkout screen instead of confirmation.,2,2026-08-12,Support ticket,Checkout,Android,Returning
+MKT-098,My invoice spells the product colour differently from the listing.,3,2026-08-29,App review,Marketplace,Web,Marketplace member
+MKT-090,Changing my delivery address before dispatch was simple and the confirmation came through right away.,5,2026-09-15,Website feedback,Shopping experience,iOS,First-time
+MKT-022,The package was supposed to arrive before a birthday and missed the delivery window entirely.,1,2026-08-07,Website feedback,Delivery,Android,Returning
+MKT-082,Sorting by lowest price puts bundles and sponsored results ahead of cheaper standalone items.,2,2026-08-24,Customer survey,Discovery,Web,Marketplace member
+MKT-097,One seller switched the packaging from paper to a reusable drawstring bag.,3,2026-09-10,Support ticket,Marketplace,iOS,First-time
+MKT-021,The delivery estimate has shifted every morning and I still don't have the parcel.,2,2026-09-27,App review,Delivery,Android,Returning
+MKT-064,Since the last update the app hangs on the loading screen whenever I switch back to it.,2,2026-08-19,App review,Performance,Web,Marketplace member
+MKT-069,Support took four days to reply and asked me to send the order information again.,2,2026-09-05,Website feedback,Support,iOS,First-time
+MKT-088,Please add a way to combine separate seller orders into one pickup slot.,4,2026-09-22,Customer survey,Shopping tools,Android,Returning
+MKT-068,My support ticket was marked resolved without an answer to the original issue.,1,2026-08-14,Support ticket,Support,Web,Marketplace member
+MKT-099,The bundle came with a sticker sheet I wasn't expecting.,4,2026-08-31,Support ticket,Marketplace,iOS,First-time
+MKT-066,I can't get the order history to load without force-closing and reopening the app.,1,2026-09-17,App review,Performance,Android,Returning
+MKT-092,The app remembered my basket between my phone and laptop which made checkout easy.,5,2026-08-09,Website feedback,Shopping experience,Web,Marketplace member
+MKT-047,A second refund request was closed as a duplicate even though the first one has never paid out.,1,2026-08-26,Customer survey,Returns,iOS,First-time
+MKT-080,Search ignores my size filter and shows a page full of sold-out options.,1,2026-09-12,Customer survey,Discovery,Android,Returning
+MKT-024,My order eventually arrived three days late. The product itself was fine.,3,2026-08-04,Support ticket,Delivery,Web,Marketplace member
+MKT-087,I would use a dark theme when browsing at night.,3,2026-08-21,App review,Shopping tools,iOS,First-time
+MKT-019,The delivery is a week overdue and tracking hasn't moved past the seller's warehouse.,1,2026-09-07,Website feedback,Delivery,Android,Returning
+MKT-076,Search results include accessories when I enter an exact model number for the product itself.,2,2026-09-24,Website feedback,Discovery,Web,Marketplace member
+MKT-041,"The refund arrived eventually, but it took much longer than the return policy said.",3,2026-08-16,Customer survey,Returns,iOS,First-time
+MKT-008,The checkout payment keeps failing after I change the billing address.,2,2026-09-02,Support ticket,Checkout,Android,Returning
+MKT-083,Please add a price-drop alert for products saved on my wishlist.,3,2026-09-19,App review,Shopping tools,Web,Marketplace member
+MKT-044,I returned an order paid partly with a voucher. The cash refund arrived but the voucher balance stayed empty.,2,2026-08-11,App review,Returns,iOS,First-time
+MKT-033,"One item arrived on time, but the other half of the order is still out for delivery.",3,2026-08-28,Website feedback,Delivery,Android,Returning
+MKT-038,The refund tracker says complete. My bank statement still doesn't show the money.,2,2026-09-14,Customer survey,Returns,Web,Marketplace member
+MKT-065,"The shopping basket opens after a long delay, even with only one item.",2,2026-08-06,Support ticket,Performance,iOS,First-time

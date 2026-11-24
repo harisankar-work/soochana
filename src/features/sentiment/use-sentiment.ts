@@ -58,7 +58,7 @@ export function useSentiment() {
     setAnalysis((previous) => ({ ...previous, phase: "cancelled", progress: undefined }));
   }
 
-  function start(records: FeedbackRecord[], count: number) {
+  function start(records: FeedbackRecord[], count: number, onSettled?: () => void) {
     if (active.current || !Number.isInteger(count) || count < 1 || count > Math.min(records.length, MAX_ANALYSIS_COUNT)) return;
     const run = ++sequence.current;
     active.current = true;
@@ -70,6 +70,7 @@ export function useSentiment() {
       if (sequence.current !== run || !active.current) return;
       stopWorker();
       setAnalysis((previous) => ({ ...previous, phase: "error", message }));
+      onSettled?.();
     }
 
     try {
@@ -105,6 +106,7 @@ export function useSentiment() {
                 message: failed ? "Some predictions failed. Available results are shown below. Try a smaller batch or retry." : undefined,
               };
             });
+            onSettled?.();
             break;
           }
           case "error":
@@ -118,6 +120,11 @@ export function useSentiment() {
     }
   }
 
+  function seed(predictions: Prediction[]) {
+    stopWorker();
+    setAnalysis({ ...idle, phase: "complete", selected: predictions.length, predictions });
+  }
+
   const busy = ["preparing", "download", "initialize", "analyse"].includes(analysis.phase);
-  return { analysis, busy, start, cancel, reset, releaseIdleWorker };
+  return { analysis, busy, start, seed, cancel, reset, releaseIdleWorker };
 }

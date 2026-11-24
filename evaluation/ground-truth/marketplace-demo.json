@@ -1,0 +1,874 @@
+{
+  "provenance": "Author-assigned synthetic labels frozen before inference. No independent human adjudication.",
+  "count": 100,
+  "averageRating": 2.18,
+  "sources": {
+    "App review": 25,
+    "Website feedback": 25,
+    "Customer survey": 25,
+    "Support ticket": 25
+  },
+  "dates": {
+    "2026-08-03": 2,
+    "2026-08-04": 2,
+    "2026-08-05": 2,
+    "2026-08-06": 2,
+    "2026-08-07": 2,
+    "2026-08-08": 1,
+    "2026-08-09": 2,
+    "2026-08-10": 2,
+    "2026-08-11": 2,
+    "2026-08-12": 2,
+    "2026-08-13": 1,
+    "2026-08-14": 2,
+    "2026-08-15": 2,
+    "2026-08-16": 2,
+    "2026-08-17": 2,
+    "2026-08-18": 1,
+    "2026-08-19": 2,
+    "2026-08-20": 2,
+    "2026-08-21": 2,
+    "2026-08-22": 2,
+    "2026-08-23": 1,
+    "2026-08-24": 2,
+    "2026-08-25": 1,
+    "2026-08-26": 2,
+    "2026-08-27": 2,
+    "2026-08-28": 2,
+    "2026-08-29": 2,
+    "2026-08-30": 1,
+    "2026-08-31": 2,
+    "2026-09-01": 2,
+    "2026-09-02": 2,
+    "2026-09-03": 2,
+    "2026-09-04": 1,
+    "2026-09-05": 2,
+    "2026-09-06": 2,
+    "2026-09-07": 2,
+    "2026-09-08": 2,
+    "2026-09-09": 1,
+    "2026-09-10": 2,
+    "2026-09-11": 1,
+    "2026-09-12": 2,
+    "2026-09-13": 2,
+    "2026-09-14": 2,
+    "2026-09-15": 2,
+    "2026-09-16": 1,
+    "2026-09-17": 2,
+    "2026-09-18": 2,
+    "2026-09-19": 2,
+    "2026-09-20": 2,
+    "2026-09-21": 1,
+    "2026-09-22": 2,
+    "2026-09-23": 2,
+    "2026-09-24": 2,
+    "2026-09-25": 2,
+    "2026-09-26": 1,
+    "2026-09-27": 2
+  },
+  "productAreas": {
+    "Account": 10,
+    "Delivery": 16,
+    "Performance": 9,
+    "Support": 8,
+    "Checkout": 18,
+    "Returns": 14,
+    "Shopping tools": 6,
+    "Discovery": 7,
+    "Shopping experience": 8,
+    "Marketplace": 4
+  },
+  "topics": {
+    "Login and authentication problems": [
+      "MKT-054",
+      "MKT-051",
+      "MKT-049",
+      "MKT-056",
+      "MKT-053",
+      "MKT-057",
+      "MKT-052",
+      "MKT-058",
+      "MKT-050",
+      "MKT-055"
+    ],
+    "Delayed deliveries": [
+      "MKT-032",
+      "MKT-030",
+      "MKT-029",
+      "MKT-023",
+      "MKT-034",
+      "MKT-031",
+      "MKT-028",
+      "MKT-020",
+      "MKT-026",
+      "MKT-027",
+      "MKT-025",
+      "MKT-022",
+      "MKT-021",
+      "MKT-024",
+      "MKT-019",
+      "MKT-033"
+    ],
+    "Application performance": [
+      "MKT-059",
+      "MKT-061",
+      "MKT-063",
+      "MKT-067",
+      "MKT-060",
+      "MKT-062",
+      "MKT-064",
+      "MKT-066",
+      "MKT-065"
+    ],
+    "Customer support problems": [
+      "MKT-074",
+      "MKT-072",
+      "MKT-071",
+      "MKT-073",
+      "MKT-075",
+      "MKT-070",
+      "MKT-069",
+      "MKT-068"
+    ],
+    "Payment failures": [
+      "MKT-003",
+      "MKT-015",
+      "MKT-014",
+      "MKT-013",
+      "MKT-017",
+      "MKT-012",
+      "MKT-001",
+      "MKT-010",
+      "MKT-011",
+      "MKT-005",
+      "MKT-002",
+      "MKT-018",
+      "MKT-016",
+      "MKT-009",
+      "MKT-007",
+      "MKT-004",
+      "MKT-006",
+      "MKT-008"
+    ],
+    "Refund delays": [
+      "MKT-036",
+      "MKT-048",
+      "MKT-035",
+      "MKT-037",
+      "MKT-046",
+      "MKT-043",
+      "MKT-040",
+      "MKT-039",
+      "MKT-045",
+      "MKT-042",
+      "MKT-047",
+      "MKT-041",
+      "MKT-044",
+      "MKT-038"
+    ],
+    "Feature requests": [
+      "MKT-084",
+      "MKT-086",
+      "MKT-085",
+      "MKT-088",
+      "MKT-087",
+      "MKT-083"
+    ],
+    "Search and product discovery": [
+      "MKT-081",
+      "MKT-077",
+      "MKT-079",
+      "MKT-078",
+      "MKT-082",
+      "MKT-080",
+      "MKT-076"
+    ],
+    "Positive customer experiences": [
+      "MKT-094",
+      "MKT-095",
+      "MKT-091",
+      "MKT-093",
+      "MKT-096",
+      "MKT-089",
+      "MKT-090",
+      "MKT-092"
+    ],
+    "Unique or unrelated feedback": [
+      "MKT-100",
+      "MKT-098",
+      "MKT-097",
+      "MKT-099"
+    ]
+  },
+  "rows": [
+    {
+      "feedback_id": "MKT-054",
+      "topic": "Login and authentication problems",
+      "sentiment": "Negative",
+      "originalRow": 2
+    },
+    {
+      "feedback_id": "MKT-032",
+      "topic": "Delayed deliveries",
+      "sentiment": "Negative",
+      "originalRow": 3
+    },
+    {
+      "feedback_id": "MKT-059",
+      "topic": "Application performance",
+      "sentiment": "Negative",
+      "originalRow": 4
+    },
+    {
+      "feedback_id": "MKT-030",
+      "topic": "Delayed deliveries",
+      "sentiment": "Negative",
+      "originalRow": 5
+    },
+    {
+      "feedback_id": "MKT-074",
+      "topic": "Customer support problems",
+      "sentiment": "Negative",
+      "originalRow": 6
+    },
+    {
+      "feedback_id": "MKT-061",
+      "topic": "Application performance",
+      "sentiment": "Negative",
+      "originalRow": 7
+    },
+    {
+      "feedback_id": "MKT-029",
+      "topic": "Delayed deliveries",
+      "sentiment": "Neutral",
+      "originalRow": 8
+    },
+    {
+      "feedback_id": "MKT-003",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 9
+    },
+    {
+      "feedback_id": "MKT-036",
+      "topic": "Refund delays",
+      "sentiment": "Negative",
+      "originalRow": 10
+    },
+    {
+      "feedback_id": "MKT-048",
+      "topic": "Refund delays",
+      "sentiment": "Negative",
+      "originalRow": 11
+    },
+    {
+      "feedback_id": "MKT-084",
+      "topic": "Feature requests",
+      "sentiment": "Neutral",
+      "originalRow": 12
+    },
+    {
+      "feedback_id": "MKT-081",
+      "topic": "Search and product discovery",
+      "sentiment": "Neutral",
+      "originalRow": 13
+    },
+    {
+      "feedback_id": "MKT-015",
+      "topic": "Payment failures",
+      "sentiment": "Neutral",
+      "originalRow": 14
+    },
+    {
+      "feedback_id": "MKT-063",
+      "topic": "Application performance",
+      "sentiment": "Negative",
+      "originalRow": 15
+    },
+    {
+      "feedback_id": "MKT-023",
+      "topic": "Delayed deliveries",
+      "sentiment": "Negative",
+      "originalRow": 16
+    },
+    {
+      "feedback_id": "MKT-014",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 17
+    },
+    {
+      "feedback_id": "MKT-035",
+      "topic": "Refund delays",
+      "sentiment": "Negative",
+      "originalRow": 18
+    },
+    {
+      "feedback_id": "MKT-013",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 19
+    },
+    {
+      "feedback_id": "MKT-072",
+      "topic": "Customer support problems",
+      "sentiment": "Negative",
+      "originalRow": 20
+    },
+    {
+      "feedback_id": "MKT-017",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 21
+    },
+    {
+      "feedback_id": "MKT-094",
+      "topic": "Positive customer experiences",
+      "sentiment": "Positive",
+      "originalRow": 22
+    },
+    {
+      "feedback_id": "MKT-037",
+      "topic": "Refund delays",
+      "sentiment": "Negative",
+      "originalRow": 23
+    },
+    {
+      "feedback_id": "MKT-086",
+      "topic": "Feature requests",
+      "sentiment": "Neutral",
+      "originalRow": 24
+    },
+    {
+      "feedback_id": "MKT-012",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 25
+    },
+    {
+      "feedback_id": "MKT-046",
+      "topic": "Refund delays",
+      "sentiment": "Negative",
+      "originalRow": 26
+    },
+    {
+      "feedback_id": "MKT-001",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 27
+    },
+    {
+      "feedback_id": "MKT-034",
+      "topic": "Delayed deliveries",
+      "sentiment": "Negative",
+      "originalRow": 28
+    },
+    {
+      "feedback_id": "MKT-031",
+      "topic": "Delayed deliveries",
+      "sentiment": "Negative",
+      "originalRow": 29
+    },
+    {
+      "feedback_id": "MKT-051",
+      "topic": "Login and authentication problems",
+      "sentiment": "Negative",
+      "originalRow": 30
+    },
+    {
+      "feedback_id": "MKT-043",
+      "topic": "Refund delays",
+      "sentiment": "Negative",
+      "originalRow": 31
+    },
+    {
+      "feedback_id": "MKT-071",
+      "topic": "Customer support problems",
+      "sentiment": "Negative",
+      "originalRow": 32
+    },
+    {
+      "feedback_id": "MKT-077",
+      "topic": "Search and product discovery",
+      "sentiment": "Negative",
+      "originalRow": 33
+    },
+    {
+      "feedback_id": "MKT-079",
+      "topic": "Search and product discovery",
+      "sentiment": "Negative",
+      "originalRow": 34
+    },
+    {
+      "feedback_id": "MKT-095",
+      "topic": "Positive customer experiences",
+      "sentiment": "Positive",
+      "originalRow": 35
+    },
+    {
+      "feedback_id": "MKT-028",
+      "topic": "Delayed deliveries",
+      "sentiment": "Negative",
+      "originalRow": 36
+    },
+    {
+      "feedback_id": "MKT-010",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 37
+    },
+    {
+      "feedback_id": "MKT-011",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 38
+    },
+    {
+      "feedback_id": "MKT-049",
+      "topic": "Login and authentication problems",
+      "sentiment": "Negative",
+      "originalRow": 39
+    },
+    {
+      "feedback_id": "MKT-091",
+      "topic": "Positive customer experiences",
+      "sentiment": "Positive",
+      "originalRow": 40
+    },
+    {
+      "feedback_id": "MKT-005",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 41
+    },
+    {
+      "feedback_id": "MKT-056",
+      "topic": "Login and authentication problems",
+      "sentiment": "Negative",
+      "originalRow": 42
+    },
+    {
+      "feedback_id": "MKT-067",
+      "topic": "Application performance",
+      "sentiment": "Neutral",
+      "originalRow": 43
+    },
+    {
+      "feedback_id": "MKT-078",
+      "topic": "Search and product discovery",
+      "sentiment": "Neutral",
+      "originalRow": 44
+    },
+    {
+      "feedback_id": "MKT-020",
+      "topic": "Delayed deliveries",
+      "sentiment": "Negative",
+      "originalRow": 45
+    },
+    {
+      "feedback_id": "MKT-026",
+      "topic": "Delayed deliveries",
+      "sentiment": "Negative",
+      "originalRow": 46
+    },
+    {
+      "feedback_id": "MKT-060",
+      "topic": "Application performance",
+      "sentiment": "Negative",
+      "originalRow": 47
+    },
+    {
+      "feedback_id": "MKT-053",
+      "topic": "Login and authentication problems",
+      "sentiment": "Negative",
+      "originalRow": 48
+    },
+    {
+      "feedback_id": "MKT-040",
+      "topic": "Refund delays",
+      "sentiment": "Negative",
+      "originalRow": 49
+    },
+    {
+      "feedback_id": "MKT-073",
+      "topic": "Customer support problems",
+      "sentiment": "Neutral",
+      "originalRow": 50
+    },
+    {
+      "feedback_id": "MKT-027",
+      "topic": "Delayed deliveries",
+      "sentiment": "Negative",
+      "originalRow": 51
+    },
+    {
+      "feedback_id": "MKT-002",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 52
+    },
+    {
+      "feedback_id": "MKT-025",
+      "topic": "Delayed deliveries",
+      "sentiment": "Negative",
+      "originalRow": 53
+    },
+    {
+      "feedback_id": "MKT-018",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 54
+    },
+    {
+      "feedback_id": "MKT-016",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 55
+    },
+    {
+      "feedback_id": "MKT-100",
+      "topic": "Unique or unrelated feedback",
+      "sentiment": "Neutral",
+      "originalRow": 56
+    },
+    {
+      "feedback_id": "MKT-057",
+      "topic": "Login and authentication problems",
+      "sentiment": "Negative",
+      "originalRow": 57
+    },
+    {
+      "feedback_id": "MKT-075",
+      "topic": "Customer support problems",
+      "sentiment": "Negative",
+      "originalRow": 58
+    },
+    {
+      "feedback_id": "MKT-085",
+      "topic": "Feature requests",
+      "sentiment": "Positive",
+      "originalRow": 59
+    },
+    {
+      "feedback_id": "MKT-052",
+      "topic": "Login and authentication problems",
+      "sentiment": "Negative",
+      "originalRow": 60
+    },
+    {
+      "feedback_id": "MKT-009",
+      "topic": "Payment failures",
+      "sentiment": "Neutral",
+      "originalRow": 61
+    },
+    {
+      "feedback_id": "MKT-058",
+      "topic": "Login and authentication problems",
+      "sentiment": "Negative",
+      "originalRow": 62
+    },
+    {
+      "feedback_id": "MKT-039",
+      "topic": "Refund delays",
+      "sentiment": "Negative",
+      "originalRow": 63
+    },
+    {
+      "feedback_id": "MKT-045",
+      "topic": "Refund delays",
+      "sentiment": "Neutral",
+      "originalRow": 64
+    },
+    {
+      "feedback_id": "MKT-093",
+      "topic": "Positive customer experiences",
+      "sentiment": "Positive",
+      "originalRow": 65
+    },
+    {
+      "feedback_id": "MKT-070",
+      "topic": "Customer support problems",
+      "sentiment": "Negative",
+      "originalRow": 66
+    },
+    {
+      "feedback_id": "MKT-096",
+      "topic": "Positive customer experiences",
+      "sentiment": "Positive",
+      "originalRow": 67
+    },
+    {
+      "feedback_id": "MKT-062",
+      "topic": "Application performance",
+      "sentiment": "Neutral",
+      "originalRow": 68
+    },
+    {
+      "feedback_id": "MKT-007",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 69
+    },
+    {
+      "feedback_id": "MKT-050",
+      "topic": "Login and authentication problems",
+      "sentiment": "Negative",
+      "originalRow": 70
+    },
+    {
+      "feedback_id": "MKT-055",
+      "topic": "Login and authentication problems",
+      "sentiment": "Neutral",
+      "originalRow": 71
+    },
+    {
+      "feedback_id": "MKT-042",
+      "topic": "Refund delays",
+      "sentiment": "Negative",
+      "originalRow": 72
+    },
+    {
+      "feedback_id": "MKT-089",
+      "topic": "Positive customer experiences",
+      "sentiment": "Positive",
+      "originalRow": 73
+    },
+    {
+      "feedback_id": "MKT-004",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 74
+    },
+    {
+      "feedback_id": "MKT-006",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 75
+    },
+    {
+      "feedback_id": "MKT-098",
+      "topic": "Unique or unrelated feedback",
+      "sentiment": "Neutral",
+      "originalRow": 76
+    },
+    {
+      "feedback_id": "MKT-090",
+      "topic": "Positive customer experiences",
+      "sentiment": "Positive",
+      "originalRow": 77
+    },
+    {
+      "feedback_id": "MKT-022",
+      "topic": "Delayed deliveries",
+      "sentiment": "Negative",
+      "originalRow": 78
+    },
+    {
+      "feedback_id": "MKT-082",
+      "topic": "Search and product discovery",
+      "sentiment": "Negative",
+      "originalRow": 79
+    },
+    {
+      "feedback_id": "MKT-097",
+      "topic": "Unique or unrelated feedback",
+      "sentiment": "Neutral",
+      "originalRow": 80
+    },
+    {
+      "feedback_id": "MKT-021",
+      "topic": "Delayed deliveries",
+      "sentiment": "Negative",
+      "originalRow": 81
+    },
+    {
+      "feedback_id": "MKT-064",
+      "topic": "Application performance",
+      "sentiment": "Negative",
+      "originalRow": 82
+    },
+    {
+      "feedback_id": "MKT-069",
+      "topic": "Customer support problems",
+      "sentiment": "Negative",
+      "originalRow": 83
+    },
+    {
+      "feedback_id": "MKT-088",
+      "topic": "Feature requests",
+      "sentiment": "Positive",
+      "originalRow": 84
+    },
+    {
+      "feedback_id": "MKT-068",
+      "topic": "Customer support problems",
+      "sentiment": "Negative",
+      "originalRow": 85
+    },
+    {
+      "feedback_id": "MKT-099",
+      "topic": "Unique or unrelated feedback",
+      "sentiment": "Positive",
+      "originalRow": 86
+    },
+    {
+      "feedback_id": "MKT-066",
+      "topic": "Application performance",
+      "sentiment": "Negative",
+      "originalRow": 87
+    },
+    {
+      "feedback_id": "MKT-092",
+      "topic": "Positive customer experiences",
+      "sentiment": "Positive",
+      "originalRow": 88
+    },
+    {
+      "feedback_id": "MKT-047",
+      "topic": "Refund delays",
+      "sentiment": "Negative",
+      "originalRow": 89
+    },
+    {
+      "feedback_id": "MKT-080",
+      "topic": "Search and product discovery",
+      "sentiment": "Negative",
+      "originalRow": 90
+    },
+    {
+      "feedback_id": "MKT-024",
+      "topic": "Delayed deliveries",
+      "sentiment": "Neutral",
+      "originalRow": 91
+    },
+    {
+      "feedback_id": "MKT-087",
+      "topic": "Feature requests",
+      "sentiment": "Neutral",
+      "originalRow": 92
+    },
+    {
+      "feedback_id": "MKT-019",
+      "topic": "Delayed deliveries",
+      "sentiment": "Negative",
+      "originalRow": 93
+    },
+    {
+      "feedback_id": "MKT-076",
+      "topic": "Search and product discovery",
+      "sentiment": "Negative",
+      "originalRow": 94
+    },
+    {
+      "feedback_id": "MKT-041",
+      "topic": "Refund delays",
+      "sentiment": "Neutral",
+      "originalRow": 95
+    },
+    {
+      "feedback_id": "MKT-008",
+      "topic": "Payment failures",
+      "sentiment": "Negative",
+      "originalRow": 96
+    },
+    {
+      "feedback_id": "MKT-083",
+      "topic": "Feature requests",
+      "sentiment": "Neutral",
+      "originalRow": 97
+    },
+    {
+      "feedback_id": "MKT-044",
+      "topic": "Refund delays",
+      "sentiment": "Negative",
+      "originalRow": 98
+    },
+    {
+      "feedback_id": "MKT-033",
+      "topic": "Delayed deliveries",
+      "sentiment": "Neutral",
+      "originalRow": 99
+    },
+    {
+      "feedback_id": "MKT-038",
+      "topic": "Refund delays",
+      "sentiment": "Negative",
+      "originalRow": 100
+    },
+    {
+      "feedback_id": "MKT-065",
+      "topic": "Application performance",
+      "sentiment": "Negative",
+      "originalRow": 101
+    }
+  ],
+  "illustrativeAssessments": [
+    {
+      "anchor": "MKT-001",
+      "title": "Card payments fail during checkout",
+      "description": "Investigate payment confirmation and recovery after failed card payments.",
+      "severity": 5,
+      "impact": 5,
+      "confidence": 4,
+      "reviewed": true,
+      "priority": "High",
+      "illustrativeScoreWithAllThemeEvidence": 93.25
+    },
+    {
+      "anchor": "MKT-019",
+      "title": "Deliveries miss their promised date",
+      "description": "Investigate late deliveries and the visibility of changes to delivery estimates.",
+      "severity": 4,
+      "impact": 4,
+      "confidence": 4,
+      "reviewed": true,
+      "priority": "High",
+      "illustrativeScoreWithAllThemeEvidence": 76.5
+    },
+    {
+      "anchor": "MKT-035",
+      "title": "Approved refunds take too long",
+      "description": "Investigate where approved returns and cancellations stall in refund processing.",
+      "severity": 4,
+      "impact": 5,
+      "confidence": 4,
+      "reviewed": false,
+      "priority": "High",
+      "illustrativeScoreWithAllThemeEvidence": 79.75
+    },
+    {
+      "anchor": "MKT-049",
+      "title": "Account verification blocks sign-in",
+      "description": "Trace delivery and expiry of login codes and recovery links.",
+      "severity": 4,
+      "impact": 4,
+      "confidence": 3,
+      "reviewed": false,
+      "priority": "Medium",
+      "illustrativeScoreWithAllThemeEvidence": 63.75
+    },
+    {
+      "anchor": "MKT-059",
+      "title": "The app hangs or loads slowly",
+      "description": "Measure app responsiveness when opening product and order views.",
+      "severity": 3,
+      "impact": 4,
+      "confidence": 3,
+      "reviewed": false,
+      "priority": "Medium",
+      "illustrativeScoreWithAllThemeEvidence": 54.75
+    },
+    {
+      "anchor": "MKT-068",
+      "title": "Support follow-up is slow or incomplete",
+      "description": "Review closed requests and handoffs between agents.",
+      "severity": 3,
+      "impact": 3,
+      "confidence": 3,
+      "reviewed": false,
+      "priority": "Medium",
+      "illustrativeScoreWithAllThemeEvidence": 47.0
+    }
+  ],
+  "csvSha256": "f2fec085bcb82f07fe45173dd864db62909a4e3636ce1fd5b62a017308b4617e"
+}

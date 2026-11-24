@@ -3,6 +3,7 @@ import type { ReactNode } from "react";
 import "@fontsource-variable/manrope";
 import "@fontsource-variable/newsreader";
 import { AppShell } from "@/components/layout/app-shell";
+import { DemoStatus } from "@/features/demo/demo-controls";
 import { FeedbackSession } from "@/features/feedback/session";
 import "./globals.css";
 
@@ -20,7 +21,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
-      <body><FeedbackSession><AppShell>{children}</AppShell></FeedbackSession></body>
+      <body><FeedbackSession><AppShell><DemoStatus />{children}</AppShell></FeedbackSession></body>
     </html>
   );
 }

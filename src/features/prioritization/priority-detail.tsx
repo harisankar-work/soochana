@@ -55,6 +55,7 @@ export function PriorityDetail({ entry, grouping, imported, scored, weights, edi
     <ReviewTable rows={observed.evidence} page={page} onPage={setPage} />
     {needsReassessment(candidate) && <p role="status">Evidence changed. Reassess the issue and save your judgments to restore its score.</p>}
     <h3>Human assessments</h3>
+    {candidate.illustrative && <p className="import-note">These are illustrative demo assessments and review decisions.</p>}
     <p>Severity {candidate.severity ?? "unassessed"} · Business impact {candidate.impact ?? "unassessed"} · Evidence confidence {candidate.confidence ?? "unassessed"}</p>
     {candidate.notes && <p className="priority-text"><strong>Reviewer rationale</strong> · {candidate.notes}</p>}
     <p>Urgency {candidate.urgency ?? "unassessed"} · Effort {candidate.effort ?? "unassessed"}</p>

@@ -30,6 +30,7 @@ export type Candidate = {
   updatedAt?: number;
   evidenceVersion?: number;
   assessedVersion?: number;
+  illustrative?: boolean;
 
 };
 

@@ -8,12 +8,12 @@ Soochana means a clue, indication, or signal. Earlier milestone reports use the 
 
 ## Portfolio demo
 
-Start Soochana locally, select **Try Demo Dataset**, and confirm the import of 96 synthetic shop reviews. Explore feedback by source and date, and inspect category and rating in the original reviews. Run browser-based sentiment and semantic grouping when model downloads are available, then rank a manual or discovered issue using review evidence and your own assessments.
+Select **Explore completed demo** to open a 100-review synthetic marketplace workspace with precomputed sentiment and embeddings from the pinned models. Review and edit issues, inspect calculated scores with illustrative assessments, and export evidence or prepare a Jira draft. Choose **Run live analysis** to rerun both models in the browser.
 
-![Soochana dashboard populated from the synthetic demo CSV](docs/demo/screenshots/dashboard-demo.png)
+![Prepared Soochana dashboard](docs/demo/screenshots/marketplace/dashboard-1440.png)
 
-- [Step-by-step demo](docs/demo/walkthrough.md) · [Empty dashboard](docs/demo/screenshots/dashboard-empty.png) · [Synthetic CSV](public/demo/soochana-demo.csv) · [Vercel release plan and checklist](docs/demo/release-checklist.md)
-- [Milestone 7 QA and evaluation](docs/qa/milestone-7-report.md)
+- [Demo walkthrough](docs/demo/walkthrough.md) · [Synthetic CSV](public/demo/soochana-demo.csv) · [Demo evaluation](evaluation/reports/milestone-11-marketplace-demo.md)
+- [Milestone 7 QA](docs/qa/milestone-7-report.md) · [Vercel release checklist](docs/demo/release-checklist.md)
 
 Use Node.js 24 and run:
 
@@ -240,7 +240,7 @@ Use **Send to Prioritization** to open the existing issue, then create a local J
 - [Grouping evaluation](evaluation/reports/milestone-11-grouping.md)
 - [Functional audit](docs/qa/milestone-11-workflow.md)
 
-Run `npm run qa:product` against a local production build using `SOOCHANA_URL` and `SOOCHANA_CHROMIUM`. It exercises the demo, editing operations, scoring, exports, isolation, and 25/50/96/100-review workloads. Use a Chromium certificate store that validates HTTPS for the actual model hosts.
+Run `npm run qa:marketplace` and `npm run qa:product` against a local production build using `SOOCHANA_URL` and `SOOCHANA_CHROMIUM`. The first compares the prepared demo with real live inference and exercises reset. The second covers editing, scoring, exports, isolation, and 25/50/100-review workloads. Use a Chromium certificate store that validates HTTPS for the actual model hosts.
 
 ## Local setup
 

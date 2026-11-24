@@ -154,7 +154,7 @@ export function IssueManagement() {
     <ul className="priority-picker">
       {rows.slice((activePage - 1) * pageSize, activePage * pageSize).map((record) => <li key={record.id}>
         <input type="checkbox" aria-label={`Select CSV row ${record.originalRow}`} checked={selected.includes(record.id)} onChange={() => toggle(selected, record.id, setSelected)} />
-        <div><p className="import-note">CSV row {record.originalRow} · {record.source ?? "No source"} · {record.date ?? "No date"} · {record.category ?? "No category"} · {record.rating ?? "No rating"}</p>
+        <div><p className="import-note">CSV row {record.originalRow} · {record.source ?? "No source"} · {record.date ?? "No date"} · {record.category ?? "No category"} · {record.rating ?? "No rating"}{record.marketplace && ` · ${record.marketplace.feedbackId} · ${record.marketplace.platform} · ${record.marketplace.segment}`}</p>
           <CellText text={record.text} originalText={record.originalText} />
         </div>
       </li>)}
