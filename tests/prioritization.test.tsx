@@ -119,9 +119,9 @@ it("curates, validates, scores, edits and confirms removal of an issue without l
   expect(screen.getByRole("link", { name: "Go to Feedback Analysis" })).toHaveAttribute("href", "/feedback");
   click("Load dataset");
   click("Add Manual Issue");
-  change("Issue title", "Checkout");
   click("Save issue");
-  expect(screen.getByRole("alert")).toHaveTextContent("Select at least one");
+  expect(screen.getByRole("alert")).toHaveTextContent("Enter an issue title");
+  change("Issue title", "Checkout");
   change("Search imported reviews", "Checkout");
   expect(screen.queryByRole("checkbox", { name: "Include CSV row 3" })).toBeNull();
   fireEvent.click(screen.getByRole("checkbox", { name: "Include CSV row 2" }));
@@ -148,6 +148,11 @@ it("curates, validates, scores, edits and confirms removal of an issue without l
   click("Edit issue and assessments");
   fireEvent.click(screen.getByRole("checkbox", { name: "Include CSV row 3" }));
   click("Save issue");
+  expect(screen.getByText(/Evidence changed. Reassess/)).toBeVisible();
+  expect(screen.queryByRole("table", { name: "Scored issues" })).toBeNull();
+  click("Edit issue and assessments");
+  fireEvent.click(screen.getByRole("checkbox", { name: "Confirm assessments for the updated evidence" }));
+  click("Save issue");
   expect(screen.getByRole("table", { name: "Scored issues" })).toHaveTextContent("45.25");
   click("Remove issue");
   click("Keep issue");
@@ -170,9 +175,8 @@ it("shows real references from worker results, retains stale evidence, reconcile
     for (const id of ["a", "b"]) worker.onmessage?.({ data: { run, type: "result", id, vector } } as MessageEvent<Event>);
     worker.onmessage?.({ data: { run, type: "done" } } as MessageEvent<Event>);
   });
-  click("Add Discovered Group");
-  change("Current group", JSON.stringify(["a", "b"]));
-  click("Review selected group");
+  fireEvent.click(within(screen.getByRole("table", { name: "Unscored issues" })).getByRole("button", { name: /^View / }));
+  click("Edit issue and assessments");
   expect(screen.getByText(/CSV row 2 · App/)).toBeVisible();
   click("Save issue");
   expect(screen.getByText(/Cutoff 0.75 · 2 of 3 imported/)).toBeVisible();

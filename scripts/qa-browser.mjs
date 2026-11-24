@@ -1,3 +1,4 @@
+import { manualDiscovery } from "./manual-discovery.mjs";
 import assert from "node:assert/strict";
 import { mkdtemp, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
@@ -21,7 +22,10 @@ function controls(page) {
   async function importCsv(csv, count, replacement = false) {
     await select(csv);
     for (const label of ["Review quality", "Preview accepted records", "Continue to confirmation",
-      `${replacement ? "Replace dataset and import" : "Import"} ${count} feedback ${count === 1 ? "record" : "records"}`]) await button(label).click();
+      `${replacement ? "Replace dataset and import" : "Import"} ${count} feedback ${count === 1 ? "record" : "records"}`]) {
+        if (label.startsWith("Import ") || label.startsWith("Replace dataset and import ")) await manualDiscovery(page);
+        await button(label).click();
+      }
   }
   return { button, nav, text, select, importCsv };
 }
@@ -106,6 +110,7 @@ async function benchmark() {
       await text(`0 matching · ${count} accepted records`);
       const searchMs = performance.now() - search;
       await button("Continue to confirmation").click();
+    await manualDiscovery(page);
       await button(`Import ${count} feedback records`).click();
       const dashboard = performance.now();
       await nav("Dashboard");

@@ -1,12 +1,14 @@
 # Soochana portfolio walkthrough
 
+For the connected issue editing and export workflow, use the [Milestone 11 walkthrough](milestone-11-workflow.md). The steps below reproduce the portfolio scoring example. Open reviews through the issue workspace if they already belong to a suggestion.
+
 You are reviewing feedback for a fictional online shop. Find an issue worth investigating and show the reviews that support it. The demo contains 96 synthetic reviews across four channels and eight categories, with dates and ratings for filtering. The same [demo CSV](../../public/demo/soochana-demo.csv) can be downloaded and imported manually.
 
 ## 1. Import and validate
 
 1. From **Dashboard**, choose **Try Demo Dataset** to open **Feedback Analysis**, then select **Try Demo Dataset** on the import panel.
 2. In **Map Columns**, verify that feedback text, date, source, rating, and category are mapped. Select **Review quality**. Expect 96 accepted rows with zero exclusions or warnings.
-3. Open **Preview accepted records** and search for `charged twice`. Clear the search, choose **Continue to confirmation**, and select **Import 96 feedback records**. The import replaces an existing session only after confirmation.
+3. Open **Preview accepted records** and search for `charged twice`. Clear the search, choose **Continue to confirmation**, uncheck **Automatically discover issues after import** for the manual example, and select **Import 96 feedback records**. The import replaces an existing session only after confirmation.
 
 ![Import quality report showing 96 accepted synthetic rows](screenshots/demo-quality.png)
 
@@ -14,7 +16,7 @@ You are reviewing feedback for a fictional online shop. Find an issue worth inve
 
 1. Open **Dashboard** and confirm that it contains 96 reviews. Set **Feedback source** to **App review** and inspect the 24 matching reviews. Reset filters to return to the full dataset.
 2. In **Feedback Analysis**, optionally select **Analyse Sentiment**. Then return to the dashboard and compare model coverage with the imported review count. Ratings and predicted sentiment are distinct fields.
-3. In **Issue Explorer**, optionally select **Discover Feedback Groups**. The default 0.75 complete-link run left all 96 reviews ungrouped in verification. Open **Advanced grouping settings**, select **Average-link (exploratory)**, and use the 0.45 cutoff to see candidate groups. Open **View evidence** to compare the original reviews. If the evidence is coherent, use **Add Discovered Group** in **Prioritization** to create a candidate from its snapshot.
+3. After the manual scoring example below, optionally return to **Issue Explorer** and select **Discover Feedback Groups**. The default 0.75 complete-link run left all 96 reviews without a suggested group in verification. Open **Advanced grouping settings**, select **Average-link (exploratory)**, and use the 0.45 cutoff to see candidate groups. Open **View evidence** to compare the original reviews. The suggestions already appear in Prioritization. Open a suggestion in **Manage issues** and select **Send to Prioritization** to focus it.
 
 ![Issue Explorer showing real MiniLM results at the exploratory cutoff](screenshots/issue-explorer-demo.png)
 

@@ -1,3 +1,4 @@
+import { manualDiscovery } from "./manual-discovery.mjs";
 import assert from "node:assert/strict";
 import { mkdir } from "node:fs/promises";
 import { join } from "node:path";
@@ -51,6 +52,7 @@ async function verify(width) {
     await capture("demo-quality");
     await button("Preview accepted records").click();
     await button("Continue to confirmation").click();
+    await manualDiscovery(page);
     await page.getByText("96 accepted · 0 excluded", { exact: true }).waitFor();
     await button("Import 96 feedback records").click();
     await page.getByRole("heading", { name: "Imported dataset" }).waitFor();

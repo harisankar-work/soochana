@@ -230,6 +230,18 @@ SOOCHANA_URL=http://127.0.0.1:3141 npm run evaluate:segmentation -- /tmp/candida
 node scripts/report-segmentation.mjs /tmp/baseline.json /tmp/candidate.json /tmp/baseline-reuse.json /tmp/candidate-reuse.json
 ```
 
+## Milestone 11 product workflow
+
+Confirmed imports start browser-side discovery by default. The confirmation checkbox turns it off for the session. Issue Explorer and Prioritization share issues, evidence and review decisions. Suggestions from a new run remain separate from saved issue edits. Reviewers can merge, split, move, exclude, restore, undo, and create issues from one review or a problem statement. An evidence change pauses a previously assessed score until the reviewer reconfirms the assessments. The historical scoring formula and pinned models remain unchanged.
+
+Use **Send to Prioritization** to open the existing issue, then create a local Jira-ready draft or export the queue and evidence as CSV. Exported files can include original customer text. Refreshing clears imported data and edits.
+
+- [Walkthrough](docs/demo/milestone-11-workflow.md)
+- [Grouping evaluation](evaluation/reports/milestone-11-grouping.md)
+- [Functional audit](docs/qa/milestone-11-workflow.md)
+
+Run `npm run qa:product` against a local production build using `SOOCHANA_URL` and `SOOCHANA_CHROMIUM`. It exercises the demo, editing operations, scoring, exports, isolation, and 25/50/96/100-review workloads. Use a Chromium certificate store that validates HTTPS for the actual model hosts.
+
 ## Local setup
 
 Use Node.js 22.13 or later in the 22.x line, or Node.js 24 or later, and npm.

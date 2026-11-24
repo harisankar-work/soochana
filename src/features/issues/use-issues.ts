@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useRef, useState } from "react";
-import { cluster, similarityMatrix } from "./clustering";
+import { cluster, cosine, similarityMatrix } from "./clustering";
 import type { FeedbackRecord } from "../feedback/validation";
 import { DEFAULT_THRESHOLD, LIMIT, validEmbedding, type Embedding, type Event, type Request } from "./protocol";
 
@@ -10,13 +10,14 @@ type Analysis = {
   selected: number;
   failed: number;
   embeddings: Embedding[];
+  analysedIds: string[];
   progress?: number;
 };
 
 type GroupingMode = "complete-link-v1" | "average-link-v1";
 export const groupingDefaults = { "complete-link-v1": DEFAULT_THRESHOLD, "average-link-v1": 0.45 } as const;
 
-const idle: Analysis = { phase: "idle", selected: 0, failed: 0, embeddings: [] };
+const idle: Analysis = { phase: "idle", selected: 0, failed: 0, embeddings: [], analysedIds: [] };
 
 function observe(worker: Worker, message: (event: MessageEvent<Event>) => void, error: () => void) {
   worker.onmessage = message;
@@ -78,6 +79,7 @@ export function useIssues() {
       cache.current.clear();
     }
     const run = ++sequence.current;
+    const analysedIds = [...cache.current.keys()];
     const selected = records.slice(0, count);
     const reused = selected.flatMap(({ id }) => {
       const embedding = cache.current.get(id);
@@ -85,12 +87,12 @@ export function useIssues() {
     });
     const inputs = selected.filter(({ id }) => !cache.current.has(id)).map(({ id, text }) => ({ id, text }));
     if (!inputs.length) {
-      setAnalysis({ ...idle, phase: "complete", selected: count, embeddings: reused });
+      setAnalysis({ ...idle, phase: "complete", selected: count, embeddings: reused, analysedIds });
       return;
     }
     const pending = new Set(inputs.map(({ id }) => id));
     active.current = true;
-    setAnalysis({ ...idle, phase: "preparing", selected: count, embeddings: reused });
+    setAnalysis({ ...idle, phase: "preparing", selected: count, embeddings: reused, analysedIds });
     function fail() {
       if (run !== sequence.current || !active.current) return;
       stop();
@@ -113,7 +115,7 @@ export function useIssues() {
           const embedding = vector ? { id: data.id, vector } : null;
           if (embedding) cache.current.set(data.id, embedding);
           setAnalysis((previous) => embedding
-            ? { ...previous, embeddings: [...previous.embeddings, embedding] }
+            ? { ...previous, embeddings: [...previous.embeddings, embedding], analysedIds: [...previous.analysedIds, embedding.id] }
             : { ...previous, failed: previous.failed + 1 });
         } else if (data.type === "download" || data.type === "initialize" || data.type === "embed") {
           const phase = data.type;
@@ -136,5 +138,24 @@ export function useIssues() {
   const vectors = busy ? null : analysis.embeddings;
   const matrix = useMemo(() => vectors?.length ? similarityMatrix(vectors) : null, [vectors]);
   const result = useMemo(() => matrix ? cluster(matrix, threshold, method) : null, [matrix, threshold, method]);
-  return { analysis, method, configureGrouping, threshold, setThreshold, start, cancel, reset, result, busy, releaseIdleWorker };
+  function matchAssignments(rowIds: string[], candidates: { id: string; evidenceIds: string[] }[]) {
+    const byId = cache.current;
+    const evidence = candidates.flatMap(({ id: issueId, evidenceIds }) =>
+      evidenceIds.flatMap((id) => {
+        const item = byId.get(id);
+        return item ? [{ issueId, vector: item.vector }] : [];
+      }));
+    return rowIds.flatMap((id) => {
+      const embedding = byId.get(id);
+      if (!embedding) return [];
+      let best: { issueId: string; score: number } | null = null;
+      for (const { issueId, vector } of evidence) {
+        const score = cosine(embedding.vector, vector);
+        if (score !== null && (!best || score > best.score)) best = { issueId, score };
+      }
+      return best && best.score >= 0.60 ? [{ id, ...best }] : [];
+    });
+  }
+
+  return { analysis, matchAssignments, method, configureGrouping, threshold, setThreshold, start, cancel, reset, result, busy, releaseIdleWorker };
 }

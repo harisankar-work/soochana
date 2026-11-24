@@ -1,3 +1,4 @@
+import { manualDiscovery } from "./manual-discovery.mjs";
 import assert from "node:assert/strict";
 import { createRequire } from "node:module";
 import { chromium, firefox, webkit } from "playwright-core";
@@ -31,6 +32,7 @@ function controls(page) {
   }
   async function confirm(count, rejected = 0, replace = false) {
     await button("Continue to confirmation").click();
+    await manualDiscovery(page);
     await text(`${count} accepted · ${rejected} excluded`).waitFor();
     await button(`${replace ? "Replace dataset and import" : "Import"} ${count} feedback ${count === 1 ? "record" : "records"}`).click();
     await heading("Imported dataset").waitFor();
@@ -189,8 +191,7 @@ async function responsiveFlow(page, width) {
   await button("Save issue").click();
   await text("Enter an issue title between 1 and 100 characters.").waitFor();
   await page.getByRole("textbox", { name: "Issue title" }).fill("Audit payment");
-  await button("Save issue").click();
-  await text("Select at least one supporting review.").waitFor();
+
   await page.getByRole("checkbox", { name: "Include CSV row 2" }).press("Space");
   await page.getByRole("checkbox", { name: "Show selected reviews only" }).check();
   await text("1 selected · 1 matching reviews").waitFor();
@@ -469,15 +470,13 @@ async function realModelFlow(page) {
   await text("0 matching groups").waitFor();
   await page.getByRole("searchbox", { name: "Search review text or label" }).fill("");
   await combo("Group type").selectOption("ungrouped");
-  await page.locator("summary").filter({ hasText: /Ungrouped feedback/ }).click();
+  await page.locator("summary").filter({ hasText: /Unassigned Feedback/ }).click();
   await modelScan(page, "grouped and ungrouped evidence");
   await combo("Group type").selectOption("all");
 
   await nav("Prioritization").click();
-  await button("Add Discovered Group").click();
-  const group = combo("Current group");
-  await group.selectOption({ index: 1 });
-  await button("Review selected group").click();
+  await page.getByRole("region", { name: "Unscored issues table", exact: true }).getByRole("button", { name: /^View / }).first().click();
+  await button("Edit issue and assessments").click();
   await heading("Issue editor").waitFor();
   await button("Save issue").click();
   await page.getByText(/Discovered group · Unverified automatic grouping/).waitFor();
@@ -485,7 +484,7 @@ async function realModelFlow(page) {
   await combo("Cosine similarity cutoff").selectOption("0.45");
   await nav("Prioritization").click();
   await heading("Prioritization").waitFor();
-  await page.getByRole("region", { name: "Unscored issues table", exact: true }).getByRole("button", { name: /^View / }).click();
+  await page.getByRole("region", { name: "Unscored issues table", exact: true }).getByRole("button", { name: /^View / }).first().click();
   await button("Review grouping snapshot").click();
   await heading("Review grouping snapshot").waitFor();
   await button("Close group review").click();

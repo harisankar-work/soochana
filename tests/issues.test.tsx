@@ -181,7 +181,7 @@ it("announces processing and displays evidence, cutoff recalculation, filters an
   expect(screen.getByText(/0 matching groups/)).toBeVisible();
   fireEvent.change(screen.getByLabelText("Search review text or label"), { target: { value: "" } });
   fireEvent.change(screen.getByLabelText("Cosine similarity cutoff"), { target: { value: "0.9" } });
-  expect(screen.getByText("Ungrouped feedback (3)")).toBeVisible();
+  expect(screen.getByText("Unassigned Feedback (3)")).toBeVisible();
   expect(FakeWorker.instances).toHaveLength(1);
 });
 

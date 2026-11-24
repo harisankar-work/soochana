@@ -23,6 +23,14 @@ export type Candidate = {
   confidence: Assessment | null;
   status: Status;
   notes: string;
+  review?: "AI suggested" | "Needs review" | "Reviewed";
+  urgency?: Assessment | null;
+  effort?: Assessment | null;
+  createdAt?: number;
+  updatedAt?: number;
+  evidenceVersion?: number;
+  assessedVersion?: number;
+
 };
 
 export function newCandidate(id: string): Candidate {
@@ -51,10 +59,13 @@ export function isAssessment(value: unknown): value is Assessment {
 
 export function validateCandidate(candidate: Candidate, available: ReadonlySet<string>) {
   if (!candidate.title.trim() || candidate.title.trim().length > 100) return "Enter an issue title between 1 and 100 characters.";
-  if (!candidate.evidenceIds.length) return "Select at least one supporting review.";
   if (candidate.evidenceIds.some((id) => !available.has(id))) return "Some evidence no longer exists in this dataset. Review the selection.";
-  if ([candidate.severity, candidate.impact, candidate.confidence].some((value) => value !== null && !isAssessment(value))) {
+  if ([candidate.severity, candidate.impact, candidate.confidence, candidate.urgency, candidate.effort].some((value) => value != null && !isAssessment(value))) {
     return "Assessments must be whole numbers between 1 and 5.";
   }
   return null;
+}
+
+export function needsReassessment(candidate: Candidate) {
+  return candidate.assessedVersion !== undefined && candidate.assessedVersion !== (candidate.evidenceVersion ?? 0);
 }

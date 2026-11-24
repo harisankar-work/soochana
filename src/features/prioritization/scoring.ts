@@ -1,5 +1,5 @@
 import type { Row } from "../analytics/calculations";
-import { isAssessment, type Candidate } from "./candidates";
+import { isAssessment, needsReassessment, type Candidate } from "./candidates";
 
 export const factors = ["frequency", "severity", "impact", "confidence"] as const;
 export type Factor = (typeof factors)[number];
@@ -57,7 +57,7 @@ export function evidenceFor(candidate: Candidate, rows: Map<string, Row>, latest
 
 export function rank(candidates: { candidate: Candidate; count: number; missing: number }[], weights: Weights) {
   return candidates.flatMap(({ candidate, count, missing }) => {
-    const result = missing ? null : score(candidate, count, weights);
+    const result = missing || needsReassessment(candidate) ? null : score(candidate, count, weights);
     return result ? [{ id: candidate.id, count, result }] : [];
   }).sort((a, b) => b.result.total - a.result.total || b.count - a.count || (a.id < b.id ? -1 : a.id > b.id ? 1 : 0))
     .map((entry, index) => ({ ...entry, rank: index + 1 }));

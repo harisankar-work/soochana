@@ -18,7 +18,8 @@
     "qa:models": "node scripts/qa-models.mjs",
     "qa:demo": "node scripts/verify-demo.mjs",
     "evaluate:datasets": "node --experimental-strip-types scripts/evaluate-datasets.mjs",
-    "evaluate:segmentation": "node --experimental-strip-types scripts/evaluate-segmentation.mjs"
+    "evaluate:segmentation": "node --experimental-strip-types scripts/evaluate-segmentation.mjs",
+    "qa:product": "node --experimental-strip-types scripts/qa-product-workflow.mjs"
   },
   "license": "MIT",
   "private": true,

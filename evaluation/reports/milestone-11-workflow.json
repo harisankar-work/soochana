@@ -1,0 +1,54 @@
+{
+  "browser": "156.0.8078.79",
+  "stats": [
+    {
+      "count": 96,
+      "trigger": "retry after cancellation",
+      "throughIssueExplorerMs": 7986
+    },
+    {
+      "count": 25,
+      "trigger": "confirmation",
+      "throughIssueExplorerMs": 5847
+    },
+    {
+      "count": 50,
+      "trigger": "confirmation",
+      "throughIssueExplorerMs": 7969
+    },
+    {
+      "count": 100,
+      "trigger": "confirmation",
+      "throughIssueExplorerMs": 11591
+    },
+    {
+      "count": 96,
+      "trigger": "confirmation",
+      "throughIssueExplorerMs": 13280
+    }
+  ],
+  "errors": [],
+  "traffic": [],
+  "accessibility": [
+    {
+      "state": "issue editor and supporting feedback",
+      "width": 320,
+      "violations": []
+    },
+    {
+      "state": "issue editor and supporting feedback",
+      "width": 1440,
+      "violations": []
+    },
+    {
+      "state": "prioritization and Jira draft",
+      "width": 320,
+      "violations": []
+    },
+    {
+      "state": "prioritization and Jira draft",
+      "width": 1440,
+      "violations": []
+    }
+  ]
+}

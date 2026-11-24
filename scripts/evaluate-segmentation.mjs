@@ -1,3 +1,4 @@
+import { manualDiscovery } from "./manual-discovery.mjs";
 import assert from "node:assert/strict";
 import { readFile, writeFile } from "node:fs/promises";
 import { cpus, platform, release, totalmem } from "node:os";
@@ -139,7 +140,10 @@ async function evaluate(model, names) {
       const button = (name) => page.getByRole("button", { name, exact: true });
       const importStarted = performance.now();
       await page.locator('input[type="file"]').setInputFiles({ name: `${name}.csv`, mimeType: "text/csv", buffer: Buffer.from(fixture.csv) });
-      for (const step of ["Review quality", "Preview accepted records", "Continue to confirmation", `Import ${records.length} feedback records`]) await button(step).click();
+      for (const step of ["Review quality", "Preview accepted records", "Continue to confirmation", `Import ${records.length} feedback records`]) {
+        if (step.startsWith("Import ") || step.startsWith("Replace dataset and import ")) await manualDiscovery(page);
+        await button(step).click();
+      }
       await page.getByRole("heading", { name: "Imported dataset" }).waitFor();
       const importMs = performance.now() - importStarted;
       if (model === "embeddings") await page.getByRole("navigation").getByRole("link", { name: "Issue Explorer" }).click();
