@@ -12,6 +12,7 @@
 /models/
 *.csv
 !/public/demo/soochana-demo.csv
+!/evaluation/datasets/historical-demo-96.csv
 *.parquet
 *.safetensors
 *.onnx

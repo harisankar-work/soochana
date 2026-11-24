@@ -1,0 +1,71 @@
+{
+  "csvSha256": "f2fec085bcb82f07fe45173dd864db62909a4e3636ce1fd5b62a017308b4617e",
+  "browser": "156.0.8078.79",
+  "embeddingRevision": "751bff37182d3f1213fa05d7196b954e230abad9",
+  "sentimentRevision": "f3ec4d0925f90c3ca7ee7814f52d6ee7cf180445",
+  "accepted": 100,
+  "averageRating": 2.18,
+  "sources": {
+    "App review": 25,
+    "Website feedback": 25,
+    "Customer survey": 25,
+    "Support ticket": 25
+  },
+  "sentiment": {
+    "Negative": 52,
+    "Neutral": 42,
+    "Positive": 6
+  },
+  "sentimentLabelOrder": [
+    "Negative",
+    "Neutral",
+    "Positive"
+  ],
+  "confusionMatrix": [
+    [
+      47,
+      22,
+      0
+    ],
+    [
+      4,
+      15,
+      1
+    ],
+    [
+      1,
+      5,
+      5
+    ]
+  ],
+  "grouping": [
+    {
+      "method": "complete-link-v1",
+      "cutoff": 0.75,
+      "clusteringMs": 34.71290600000003,
+      "recurringGroups": 4,
+      "grouped": 8,
+      "unassigned": 92,
+      "potentialIssues": 2,
+      "precision": 1,
+      "recall": 0.007366482504604052,
+      "f1": 0.014625228519195612,
+      "falseMerges": 0,
+      "falseSplits": 539
+    },
+    {
+      "method": "average-link-v1",
+      "cutoff": 0.45,
+      "clusteringMs": 16.21528999999998,
+      "recurringGroups": 14,
+      "grouped": 79,
+      "unassigned": 21,
+      "potentialIssues": 7,
+      "precision": 0.9460154241645244,
+      "recall": 0.6777163904235728,
+      "f1": 0.7896995708154507,
+      "falseMerges": 21,
+      "falseSplits": 175
+    }
+  ]
+}

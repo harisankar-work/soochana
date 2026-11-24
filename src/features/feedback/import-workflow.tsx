@@ -1,7 +1,11 @@
 "use client";
 
+import Link from "next/link";
+import { PreparedDemoButton } from "../demo/demo-controls";
+import { fetchMarketplaceFile, marketplaceSize, withMarketplaceMetadata } from "../demo/marketplace";
+import { LIMIT } from "../issues/protocol";
 import { Check, FileUp } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useEffectEvent, useRef, useState } from "react";
 import { SentimentPanel } from "../sentiment/sentiment-panel";
 import { readCsv, type ParsedCsv } from "./csv";
 import { FeedbackPreview, QualityReport } from "./preview";
@@ -10,7 +14,7 @@ import { fields, mappingError, suggestMapping, validateRows, type ColumnMapping,
 
 const steps = ["Upload", "Map Columns", "Review Quality", "Preview", "Confirm"] as const;
 type Step = (typeof steps)[number];
-type Draft = { file: { name: string; size: number }; csv: ParsedCsv; mapping: ColumnMapping };
+type Draft = { file: { name: string; size: number }; csv: ParsedCsv; mapping: ColumnMapping; marketplace?: true };
 type FileInfo = Draft["file"];
 
 function fileSize(bytes: number) {
@@ -42,7 +46,7 @@ function UploadArea({ busy, onFile }: { busy: boolean; onFile: (files: FileList)
 }
 
 export function ImportWorkflow() {
-  const { dataset, setDataset } = useFeedbackSession();
+  const { dataset, setDataset, autoDiscovery, setAutoDiscovery, issues, sentiment } = useFeedbackSession();
   const [step, setStep] = useState<Step>("Upload");
   const [mode, setMode] = useState<"Import" | "Summary" | "View" | "Remove">(() => dataset ? "Summary" : "Import");
   const [draft, setDraft] = useState<Draft | null>(null);
@@ -81,7 +85,7 @@ export function ImportWorkflow() {
     goTo("Upload");
   }
 
-  async function loadFile(getFile: () => File | Promise<File>) {
+  async function loadFile(getFile: () => File | Promise<File>, marketplace?: true) {
     if (pendingRead.current) return;
     setError("");
     setNotice("");
@@ -93,7 +97,7 @@ export function ImportWorkflow() {
       const info = { name: file.name, size: file.size };
       setSelected(info);
       const csv = await readCsv(file);
-      setDraft({ file: info, csv, mapping: suggestMapping(csv.headers) });
+      setDraft({ file: info, csv, mapping: suggestMapping(csv.headers), marketplace });
       goTo("Map Columns");
     } catch (problem) {
       setError(problem instanceof Error ? problem.message : "Unable to read the CSV. Choose another file.");
@@ -115,16 +119,13 @@ export function ImportWorkflow() {
   }
 
   function selectDemo() {
-    void loadFile(async () => {
-      try {
-        const response = await fetch("/demo/soochana-demo.csv");
-        if (!response.ok) throw new Error("Demo download failed");
-        return new File([await response.blob()], "soochana-demo.csv", { type: "text/csv" });
-      } catch {
-        throw new Error("The demo CSV could not be loaded. Try again or browse for your own CSV.");
-      }
-    });
+    void loadFile(fetchMarketplaceFile, true);
   }
+
+  const openDemo = useEffectEvent(() => {
+    if (!dataset && window.location.hash === "#demo") selectDemo();
+  });
+  useEffect(() => { const timer = setTimeout(() => openDemo(), 0); return () => clearTimeout(timer); }, []);
 
   function reviewMapping() {
     if (!draft) return;
@@ -139,7 +140,16 @@ export function ImportWorkflow() {
 
   function confirmImport() {
     if (!draft || !report?.accepted.length) return;
-    setDataset({ ...draft.file, records: report.accepted });
+    const mapping = suggestMapping(draft.csv.headers);
+    const marketplace = draft.marketplace && report.accepted.length === marketplaceSize &&
+      fields.every(({ key }) => draft.mapping[key] === mapping[key]) ? true : undefined;
+    try {
+      const records = marketplace ? withMarketplaceMetadata(draft.csv, report.accepted) : report.accepted;
+      setDataset({ ...draft.file, records, marketplace }, true);
+    } catch (problem) {
+      setError(problem instanceof Error ? problem.message : "The demo data could not be loaded.");
+      return;
+    }
     resetDraft();
     show("Summary");
     setNotice(dataset ? "Replacement dataset imported." : "Feedback imported.");
@@ -153,6 +163,20 @@ export function ImportWorkflow() {
         <section className="panel import-panel" aria-labelledby="import-stage">
           <h2 id="import-stage" tabIndex={-1} ref={stageTitle}>{mode === "Remove" ? "Remove imported dataset?" : mode === "View" ? "Imported feedback" : "Imported dataset"}</h2>
           <p className="file-info"><strong>{dataset.name}</strong> · {fileSize(dataset.size)} · {dataset.records.length} records</p>
+          {mode !== "Remove" && <div>
+            <p role="status">{sentiment.busy && dataset.marketplace ? "Running demo sentiment before issue discovery…" : issues.busy ? issues.analysis.phase === "download" ? "Downloading discovery model…" : "Discovering issues…" :
+              issues.analysis.phase === "error" ? "Issue discovery failed. You can retry or organize feedback manually." :
+              issues.analysis.phase === "cancelled" ? "Issue discovery cancelled." :
+              issues.analysis.phase === "complete" ? "Issue discovery finished." : "Issue discovery has not run."}</p>
+            {issues.busy && <progress aria-label="Issue discovery progress" max={issues.analysis.phase === "download" ? 100 : issues.analysis.selected}
+              value={issues.analysis.phase === "download" ? issues.analysis.progress : issues.analysis.phase === "embed" ? issues.analysis.embeddings.length + issues.analysis.failed : undefined} />}
+            <div className="import-actions">
+              <Link href="/issues" className="import-button">Review issues and unassigned feedback</Link>
+              {issues.busy ? <button className="import-button" onClick={issues.cancel}>Cancel discovery</button> :
+                ["error", "cancelled"].includes(issues.analysis.phase) && <button className="import-button" disabled={sentiment.busy}
+                  onClick={() => issues.start(dataset.records, Math.min(LIMIT, dataset.records.length))}>Retry discovery</button>}
+            </div>
+          </div>}
           {mode === "Remove" ? (
             <>
               <p>This removes the dataset, its model results, and its prioritization issues and drafts from this browser session.</p>
@@ -192,8 +216,9 @@ export function ImportWorkflow() {
                 <UploadArea busy={busy} onFile={selectFile} />
                 <div className="import-actions">
                   <button type="button" className="import-button" disabled={busy} aria-describedby="demo-description" onClick={selectDemo}>Try Demo Dataset</button>
+                  {!dataset && <PreparedDemoButton />}
                 </div>
-                <p id="demo-description" className="import-note">Review and import 96 synthetic reviews from a fictional online shop.</p>
+                <p id="demo-description" className="import-note">Review and import {marketplaceSize} synthetic reviews from a fictional marketplace for live analysis.</p>
                 {busy && <p role="status">Reading CSV…</p>}
               </>
             )}
@@ -244,6 +269,8 @@ export function ImportWorkflow() {
             {step === "Confirm" && report && (
               <>
                 <p>{report.accepted.length} accepted · {report.counts.rejected} excluded</p>
+                <label className="priority-checkbox"><input type="checkbox" checked={autoDiscovery} onChange={(event) => setAutoDiscovery(event.target.checked)} /> Automatically discover issues after import</label>
+                {draft?.marketplace && <p className="import-note">The live demo runs sentiment first, then issue discovery.</p>}
                 {dataset && <p>This replaces <strong className="file-info">{dataset.name}</strong> and clears its records, model results, and prioritization issues and drafts from this session.</p>}
                 <div className="import-actions">
                   <button className="import-button" onClick={() => goTo("Preview")}>Back to preview</button>

@@ -1,3 +1,4 @@
+import { manualDiscovery } from "./manual-discovery.mjs";
 import assert from "node:assert/strict";
 import { chromium } from "playwright-core";
 import { stageModelAssets } from "./qa-model-assets.mjs";
@@ -40,7 +41,10 @@ try {
       const button = (name) => page.getByRole("button",{name,exact:true});
       const csv = "review\n" + Array.from({length:count},(_,i)=>`${reviewPrefix} ${i}: ${i%2 ? "The driver was late again." : "Checkout was fast today."}`).join("\n");
       await page.locator("input[type=file]").setInputFiles({name:"synthetic.csv",mimeType:"text/csv",buffer:Buffer.from(csv)});
-      for (const label of ["Review quality", "Preview accepted records", "Continue to confirmation", `Import ${count} feedback records`]) await button(label).click();
+      for (const label of ["Review quality", "Preview accepted records", "Continue to confirmation", `Import ${count} feedback records`]) {
+        if (label.startsWith("Import ") || label.startsWith("Replace dataset and import ")) await manualDiscovery(page);
+        await button(label).click();
+      }
       if (model === "embeddings") await page.getByRole("navigation").getByRole("link",{name:"Issue Explorer"}).click();
       const before = modelRequests;
       const start = performance.now();

@@ -1,0 +1,266 @@
+{
+  "revision": "codex/m10-segmentation-performance",
+  "backend": "single-threaded ONNX Runtime WASM (q8)",
+  "browser": "156.0.8078.79",
+  "runtime": "1.31.0-dev.20260914-8d85527a0",
+  "transformers": "4.3.2",
+  "os": "linux 6.18.57",
+  "cpu": "AMD EPYC 9V74 80-Core Processor",
+  "node": "v24.22.3",
+  "hostMemoryBytes": 10452459520,
+  "peakMemory": null,
+  "revisions": {
+    "sentiment": "f3ec4d0925f90c3ca7ee7814f52d6ee7cf180445",
+    "embeddings": "751bff37182d3f1213fa05d7196b954e230abad9"
+  },
+  "provenance": {
+    "dataset": "UCI Sentiment Labelled Sentences, Amazon domain",
+    "archiveSha256": "afc26626d710899948693e1a61405dce197f57ffa719fa1130d346b4cc095343",
+    "license": "CC BY 4.0",
+    "annotation": "Positive/negative sentence selection and labels by Kotzias et al.",
+    "macroClasses": [
+      "Negative",
+      "Positive"
+    ]
+  },
+  "totalMs": 72292.918185,
+  "runs": [
+    {
+      "dataset": "public-amazon-24",
+      "model": "sentiment",
+      "accepted": 24,
+      "rejected": 0,
+      "cache": "cold fresh context",
+      "importMs": 1896.4461029999998,
+      "totalMs": 67980.812026,
+      "loadInitMs": 55010.89999999851,
+      "inferenceMs": 11656.39999999851,
+      "assetRequests": 14,
+      "quality": {
+        "accuracy": 0.9583333333333334,
+        "macroPrecision": 1,
+        "macroRecall": 0.9583333333333333,
+        "macroF1": 0.9782608695652174,
+        "confusionMatrix": [
+          [
+            11,
+            1,
+            0
+          ],
+          [
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            0,
+            12
+          ]
+        ],
+        "perClass": [
+          {
+            "label": "Negative",
+            "support": 12,
+            "precision": 1,
+            "recall": 0.9166666666666666,
+            "f1": 0.9565217391304348
+          },
+          {
+            "label": "Neutral",
+            "support": 0,
+            "precision": 0,
+            "recall": 0,
+            "f1": 0
+          },
+          {
+            "label": "Positive",
+            "support": 12,
+            "precision": 1,
+            "recall": 1,
+            "f1": 1
+          }
+        ],
+        "errors": [
+          {
+            "id": "feedback-row-23",
+            "sourceId": "uci-331-amazon-970",
+            "expected": "Negative",
+            "actual": "Neutral",
+            "confidence": 0.8461032509803772
+          }
+        ],
+        "predictions": [
+          {
+            "id": "feedback-row-2",
+            "sourceId": "uci-331-amazon-11",
+            "expected": "Positive",
+            "actual": "Positive",
+            "confidence": 0.9786516427993774
+          },
+          {
+            "id": "feedback-row-3",
+            "sourceId": "uci-331-amazon-58",
+            "expected": "Positive",
+            "actual": "Positive",
+            "confidence": 0.9112111926078796
+          },
+          {
+            "id": "feedback-row-4",
+            "sourceId": "uci-331-amazon-72",
+            "expected": "Negative",
+            "actual": "Negative",
+            "confidence": 0.4714009761810303
+          },
+          {
+            "id": "feedback-row-5",
+            "sourceId": "uci-331-amazon-108",
+            "expected": "Positive",
+            "actual": "Positive",
+            "confidence": 0.9877342581748962
+          },
+          {
+            "id": "feedback-row-6",
+            "sourceId": "uci-331-amazon-110",
+            "expected": "Negative",
+            "actual": "Negative",
+            "confidence": 0.8271772861480713
+          },
+          {
+            "id": "feedback-row-7",
+            "sourceId": "uci-331-amazon-148",
+            "expected": "Negative",
+            "actual": "Negative",
+            "confidence": 0.9243596792221069
+          },
+          {
+            "id": "feedback-row-8",
+            "sourceId": "uci-331-amazon-153",
+            "expected": "Positive",
+            "actual": "Positive",
+            "confidence": 0.8179419636726379
+          },
+          {
+            "id": "feedback-row-9",
+            "sourceId": "uci-331-amazon-171",
+            "expected": "Positive",
+            "actual": "Positive",
+            "confidence": 0.9732892513275146
+          },
+          {
+            "id": "feedback-row-10",
+            "sourceId": "uci-331-amazon-177",
+            "expected": "Positive",
+            "actual": "Positive",
+            "confidence": 0.8920857906341553
+          },
+          {
+            "id": "feedback-row-11",
+            "sourceId": "uci-331-amazon-242",
+            "expected": "Negative",
+            "actual": "Negative",
+            "confidence": 0.8901006579399109
+          },
+          {
+            "id": "feedback-row-12",
+            "sourceId": "uci-331-amazon-246",
+            "expected": "Positive",
+            "actual": "Positive",
+            "confidence": 0.8310052752494812
+          },
+          {
+            "id": "feedback-row-13",
+            "sourceId": "uci-331-amazon-429",
+            "expected": "Positive",
+            "actual": "Positive",
+            "confidence": 0.8665334582328796
+          },
+          {
+            "id": "feedback-row-14",
+            "sourceId": "uci-331-amazon-577",
+            "expected": "Negative",
+            "actual": "Negative",
+            "confidence": 0.927013099193573
+          },
+          {
+            "id": "feedback-row-15",
+            "sourceId": "uci-331-amazon-605",
+            "expected": "Negative",
+            "actual": "Negative",
+            "confidence": 0.8886464834213257
+          },
+          {
+            "id": "feedback-row-16",
+            "sourceId": "uci-331-amazon-660",
+            "expected": "Negative",
+            "actual": "Negative",
+            "confidence": 0.6541105508804321
+          },
+          {
+            "id": "feedback-row-17",
+            "sourceId": "uci-331-amazon-665",
+            "expected": "Positive",
+            "actual": "Positive",
+            "confidence": 0.7519643306732178
+          },
+          {
+            "id": "feedback-row-18",
+            "sourceId": "uci-331-amazon-679",
+            "expected": "Positive",
+            "actual": "Positive",
+            "confidence": 0.8915327787399292
+          },
+          {
+            "id": "feedback-row-19",
+            "sourceId": "uci-331-amazon-782",
+            "expected": "Negative",
+            "actual": "Negative",
+            "confidence": 0.8129826784133911
+          },
+          {
+            "id": "feedback-row-20",
+            "sourceId": "uci-331-amazon-840",
+            "expected": "Negative",
+            "actual": "Negative",
+            "confidence": 0.8475754857063293
+          },
+          {
+            "id": "feedback-row-21",
+            "sourceId": "uci-331-amazon-852",
+            "expected": "Positive",
+            "actual": "Positive",
+            "confidence": 0.9791198372840881
+          },
+          {
+            "id": "feedback-row-22",
+            "sourceId": "uci-331-amazon-921",
+            "expected": "Positive",
+            "actual": "Positive",
+            "confidence": 0.8844038248062134
+          },
+          {
+            "id": "feedback-row-23",
+            "sourceId": "uci-331-amazon-970",
+            "expected": "Negative",
+            "actual": "Neutral",
+            "confidence": 0.8461032509803772
+          },
+          {
+            "id": "feedback-row-24",
+            "sourceId": "uci-331-amazon-971",
+            "expected": "Negative",
+            "actual": "Negative",
+            "confidence": 0.810160219669342
+          },
+          {
+            "id": "feedback-row-25",
+            "sourceId": "uci-331-amazon-994",
+            "expected": "Negative",
+            "actual": "Negative",
+            "confidence": 0.8111112117767334
+          }
+        ]
+      }
+    }
+  ]
+}

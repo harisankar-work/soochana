@@ -8,12 +8,12 @@ Soochana means a clue, indication, or signal. Earlier milestone reports use the 
 
 ## Portfolio demo
 
-Start Soochana locally, select **Try Demo Dataset**, and confirm the import of 96 synthetic shop reviews. Explore feedback by source and date, and inspect category and rating in the original reviews. Run browser-based sentiment and semantic grouping when model downloads are available, then rank a manual or discovered issue using review evidence and your own assessments.
+Select **Explore completed demo** to open a 100-review synthetic marketplace workspace with precomputed sentiment and embeddings from the pinned models. Review and edit issues, inspect calculated scores with illustrative assessments, and export evidence or prepare a Jira draft. Choose **Run live analysis** to rerun both models in the browser.
 
-![Soochana dashboard populated from the synthetic demo CSV](docs/demo/screenshots/dashboard-demo.png)
+![Prepared Soochana dashboard](docs/demo/screenshots/marketplace/dashboard-1440.png)
 
-- [Step-by-step demo](docs/demo/walkthrough.md) · [Empty dashboard](docs/demo/screenshots/dashboard-empty.png) · [Synthetic CSV](public/demo/soochana-demo.csv) · [Vercel release plan and checklist](docs/demo/release-checklist.md)
-- [Milestone 7 QA and evaluation](docs/qa/milestone-7-report.md)
+- [Demo walkthrough](docs/demo/walkthrough.md) · [Synthetic CSV](public/demo/soochana-demo.csv) · [Demo evaluation](evaluation/reports/milestone-11-marketplace-demo.md)
+- [Milestone 7 QA](docs/qa/milestone-7-report.md) · [Vercel release checklist](docs/demo/release-checklist.md)
 
 Use Node.js 24 and run:
 
@@ -111,7 +111,7 @@ Import and confirm a CSV in **Feedback Analysis**, then open **Issue Explorer** 
 
 The app uses [Xenova/all-MiniLM-L6-v2](https://huggingface.co/Xenova/all-MiniLM-L6-v2/tree/751bff37182d3f1213fa05d7196b954e230abad9) at revision `751bff37182d3f1213fa05d7196b954e230abad9`, based on [sentence-transformers/all-MiniLM-L6-v2](https://huggingface.co/sentence-transformers/all-MiniLM-L6-v2). Both cards list Apache-2.0. Transformers.js 4.3.2 runs the q8 ONNX model in a single-threaded WASM worker. The weight file is 22,972,370 bytes (21.9 MiB) plus tokenizer and runtime files. The converted tokenizer truncates at 512 tokens. The original Sentence Transformers configuration used a 256-wordpiece default, and its training used shorter sequences. Inference uses attention-mask mean pooling and L2 normalization, validated against 384 finite float32 components and a unit norm.
 
-Hugging Face and jsDelivr supply model and runtime assets. Cache Storage can reuse the downloaded assets. Feedback, embeddings, and predictions stay in memory, and review text is processed locally. The app runs only one model at a time. Discovery releases an idle sentiment worker and retains its predictions. A discovery worker exits after each run. Cancellation retains valid partial embeddings. Dataset replacement, removal, or refresh clears associated results. Navigation preserves the dataset, results, and cutoff for the session.
+Hugging Face and jsDelivr supply model and runtime assets. Cache Storage can reuse the downloaded assets. Feedback, embeddings, and predictions stay in memory, and review text is processed locally. The app runs only one model at a time. Discovery releases an idle sentiment worker and retains its predictions. Discovery keeps the loaded model for the next run in the same session and releases it before sentiment starts. Validated embeddings are reused only for the current dataset. Cancellation releases the worker and retains valid partial embeddings. Dataset replacement, removal, or refresh clears associated results. Navigation preserves the dataset, results, and cutoff for the session.
 
 ### Grouping method
 
@@ -210,6 +210,37 @@ Reviews, saved candidates, drafts, and weights live only in browser memory. Navi
 ## Milestone 7
 
 The release-readiness audit covers regression tests, browser accessibility, privacy, performance, and model evaluation. See the [QA report](docs/qa/milestone-7-report.md) for results and reproduction commands.
+
+## Milestone 10 evaluation
+
+The [evaluation fixture contract](evaluation/datasets/README.md) describes the generated datasets, exact import references, malformed cases, and label provenance. The [functional audit](docs/qa/milestone-10-functional-audit.md) records the checks run and remaining coverage. The [performance and quality report](evaluation/reports/milestone-10-comparison.md) links the baseline and candidate measurements. The [public Amazon sentiment sample results](evaluation/reports/m10-public-amazon-sentiment.json) are supplementary and use the retrieval instructions in the provenance notes.
+
+```sh
+npm run evaluate:datasets -- all /tmp/soochana-deterministic.json
+npm run evaluate:datasets -- --export jira-200 /tmp/soochana-fixtures
+```
+
+For matched model measurements, run separate production builds of baseline commit `0529b05` and the Milestone 10 candidate. Point `SOOCHANA_URL` at each build in turn and use the same Chromium executable through `SOOCHANA_CHROMIUM`. The browser needs a valid environment trust store for HTTPS. The runner uses fresh browser contexts for cold samples and reuses only model artifacts for the warm samples. Models and reference labels are unchanged between runs.
+
+```sh
+SOOCHANA_URL=http://127.0.0.1:3140 npm run evaluate:segmentation -- /tmp/baseline.json 0529b05
+SOOCHANA_URL=http://127.0.0.1:3141 npm run evaluate:segmentation -- /tmp/candidate.json candidate /tmp/baseline.json
+SOOCHANA_URL=http://127.0.0.1:3140 npm run evaluate:segmentation -- /tmp/baseline-reuse.json 0529b05 --reuse
+SOOCHANA_URL=http://127.0.0.1:3141 npm run evaluate:segmentation -- /tmp/candidate-reuse.json candidate --reuse
+node scripts/report-segmentation.mjs /tmp/baseline.json /tmp/candidate.json /tmp/baseline-reuse.json /tmp/candidate-reuse.json
+```
+
+## Milestone 11 product workflow
+
+Confirmed imports start browser-side discovery by default. The confirmation checkbox turns it off for the session. Issue Explorer and Prioritization share issues, evidence and review decisions. Suggestions from a new run remain separate from saved issue edits. Reviewers can merge, split, move, exclude, restore, undo, and create issues from one review or a problem statement. An evidence change pauses a previously assessed score until the reviewer reconfirms the assessments. The historical scoring formula and pinned models remain unchanged.
+
+Use **Send to Prioritization** to open the existing issue, then create a local Jira-ready draft or export the queue and evidence as CSV. Exported files can include original customer text. Refreshing clears imported data and edits.
+
+- [Walkthrough](docs/demo/milestone-11-workflow.md)
+- [Grouping evaluation](evaluation/reports/milestone-11-grouping.md)
+- [Functional audit](docs/qa/milestone-11-workflow.md)
+
+Run `npm run qa:marketplace` and `npm run qa:product` against a local production build using `SOOCHANA_URL` and `SOOCHANA_CHROMIUM`. The first compares the prepared demo with real live inference and exercises reset. The second covers editing, scoring, exports, isolation, and 25/50/100-review workloads. Use a Chromium certificate store that validates HTTPS for the actual model hosts.
 
 ## Local setup
 

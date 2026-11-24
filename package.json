@@ -16,7 +16,13 @@
     "qa:benchmark": "node scripts/qa-browser.mjs benchmark",
     "qa:calculations": "vitest bench --run --disableConsoleIntercept",
     "qa:models": "node scripts/qa-models.mjs",
-    "qa:demo": "node scripts/verify-demo.mjs"
+    "qa:demo": "node scripts/verify-demo.mjs",
+    "evaluate:datasets": "node --experimental-strip-types scripts/evaluate-datasets.mjs",
+    "evaluate:segmentation": "node --experimental-strip-types scripts/evaluate-segmentation.mjs",
+    "qa:product": "node --experimental-strip-types scripts/qa-product-workflow.mjs",
+    "evaluate:marketplace": "node --experimental-strip-types scripts/evaluate-marketplace-demo.mjs",
+    "prepare:marketplace": "node --experimental-strip-types scripts/prepare-marketplace-demo.mjs",
+    "qa:marketplace": "node scripts/qa-marketplace-demo.mjs"
   },
   "license": "MIT",
   "private": true,

@@ -14,6 +14,7 @@ type Field = (typeof fields)[number]["key"];
 export type ColumnMapping = Record<Field, number | null>;
 
 export type FeedbackRecord = {
+  marketplace?: { feedbackId: string; platform: string; segment: string };
   id: string;
   text: string;
   originalText: string;

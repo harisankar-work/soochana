@@ -1,0 +1,62 @@
+[
+  {
+    "title": "Card payments fail during checkout",
+    "description": "Investigate payment confirmation and recovery after failed card payments.",
+    "severity": 5,
+    "impact": 5,
+    "confidence": 4,
+    "reviewed": true,
+    "originalRow": 27,
+    "area": "Checkout"
+  },
+  {
+    "title": "Deliveries miss their promised date",
+    "description": "Investigate late deliveries and the visibility of changes to delivery estimates.",
+    "severity": 4,
+    "impact": 4,
+    "confidence": 4,
+    "reviewed": true,
+    "originalRow": 93,
+    "area": "Delivery"
+  },
+  {
+    "title": "Approved refunds take too long",
+    "description": "Investigate where approved returns and cancellations stall in refund processing.",
+    "severity": 4,
+    "impact": 5,
+    "confidence": 4,
+    "reviewed": false,
+    "originalRow": 18,
+    "area": "Returns"
+  },
+  {
+    "title": "Account verification blocks sign-in",
+    "description": "Trace delivery and expiry of login codes and recovery links.",
+    "severity": 4,
+    "impact": 4,
+    "confidence": 3,
+    "reviewed": false,
+    "originalRow": 39,
+    "area": "Account"
+  },
+  {
+    "title": "The app hangs or loads slowly",
+    "description": "Measure app responsiveness when opening product and order views.",
+    "severity": 3,
+    "impact": 4,
+    "confidence": 3,
+    "reviewed": false,
+    "originalRow": 4,
+    "area": "Performance"
+  },
+  {
+    "title": "Support follow-up is slow or incomplete",
+    "description": "Review closed requests and handoffs between agents.",
+    "severity": 3,
+    "impact": 3,
+    "confidence": 3,
+    "reviewed": false,
+    "originalRow": 85,
+    "area": "Support"
+  }
+]

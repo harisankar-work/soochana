@@ -81,7 +81,7 @@ function SentimentResults({ predictions, records }: { predictions: Prediction[];
 }
 
 export function SentimentPanel() {
-  const { dataset, issues, sentiment: { analysis, busy, start, cancel } } = useFeedbackSession();
+  const { dataset, issues, demoMode, sentiment: { analysis, busy, start, cancel } } = useFeedbackSession();
   const maximum = Math.min(dataset?.records.length ?? 0, MAX_ANALYSIS_COUNT);
   const [count, setCount] = useState<string | null>(null);
   if (!dataset) return null;
@@ -103,11 +103,11 @@ export function SentimentPanel() {
       </div>
       <p id="sentiment-scope" className="import-note">Select 1–{maximum} of {dataset.records.length} imported records. Analysis starts at the first accepted CSV row.</p>
       <div className="import-actions">
-        <button className="import-button import-primary" disabled={busy || issues.busy || !valid} onClick={() => start(dataset.records, selected)}>{analysis.phase === "idle" ? "Analyse Sentiment" : "Re-run analysis"}</button>
+        <button className="import-button import-primary" disabled={demoMode === "prepared" || busy || issues.busy || !valid} onClick={() => start(dataset.records, selected)}>{analysis.phase === "idle" ? "Analyse Sentiment" : "Re-run analysis"}</button>
         {busy && <button className="import-button" onClick={cancel}>Cancel analysis</button>}
       </div>
       {issues.busy && <p className="import-note">Wait for issue discovery to finish before running sentiment analysis.</p>}
-      <p role="status">{statusText[analysis.phase]}{busy && analysis.phase === "analyse" && ` · ${completed + analysis.failed} of ${analysis.selected} attempted`}</p>
+      <p role="status">{demoMode === "prepared" ? "Prepared sentiment results" : statusText[analysis.phase]}{busy && analysis.phase === "analyse" && ` · ${completed + analysis.failed} of ${analysis.selected} attempted`}</p>
       {analysis.phase === "download" && (
         <progress className="sentiment-progress" aria-label="Model download progress" max={100} value={analysis.progress} />
       )}

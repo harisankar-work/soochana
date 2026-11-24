@@ -1,0 +1,108 @@
+{
+  "marketplace": {
+    "browser": "156.0.8078.79",
+    "preparedMs": 1515,
+    "liveMs": 55332,
+    "modelRequests": 30,
+    "scored": 6,
+    "unscored": 8,
+    "topIssue": "Card payments fail during checkout",
+    "topScore": 91.75,
+    "errors": []
+  },
+  "productWorkflow": {
+    "browser": "156.0.8078.79",
+    "stats": [
+      {
+        "count": 100,
+        "trigger": "retry after cancellation",
+        "throughIssueExplorerMs": 48009
+      },
+      {
+        "count": 25,
+        "trigger": "confirmation",
+        "throughIssueExplorerMs": 3134
+      },
+      {
+        "count": 50,
+        "trigger": "confirmation",
+        "throughIssueExplorerMs": 3557
+      },
+      {
+        "count": 100,
+        "trigger": "confirmation",
+        "throughIssueExplorerMs": 4062
+      },
+      {
+        "count": 100,
+        "trigger": "confirmation",
+        "throughIssueExplorerMs": 15005
+      }
+    ],
+    "errors": [],
+    "traffic": [],
+    "accessibility": [
+      {
+        "state": "issue editor and supporting feedback",
+        "width": 320,
+        "violations": []
+      },
+      {
+        "state": "issue editor and supporting feedback",
+        "width": 1440,
+        "violations": []
+      },
+      {
+        "state": "prioritization and Jira draft",
+        "width": 320,
+        "violations": []
+      },
+      {
+        "state": "prioritization and Jira draft",
+        "width": 1440,
+        "violations": []
+      }
+    ]
+  },
+  "responsive": {
+    "mode": "flows",
+    "engine": "chromium",
+    "browser": "156.0.8078.79",
+    "cases": [
+      {
+        "name": "responsive workflow",
+        "width": 320,
+        "status": "pass",
+        "ms": 9359
+      },
+      {
+        "name": "responsive workflow",
+        "width": 390,
+        "status": "pass",
+        "ms": 16612
+      },
+      {
+        "name": "responsive workflow",
+        "width": 768,
+        "status": "pass",
+        "ms": 11175
+      },
+      {
+        "name": "responsive workflow",
+        "width": 1024,
+        "status": "pass",
+        "ms": 12408
+      },
+      {
+        "name": "responsive workflow",
+        "width": 1440,
+        "status": "pass",
+        "ms": 8662
+      }
+    ],
+    "errors": [],
+    "unexpectedRequests": [],
+    "axeScans": 40,
+    "violations": []
+  }
+}

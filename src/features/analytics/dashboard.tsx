@@ -51,7 +51,7 @@ function Analytics({ dataset, sentiment, issues }: { dataset: NonNullable<Sessio
   }).sort((a, b) => b.rows.length - a.rows.length);
   const buckets = {
     volume: trend.periods, sentiment: summary.sentiments, source: summary.sources,
-    rating: summary.ratings, group: [...groupBuckets, { key: "ungrouped", label: "Ungrouped feedback", rows: grouping.ungrouped }],
+    rating: summary.ratings, group: [...groupBuckets, { key: "ungrouped", label: "Unassigned Feedback (model view)", rows: grouping.ungrouped }],
   };
   const picked = selection ? buckets[selection.chart].find((bucket) => bucket.key === selection.key) : undefined;
 
@@ -148,7 +148,7 @@ function Analytics({ dataset, sentiment, issues }: { dataset: NonNullable<Sessio
       <p className="import-note">{issues.analysis.selected} selected for embedding · {issues.analysis.embeddings.length} of {all.length} imported embedded · {issues.analysis.failed} failed · {grouping.embeddedCount} of {matched.length} in this view embedded.</p>
       {!issues.busy && issues.analysis.selected > issues.analysis.embeddings.length && <p className="import-note">Embedding coverage is incomplete. The summary uses available results.</p>}
       {issues.result ? <>
-        <p>{grouping.visibleGroups.length} recurring groups intersect this view · {grouping.groupedCount} grouped and {grouping.ungrouped.length} ungrouped embedded reviews in view.</p>
+        <p>{grouping.visibleGroups.length} recurring groups intersect this view · {grouping.groupedCount} grouped and {grouping.ungrouped.length} unassigned embedded reviews in view.</p>
         <p className="import-note">Groups were discovered on the analysed sample. Filters show matching members without regrouping them. Treat groups as themes to investigate. A zero count can occur even when recurring problems exist.</p>
         {!grouping.visibleGroups.length && <p>No recurring groups were detected in this view at the current settings.</p>}
         {grouping.visibleGroups.length > 5 && <p className="import-note">Showing the five groups with the most matching members.</p>}

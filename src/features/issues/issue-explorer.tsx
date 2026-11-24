@@ -2,6 +2,8 @@
 
 import { Compass } from "lucide-react";
 import Link from "next/link";
+import { PreparedDemoButton } from "../demo/demo-controls";
+import { IssueManagement } from "./issue-management";
 import { useState } from "react";
 import { EmptyState } from "@/components/ui/empty-state";
 import { CellText } from "../feedback/preview";
@@ -73,8 +75,8 @@ function GroupCard({ group, records, representative, predictions, potential }: {
   );
 }
 
-export function IssueExplorer() {
-  const { dataset, issues, sentiment } = useFeedbackSession();
+function DiscoveryPanel() {
+  const { dataset, issues, sentiment, demoMode } = useFeedbackSession();
   const [count, setCount] = useState<string | null>(null);
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState("all");
@@ -82,10 +84,12 @@ export function IssueExplorer() {
   const { analysis, busy, method, configureGrouping, threshold, setThreshold, result } = issues;
 
   if (!dataset) {
-    return <EmptyState icon={Compass} title="Import feedback to discover groups">
+    return <><EmptyState icon={Compass} title="Import feedback to discover groups">
       <p>Upload and confirm a CSV in Feedback Analysis to explore recurring themes and their supporting reviews.</p>
       <Link className="import-button import-primary mt-3" href="/feedback">Go to Feedback Analysis</Link>
-    </EmptyState>;
+      <Link className="import-button mt-3" href="/feedback#demo">Try Demo Dataset</Link>
+      <PreparedDemoButton />
+    </EmptyState><IssueManagement /></>;
   }
 
   const maximum = Math.min(dataset.records.length, LIMIT);
@@ -113,30 +117,38 @@ export function IssueExplorer() {
       <section className="panel import-panel" aria-labelledby="discovery-title">
         <h2 id="discovery-title">Discover feedback groups</h2>
         <p className="file-info"><strong>{dataset.name}</strong> · {dataset.records.length} imported records</p>
-        <p className="import-note"><a className="underline" href={`https://huggingface.co/${MODEL_ID}/tree/${MODEL_REVISION}`}>MiniLM sentence embeddings</a> run in this browser. The first run may download about 22 MiB of weights plus runtime files. Feedback and embeddings stay in memory.</p>
+        <p className="import-note">Issue discovery runs in this browser. The first run downloads a model and runtime files.</p>
+        <details className="quality-details">
+          <summary>Model details</summary>
+          <p><a className="underline" href={`https://huggingface.co/${MODEL_ID}/tree/${MODEL_REVISION}`}>MiniLM</a> downloads about 22 MiB of model weights. Reviews and derived results stay in session memory.</p>
+        </details>
         <div className="preview-controls">
           <label>Records to analyse<input className="sentiment-count" type="number" min="1" max={maximum} value={count ?? maximum} disabled={busy}
             aria-describedby="issue-scope" onChange={(event) => setCount(event.target.value)} /></label>
         </div>
         <p id="issue-scope" className="import-note">Choose 1–{maximum} records, starting at the first accepted CSV row. Groups describe only the analysed sample.</p>
         <div className="import-actions">
-          <button className="import-button import-primary" disabled={busy || sentiment.busy || !valid} onClick={() => issues.start(dataset.records, selected)}>Discover Feedback Groups</button>
+          <button className="import-button import-primary" disabled={demoMode === "prepared" || busy || sentiment.busy || !valid} onClick={() => issues.start(dataset.records, selected)}>Discover Feedback Groups</button>
+          {!busy && analysis.phase !== "idle" && <button className="import-button" disabled={demoMode === "prepared" || sentiment.busy || !valid} onClick={() => issues.start(dataset.records, selected)}>Retry discovery</button>}
           {busy && <button className="import-button" onClick={issues.cancel}>Cancel discovery</button>}
         </div>
         {sentiment.busy && <p className="import-note">Wait for sentiment analysis to finish before starting discovery.</p>}
-        <p role="status">{status[analysis.phase]}{busy && analysis.phase === "embed" ? ` · ${embedded + analysis.failed} of ${analysis.selected} attempted` : ""}</p>
+        <p role="status">{demoMode === "prepared" ? "Prepared discovery results" : status[analysis.phase]}{busy && analysis.phase === "embed" ? ` · ${embedded + analysis.failed} of ${analysis.selected} attempted` : ""}</p>
         {analysis.phase === "download" && <progress className="sentiment-progress" aria-label="Model download progress" max={100} value={analysis.progress} />}
         {analysis.phase === "embed" && <progress className="sentiment-progress" aria-label="Embedding progress" max={analysis.selected} value={embedded + analysis.failed} />}
         {analysis.phase === "error" && <p className="import-error" role="alert">Check your connection, available memory, and WebAssembly support, then retry discovery.</p>}
         {analysis.selected > 0 && <p>{analysis.selected} selected · {embedded} embedded · {analysis.failed} failed · {dataset.records.length - embedded} unanalysed in dataset</p>}
         {!busy && analysis.selected > embedded && <p className="import-note">Analysis is incomplete. Results cover only reviews with valid embeddings.</p>}
       </section>
+      <IssueManagement />
       {result && embedded > 0 && (
         <section className="panel import-panel" aria-labelledby="results-title">
           <h2 id="results-title">Feedback groups</h2>
+          {issues.usedBroaderSuggestions && <p className="issue-caution">Strict discovery found no recurring groups. These broader suggestions can combine distinct issues. Review their evidence before using them.</p>}
+          {!groups.length && method === "complete-link-v1" && <button className="import-button" onClick={() => configureGrouping("average-link-v1")}>Explore broader suggestions</button>}
           <p className="import-note">{method === "complete-link-v1" ? "Complete-link" : "Average-link (exploratory)"} · Cutoff {threshold.toFixed(2)}</p>
           <dl className="quality-stats">
-            {[["Recurring groups", groups.length], ["Grouped records", embedded - result.ungrouped.length], ["Ungrouped records", result.ungrouped.length], ["Potential issues", groups.filter(({ potential }) => potential).length]].map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
+            {[["Recurring groups", groups.length], ["Grouped records", embedded - result.ungrouped.length], ["Unassigned records", result.ungrouped.length], ["Potential issues", groups.filter(({ potential }) => potential).length]].map(([label, value]) => <div key={label}><dt>{label}</dt><dd>{value}</dd></div>)}
           </dl>
           <p className="import-note">A recurring group needs at least two reviews. A group is marked as a potential issue when more than half of all members have negative sentiment predictions. Use the original reviews to judge whether the group describes a problem.</p>
           <div className="preview-controls">
@@ -148,7 +160,7 @@ export function IssueExplorer() {
                 <option key={value} value={value}>{value.toFixed(2)}{value === groupingDefaults[method] ? " (default)" : ""}</option>)}
             </select></label>
             <label>Group type<select value={filter} onChange={(event) => setFilter(event.target.value)}>
-              <option value="all">All groups</option><option value="potential">Potential issues</option><option value="themes">Other recurring themes</option><option value="ungrouped">Ungrouped feedback</option>
+              <option value="all">All groups</option><option value="potential">Potential issues</option><option value="themes">Other recurring themes</option><option value="ungrouped">Unassigned Feedback</option>
             </select></label>
             <label>Minimum group size<select value={minimum} disabled={filter === "ungrouped"} onChange={(event) => setMinimum(Number(event.target.value))}>
               {[2, 3, 5, 10].map((value) => <option key={value} value={value}>{value}</option>)}
@@ -157,7 +169,7 @@ export function IssueExplorer() {
           </div>
           <p className="import-note">{method === "complete-link-v1"
             ? "Complete-link requires every pair in a group to meet the cutoff."
-            : "Average-link uses the mean similarity between two groups to decide whether to merge them."} Higher cutoffs can leave more reviews ungrouped. Cosine is a similarity score rather than a calibrated probability.</p>
+            : "Average-link uses the mean similarity between two groups to decide whether to merge them."} Higher cutoffs can leave more reviews unassigned. Cosine is a similarity score rather than a calibrated probability.</p>
           <details className="quality-details">
             <summary>Advanced grouping settings</summary>
             <div className="preview-controls">
@@ -176,12 +188,17 @@ export function IssueExplorer() {
           {filter !== "ungrouped" && !shown.length && <p>No recurring groups match the current settings.</p>}
           {(filter === "all" || filter === "ungrouped") && (
             <details className="quality-details" key={`${method}:${threshold}`}>
-              <summary>Ungrouped feedback ({singletons.length})</summary>
-              {singletons.length > 0 ? <Evidence records={singletons} predictions={predictions} /> : <p>No ungrouped reviews match the current search.</p>}
+              <summary>Unassigned Feedback ({singletons.length})</summary>
+              {singletons.length > 0 ? <Evidence records={singletons} predictions={predictions} /> : <p>No unassigned reviews match the current search.</p>}
             </details>
           )}
         </section>
       )}
     </div>
   );
+}
+
+export function IssueExplorer() {
+  const { datasetVersion } = useFeedbackSession();
+  return <DiscoveryPanel key={datasetVersion} />;
 }

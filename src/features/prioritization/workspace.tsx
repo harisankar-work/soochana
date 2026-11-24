@@ -1,13 +1,13 @@
 "use client";
 
-import { Target } from "lucide-react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
-import { EmptyState } from "@/components/ui/empty-state";
 import { makeRows } from "../analytics/calculations";
 import { useFeedbackSession } from "../feedback/session";
 import { CandidateEditor } from "./candidate-editor";
-import { attachGroup, newCandidate, statuses, type Candidate, type Grouping } from "./candidates";
+import { attachGroup, needsReassessment, newCandidate, statuses, type Candidate, type Grouping } from "./candidates";
+import { PreparedDemoButton } from "../demo/demo-controls";
+import { exportEvidence, exportIssues } from "./exports";
 import { PriorityDetail } from "./priority-detail";
 import { defaults, evidenceFor, factorLabels, factors, rank, sensitivity, validWeights, type Weights } from "./scoring";
 import { defaultWeightInputs } from "./use-prioritization";
@@ -15,22 +15,22 @@ import { defaultWeightInputs } from "./use-prioritization";
 type Session = ReturnType<typeof useFeedbackSession>;
 type Entry = { candidate: Candidate; observed: ReturnType<typeof evidenceFor> };
 type Ranked = ReturnType<typeof rank>[number];
-type Sort = "score" | "evidence" | "severity" | "impact";
+type Sort = "score" | "evidence" | "severity" | "impact" | "urgency" | "effort";
 
 function QueueTable({ entries, ranked, open, title }: { entries: Entry[]; ranked: Map<string, Ranked>; open: (id: string) => void; title: string }) {
   if (!entries.length) return <p>No {title.toLowerCase()} match this view.</p>;
   return <div className="import-table-scroll" role="region" aria-label={`${title} table`} tabIndex={0}>
     <table className="import-table priority-queue">
       <caption className="sr-only">{title}</caption>
-      <thead><tr>{["Rank", "Issue", "Type", "Evidence", "Severity", "Business impact", "Confidence", "Score", "Investigation status"].map((column) => <th key={column} scope="col">{column}</th>)}</tr></thead>
+      <thead><tr>{["Rank", "Issue", "Type", "Evidence / frequency", "Severity", "Business impact", "Evidence confidence", "Urgency", "Effort", "Score", "Review", "Reassessment"].map((column) => <th key={column} scope="col">{column}</th>)}</tr></thead>
       <tbody>{entries.map(({ candidate, observed }) => {
         const scored = ranked.get(candidate.id);
         return <tr key={candidate.id}>
           <td>{scored?.rank ?? "—"}</td>
-          <th scope="row"><button className="priority-title-button" onClick={() => open(candidate.id)} aria-label={`View ${candidate.title}`}>{candidate.title}</button></th>
+          <th scope="row"><button className="priority-title-button" onClick={() => open(candidate.id)} aria-label={`View ${candidate.title}`}>{candidate.title}</button>{candidate.illustrative && <span className="import-note block">Illustrative demo assessments</span>}</th>
           <td>{candidate.origin ? "Discovered" : "Manual"}</td><td>{observed.evidence.length}</td>
-          <td>{candidate.severity ?? "—"}</td><td>{candidate.impact ?? "—"}</td><td>{candidate.confidence ?? "—"}</td>
-          <td>{scored?.result.total.toFixed(2) ?? "Unscored"}</td><td>{candidate.status}</td>
+          <td>{candidate.severity ?? "—"}</td><td>{candidate.impact ?? "—"}</td><td>{candidate.confidence ?? "—"}</td><td>{candidate.urgency ?? "—"}</td><td>{candidate.effort ?? "—"}</td>
+          <td>{scored?.result.total.toFixed(2) ?? "Unscored"}</td><td>{candidate.review ?? "Needs review"}</td><td>{needsReassessment(candidate) ? "Required" : "—"}</td>
         </tr>;
       })}</tbody>
     </table>
@@ -66,23 +66,23 @@ function Comparison({ active, baseline, entries }: { active: Ranked[]; baseline:
 
 export function PrioritizationWorkspace() {
   const session = useFeedbackSession();
-  return session.dataset ? <Workspace key={session.datasetVersion} dataset={session.dataset} session={session} /> :
-    <EmptyState icon={Target} title="Import feedback to prioritize issues">
-      <p>Curate supporting reviews, record your assessments, and compare investigation priorities.</p>
-      <Link className="import-button import-primary mt-3" href="/feedback">Go to Feedback Analysis</Link>
-    </EmptyState>;
+  return <Workspace key={session.datasetVersion} dataset={session.dataset} session={session} />;
 }
 
-function Workspace({ dataset, session }: { dataset: NonNullable<Session["dataset"]>; session: Session }) {
+const emptyRecords: NonNullable<Session["dataset"]>["records"] = [];
+
+function Workspace({ dataset, session }: { dataset: Session["dataset"]; session: Session }) {
   const { prioritization, issues, sentiment } = session;
   const { candidates, draft, setDraft, save, remove, weightInputs, setWeightInputs } = prioritization;
-  const [openId, setOpenId] = useState<string | null>(null);
+  const [openId, setOpenId] = useState<string | null>(prioritization.focused);
   const [groupPicker, setGroupPicker] = useState<{ reconcileId: string | null } | null>(null);
   const [groupId, setGroupId] = useState("");
   const [type, setType] = useState("");
   const [status, setStatus] = useState("");
+  const [review, setReview] = useState("");
   const [sort, setSort] = useState<Sort>("score");
-  const rows = useMemo(() => makeRows(dataset.records, sentiment.analysis.predictions), [dataset.records, sentiment.analysis.predictions]);
+  const records = dataset?.records ?? emptyRecords;
+  const rows = useMemo(() => makeRows(records, sentiment.analysis.predictions), [records, sentiment.analysis.predictions]);
   const lookup = useMemo(() => new Map(rows.map((row) => [row.record.id, row])), [rows]);
   const metadata = useMemo(() => {
     const dates = rows.flatMap(({ date }) => date ? [date] : []).sort();
@@ -95,17 +95,19 @@ function Workspace({ dataset, session }: { dataset: NonNullable<Session["dataset
   } : null;
   const weights = Object.fromEntries(factors.map((factor) => [factor, weightInputs[factor].trim() ? Number(weightInputs[factor]) : NaN])) as Weights;
   const valid = validWeights(weights);
-  const entries = candidates.map((candidate) => ({ candidate, observed: evidenceFor(candidate, lookup, metadata.latest, metadata.first) }));
+  const entries = useMemo(() => candidates.map((candidate) => ({
+    candidate, observed: evidenceFor(candidate, lookup, metadata.latest, metadata.first),
+  })), [candidates, lookup, metadata]);
   const input = entries.map(({ candidate, observed }) => ({ candidate, count: observed.evidence.length, missing: observed.missing }));
   const active = rank(input, weights);
   const ranked = new Map(active.map((result) => [result.id, result]));
   const baseline = new Map(rank(input, defaults).map((result) => [result.id, result]));
   const entryMap = new Map(entries.map((entry) => [entry.candidate.id, entry]));
-  const matches = entries.filter(({ candidate }) => (!type || type === (candidate.origin ? "group" : "manual")) && (!status || candidate.status === status));
+  const matches = entries.filter(({ candidate }) => (!type || type === (candidate.origin ? "group" : "manual")) && (!status || candidate.status === status) && (!review || (candidate.review ?? "Needs review") === review));
   const sorted = [...matches].sort((a, b) => {
     const priority = (ranked.get(a.candidate.id)?.rank ?? Infinity) - (ranked.get(b.candidate.id)?.rank ?? Infinity);
     const difference = sort === "evidence" ? b.observed.evidence.length - a.observed.evidence.length :
-      sort === "severity" || sort === "impact" ? (b.candidate[sort] ?? -1) - (a.candidate[sort] ?? -1) : 0;
+      sort === "severity" || sort === "impact" || sort === "urgency" || sort === "effort" ? (b.candidate[sort] ?? -1) - (a.candidate[sort] ?? -1) : 0;
     return difference || priority || (a.candidate.id < b.candidate.id ? -1 : 1);
   });
   const open = openId ? entryMap.get(openId) : undefined;
@@ -131,12 +133,20 @@ function Workspace({ dataset, session }: { dataset: NonNullable<Session["dataset
   return <div className="feedback-import priority-workspace">
     <section className="panel import-panel" aria-labelledby="priority-overview">
       <h2 id="priority-overview">Investigation queue</h2>
-      <p className="file-info"><strong>{dataset.name}</strong> · {rows.length} imported reviews</p>
+      {dataset ? <p className="file-info"><strong>{dataset.name}</strong> · {rows.length} imported reviews</p> : <>
+        <h3>Import feedback to prioritize issues</h3>
+        <p>No feedback is loaded. You can record a problem now and add evidence after importing.</p>
+        <div className="import-actions"><Link className="import-button" href="/feedback">Go to Feedback Analysis</Link><Link className="import-button" href="/feedback#demo">Try Demo Dataset</Link><PreparedDemoButton /></div>
+      </>}
+      {prioritization.problem && <p className="import-error" role="alert">{prioritization.problem}</p>}
       <p role="status">{candidates.length} candidates · {active.length} scored · {candidates.length - active.length} unscored · {distinctEvidence} distinct supporting reviews</p>
-      <p className="import-note">A review may support more than one issue. The distinct count includes each review once. Saved issues, drafts, and weights stay in this browser session and clear on refresh, tab close, or dataset replacement.</p>
+      <p className="import-note">Saved issues, drafts, and weights stay in this browser session and clear on refresh, tab close, or dataset replacement. Export your work before leaving.</p>
       <div className="import-actions">
         <button className="import-button import-primary" disabled={locked} onClick={() => setDraft(newCandidate(crypto.randomUUID()))}>Add Manual Issue</button>
-        {!!grouping?.groups.length && <button className="import-button" disabled={locked} onClick={() => pickGroup()}>Add Discovered Group</button>}
+        {entries.length > 0 && <>
+          <button className="import-button" onClick={() => exportIssues([...entries].sort((a, b) => (ranked.get(a.candidate.id)?.rank ?? Infinity) - (ranked.get(b.candidate.id)?.rank ?? Infinity)).map((entry) => ({ ...entry, score: ranked.get(entry.candidate.id)?.result.total })))}>Export prioritized issues as CSV</button>
+          <button className="import-button" onClick={() => exportEvidence(entries)}>Export issue evidence and assessments</button>
+        </>}
       </div>
       {!grouping?.groups.length && <p className="import-note">Manual curation is available now. <Link className="underline" href="/issues">Explore automatic groups</Link> when you want model-assisted suggestions.</p>}
     </section>
@@ -154,8 +164,8 @@ function Workspace({ dataset, session }: { dataset: NonNullable<Session["dataset
       </div>
     </section>}
 
-    {draft && <CandidateEditor key={draft.id} draft={draft} rows={rows} sources={metadata.sources} update={setDraft}
-      save={(candidate) => { save(candidate); setOpenId(candidate.id); }} close={() => setDraft(null)} />}
+    {draft && <CandidateEditor key={draft.id} draft={draft} rows={rows.filter(({ record }) => !prioritization.excluded.includes(record.id) && !candidates.some((item) => item.id !== draft.id && item.evidenceIds.includes(record.id)))} sources={metadata.sources} update={setDraft}
+      save={(candidate, confirmed) => { if (save(candidate, confirmed)) setOpenId(candidate.id); }} close={() => setDraft(null)} />}
 
     <section className="panel import-panel" aria-labelledby="priority-weights">
       <h2 id="priority-weights">Priority weights</h2>
@@ -175,7 +185,8 @@ function Workspace({ dataset, session }: { dataset: NonNullable<Session["dataset
         <div className="preview-controls">
           <label>Candidate type<select value={type} onChange={(event) => setType(event.target.value)}><option value="">All types</option><option value="manual">Manual issues</option><option value="group">Discovered groups</option></select></label>
           <label>Filter by status<select value={status} onChange={(event) => setStatus(event.target.value)}><option value="">All statuses</option>{statuses.map((item) => <option key={item}>{item}</option>)}</select></label>
-          <label>Sort issues<select value={sort} onChange={(event) => setSort(event.target.value as Sort)}><option value="score">Priority score</option><option value="evidence">Evidence count</option><option value="severity">Severity</option><option value="impact">Business impact</option></select></label>
+          <label>Filter by review<select value={review} onChange={(event) => setReview(event.target.value)}><option value="">All review states</option>{["AI suggested", "Needs review", "Reviewed"].map((item) => <option key={item}>{item}</option>)}</select></label>
+          <label>Sort issues<select value={sort} onChange={(event) => setSort(event.target.value as Sort)}><option value="score">Priority score</option><option value="evidence">Evidence count</option><option value="severity">Severity</option><option value="impact">Business impact</option><option value="urgency">Urgency</option><option value="effort">Effort</option></select></label>
         </div>
         <QueueTable title="Scored issues" entries={sorted.filter(({ candidate }) => ranked.has(candidate.id))} ranked={ranked} open={setOpenId} />
         <h3>Unscored issues</h3>

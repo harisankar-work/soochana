@@ -1,3 +1,4 @@
+import { manualDiscovery } from "./manual-discovery.mjs";
 import assert from "node:assert/strict";
 import { readFile } from "node:fs/promises";
 import { chromium } from "playwright-core";
@@ -37,6 +38,7 @@ try {
     await page.getByRole("button", { name, exact: true }).click();
   }
   for (const name of ["Review quality", "Preview accepted records", "Continue to confirmation", `Import ${examples.length} feedback records`]) {
+    if (name.startsWith("Import ")) await manualDiscovery(page);
     await button(name);
   }
   const started = performance.now();

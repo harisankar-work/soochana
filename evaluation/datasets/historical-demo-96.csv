@@ -1,0 +1,97 @@
+review,date,source,rating,category
+My card was charged twice after the payment page timed out.,2026-08-03,App review,1,Checkout
+"The tracking page says delivered, but there was no parcel at my door.",2026-08-03,Post-purchase survey,1,Delivery
+The return portal rejected the order number from my confirmation email.,2026-08-04,Support ticket,2,Returns
+The password reset link said it had expired as soon as I opened it.,2026-08-05,Web review,2,Account
+The welcome code was accepted in the basket and vanished at payment.,2026-08-05,App review,2,Promotions
+"The colour in the listing looked beige, but the item arrived grey.",2026-08-06,Post-purchase survey,2,Product details
+My support ticket was marked resolved without a reply or refund.,2026-08-07,Support ticket,1,Support
+"The product page showed in stock, but my order was cancelled a day later.",2026-08-07,Web review,2,Stock
+"I never received the sign-in code, even after asking for a new one.",2026-08-08,Web review,1,Account
+"The banner promised free delivery, but checkout still charged for it.",2026-08-09,App review,1,Promotions
+The dimensions on the product page were wrong and the shelf will not fit.,2026-08-09,Post-purchase survey,1,Product details
+I explained the delivery problem twice when the chat switched agents.,2026-08-10,Support ticket,2,Support
+I got a back-in-stock email for an item that still could not be ordered.,2026-08-11,Web review,1,Stock
+Apple Pay sent me back to my basket without placing the order.,2026-08-11,App review,1,Checkout
+My parcel arrived five days after the last date in the estimate.,2026-08-12,Post-purchase survey,2,Delivery
+The refund still hasn't arrived two weeks after the warehouse accepted the return.,2026-08-13,Support ticket,1,Returns
+The reply asked for tracking details I'd already added to the form.,2026-08-13,Support ticket,2,Support
+The colour selector didn't show that my chosen size was sold out.,2026-08-14,Web review,2,Stock
+The checkout button stayed grey after I entered my postcode.,2026-08-15,App review,2,Checkout
+The courier handed my order to a neighbour without leaving a note.,2026-08-15,Post-purchase survey,2,Delivery
+The return QR code would not scan at the parcel shop.,2026-08-16,Support ticket,2,Returns
+My saved addresses disappeared after I changed my email.,2026-08-17,Web review,2,Account
+The sale price only showed up if I refreshed the product page.,2026-08-17,App review,2,Promotions
+There was no warning that the lamp did not include a bulb.,2026-08-18,Post-purchase survey,2,Product details
+"Tracking sat at ""label created"" for a week and the order never moved.",2026-08-19,Post-purchase survey,1,Delivery
+"My refund missed the more expensive item, even though both were in the box.",2026-08-19,Support ticket,1,Returns
+Guest orders don't show up after creating an account with the same email.,2026-08-20,Web review,2,Account
+The discount code expired a day before the date in the email.,2026-08-21,App review,2,Promotions
+The jacket runs small compared with the shop's size chart.,2026-08-21,Post-purchase survey,2,Product details
+My order was cancelled while I was waiting for a response from support.,2026-08-22,Support ticket,1,Support
+Only one of the two items was available for immediate dispatch.,2026-08-23,Web review,3,Stock
+"My bank approved the payment, but the shop still showed a declined card.",2026-08-23,App review,2,Checkout
+"The two offers couldn't be combined, which the basket explained.",2026-08-24,App review,3,Promotions
+"The photos show the front and back, but I'd like a close-up of the fabric.",2026-08-25,Post-purchase survey,3,Product details
+The chatbot offered an article before routing me to a person.,2026-08-25,Support ticket,3,Support
+The restock email arrived in time for me to choose my size.,2026-08-26,Web review,4,Stock
+I pressed Pay once and got two order confirmation emails.,2026-08-27,App review,1,Checkout
+I paid for next-day delivery and the gift came after the party.,2026-08-27,Post-purchase survey,2,Delivery
+The return label link opened a blank page on my phone.,2026-08-28,Support ticket,2,Returns
+The password reset screen got stuck on a spinner for ten minutes.,2026-08-29,Web review,1,Account
+I switched to an available colour and the shop kept the rest of my basket.,2026-08-29,Web review,5,Stock
+The shop lost my basket when I signed in to complete checkout.,2026-08-30,App review,2,Checkout
+"The package arrived on time, but the tracking link never updated.",2026-08-31,Post-purchase survey,3,Delivery
+I exchanged one item and returned the other in the same parcel.,2026-08-31,Support ticket,3,Returns
+Signing in on my tablet asked me to verify my email one more time.,2026-09-01,Web review,3,Account
+The bundle discount appeared as soon as I added the second item.,2026-09-02,App review,4,Promotions
+The fit notes helped me choose a size without needing an exchange.,2026-09-02,Post-purchase survey,4,Product details
+Support spotted the address typo and fixed it before dispatch.,2026-09-03,Support ticket,4,Support
+The return instructions were clear once I found them in my account.,2026-09-04,Support ticket,4,Returns
+I found my older orders and downloaded the invoices easily.,2026-09-04,Web review,4,Account
+I could see exactly how much the discount saved before paying.,2026-09-05,App review,5,Promotions
+The measurements matched exactly and everything fit in the space.,2026-09-06,Post-purchase survey,5,Product details
+The agent sent a replacement before I had finished explaining the damage.,2026-09-06,Support ticket,5,Support
+The stock indicator showed which pickup location actually had the item.,2026-09-07,Web review,4,Stock
+"My first card failed, but the second card went through.",2026-09-08,App review,3,Checkout
+The parcel arrived a day early and fit through the letterbox.,2026-09-08,Post-purchase survey,5,Delivery
+The care instructions made it easy to compare two similar products.,2026-09-09,Post-purchase survey,5,Product details
+The support email included dates and clear next steps.,2026-09-10,Support ticket,4,Support
+The limited stock notice appeared next to the largest size.,2026-09-10,Web review,3,Stock
+"Guest checkout was quick, though I had to re-enter the delivery address.",2026-09-11,App review,4,Checkout
+The live delivery window was accurate enough to plan around.,2026-09-12,Post-purchase survey,4,Delivery
+I dropped the parcel off on Friday and had my refund on Monday.,2026-09-12,Support ticket,5,Returns
+My basket was still there when I switched from phone to laptop.,2026-09-13,Web review,5,Account
+My voucher balance stayed available after I cancelled checkout.,2026-09-14,App review,4,Promotions
+I paid with my phone and got the confirmation immediately.,2026-09-14,App review,5,Checkout
+Both items came in one package with no excess plastic.,2026-09-15,Post-purchase survey,5,Delivery
+Exchanging the shirt for a smaller size was straightforward.,2026-09-16,Support ticket,4,Returns
+The account page shows which email receives delivery updates.,2026-09-16,Web review,3,Account
+I qualified for free shipping after adding a small item.,2026-09-17,App review,3,Promotions
+The listing clearly showed which parts came in the box.,2026-09-18,Post-purchase survey,4,Product details
+"I got a reply the next morning, in line with the published hours.",2026-09-18,Support ticket,3,Support
+I couldn't tell which products were preorders until I reached the basket.,2026-09-19,Web review,2,Stock
+Updating my default shipping address took less than a minute.,2026-09-20,Web review,5,Account
+The sale filter made it easy to find items within my budget.,2026-09-20,App review,4,Promotions
+The product video shows the finish in natural light.,2026-09-21,Post-purchase survey,3,Product details
+The same agent followed up to check the missing parcel had arrived.,2026-09-22,Support ticket,5,Support
+The preorder listing gave a shipping week and the item arrived then.,2026-09-22,Web review,5,Stock
+The order total updated correctly when I switched shipping options.,2026-09-23,App review,4,Checkout
+The courier made a second attempt the following morning.,2026-09-24,Post-purchase survey,3,Delivery
+The return cost was displayed before I requested the label.,2026-09-24,Support ticket,3,Returns
+The chat closed while I was looking up the order number.,2026-09-25,Support ticket,2,Support
+Out-of-stock sizes were greyed out clearly on the product page.,2026-09-26,Web review,4,Stock
+I used a gift card for part of the order and paid the rest by card.,2026-09-26,App review,3,Checkout
+"Delivery to the pickup locker worked, even late in the evening.",2026-09-27,Post-purchase survey,4,Delivery
+The drop-off location accepted the code without needing a printer.,2026-09-28,Support ticket,5,Returns
+I was able to turn off marketing emails directly in my account.,2026-09-28,Web review,4,Account
+The reward points dropped off when I changed my shipping method.,2026-09-29,App review,2,Promotions
+"The description said machine washable, but the care label says hand wash.",2026-09-30,Post-purchase survey,2,Product details
+The box was left outside in the rain instead of in the porch.,2026-09-30,Post-purchase survey,2,Delivery
+My refund came through in two separate transactions.,2026-10-01,Support ticket,3,Returns
+The sign-in form clears my email every time a verification code fails.,2026-10-02,Web review,2,Account
+A new code replaced the old one and the total changed as expected.,2026-10-02,App review,3,Promotions
+The customer photos gave a better sense of the size on a desk.,2026-10-03,Post-purchase survey,4,Product details
+I liked getting a transcript so I could keep the return instructions.,2026-10-04,Support ticket,4,Support
+The email reminder let me remove my restock subscription after ordering.,2026-10-04,Web review,3,Stock
+"I could check my address before paying, which saved me from a mistake.",2026-10-05,App review,4,Checkout

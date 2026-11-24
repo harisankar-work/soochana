@@ -1,5 +1,6 @@
 import { ArrowRight, ArrowUpRight, Compass, Inbox, MessageCircle, MessagesSquare, Target, Upload } from "lucide-react";
 import Link from "next/link";
+import { PreparedDemoButton } from "@/features/demo/demo-controls";
 import { DashboardData } from "@/features/analytics/dashboard";
 import { PageHeader } from "@/components/layout/app-shell";
 import { EmptyState } from "@/components/ui/empty-state";
@@ -28,6 +29,7 @@ export default function Dashboard() {
           <h2 id="dashboard-intro">Turn customer feedback into clear product decisions.</h2>
           <p>Start with synthetic shop reviews or import your own CSV. Trace patterns back to individual reviews before deciding what to investigate.</p>
           <div className="hero-actions">
+            <PreparedDemoButton className="primary-link" />
             <Link href="/feedback#start-import" className="primary-link">
               Try Demo Dataset <ArrowUpRight aria-hidden="true" size={16} />
             </Link>
