@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { Row } from "../analytics/calculations";
 import type { Candidate } from "./candidates";
 import { needsReassessment } from "./candidates";
@@ -13,7 +13,11 @@ export function csvCell(value: unknown) {
 
 export function downloadCsv(filename: string, rows: unknown[][]) {
   const content = rows.map((row) => row.map(csvCell).join(",")).join("\r\n");
-  const url = URL.createObjectURL(new Blob(["\uFEFF", content], { type: "text/csv;charset=utf-8" }));
+  downloadFile(filename, new Blob(["\uFEFF", content], { type: "text/csv;charset=utf-8" }));
+}
+
+function downloadFile(filename: string, file: Blob) {
+  const url = URL.createObjectURL(file);
   const link = document.createElement("a");
   link.href = url;
   link.download = filename;
@@ -47,6 +51,7 @@ export function JiraDraft({ candidate, evidence }: { candidate: Candidate; evide
   const [draft, setDraft] = useState<string | null>(null);
   const [notice, setNotice] = useState("");
   const [priority, setPriority] = useState("");
+  const draftField = useRef<HTMLTextAreaElement>(null);
   function generate() {
     const categories = [...new Set(evidence.flatMap(({ record }) => record.category ? [record.category] : []))];
     setDraft([
@@ -65,18 +70,27 @@ export function JiraDraft({ candidate, evidence }: { candidate: Candidate; evide
   }
 
   return <div className="preview-controls priority-fields">
+    <p className="import-note sm:col-span-2">Create an issue in Jira and paste this draft into its description.</p>
     <label>Jira priority to confirm <select value={priority} onChange={(event) => setPriority(event.target.value)}>
       <option value="">Unconfirmed</option>{["Highest", "High", "Medium", "Low", "Lowest"].map((value) => <option key={value}>{value}</option>)}
     </select></label>
     <button className="import-button" onClick={generate}>Generate Jira-ready draft</button>
     {draft !== null && <>
       <p className="import-note sm:col-span-2">Review this draft and its feedback before sharing outside this session.</p>
-      <label className="sm:col-span-2">Jira-ready description<textarea rows={10} value={draft} onChange={(event) => setDraft(event.target.value)} /></label>
+      <label className="sm:col-span-2">Jira-ready description<textarea ref={draftField} rows={10} value={draft} onChange={(event) => {
+        setDraft(event.target.value);
+        setNotice("");
+      }} /></label>
       <button className="import-button" onClick={async () => {
         try { await navigator.clipboard.writeText(draft); setNotice("Jira-ready description copied."); }
-        catch { setNotice("Clipboard unavailable. Select and copy the draft text."); }
+        catch {
+          draftField.current?.focus();
+          draftField.current?.select();
+          setNotice("Clipboard unavailable. Draft text selected. Copy it manually or download the draft.");
+        }
       }}>Copy Jira-ready description</button>
-      <p role="status">{notice}</p>
+      <button className="import-button" onClick={() => downloadFile("soochana-jira-draft.txt", new Blob([draft], { type: "text/plain;charset=utf-8" }))}>Download draft (.txt)</button>
+      <p className="sm:col-span-2" role="status">{notice}</p>
     </>}
   </div>;
 }

@@ -6,6 +6,7 @@ import type { FeedbackRecord } from "@/features/feedback/validation";
 import { cluster, similarityMatrix } from "@/features/issues/clustering";
 import type { Event, Request } from "@/features/issues/protocol";
 import { attachGroup, newCandidate, snapshotIsStale, validateCandidate, type Candidate, type Grouping } from "@/features/prioritization/candidates";
+import { JiraDraft } from "@/features/prioritization/exports";
 import { defaults, evidenceFor, rank, score, sensitivity, validWeights } from "@/features/prioritization/scoring";
 import { PrioritizationWorkspace } from "@/features/prioritization/workspace";
 import { parsePrediction } from "@/features/sentiment/protocol";
@@ -21,6 +22,28 @@ const first: Candidate = { ...newCandidate("issue-a"), title: "Checkout", eviden
 const second: Candidate = { ...newCandidate("issue-b"), title: "Billing", evidenceIds: ["a"], severity: 2, impact: 5, confidence: 4 };
 const incomplete: Candidate = { ...newCandidate("issue-c"), title: "Refund", evidenceIds: ["c"] };
 const impactOnly = { frequency: 0, severity: 0, impact: 100, confidence: 0 };
+
+it("selects the Jira draft for manual copying when clipboard access is denied", async () => {
+  const clipboard = Object.getOwnPropertyDescriptor(navigator, "clipboard");
+  Object.defineProperty(navigator, "clipboard", {
+    configurable: true,
+    value: { writeText: vi.fn().mockRejectedValue(new DOMException("Denied", "NotAllowedError")) },
+  });
+  try {
+    render(<JiraDraft candidate={first} evidence={[]} />);
+    fireEvent.click(screen.getByRole("button", { name: "Generate Jira-ready draft" }));
+    const draft = screen.getByRole<HTMLTextAreaElement>("textbox", { name: "Jira-ready description" });
+    fireEvent.change(draft, { target: { value: "My edited issue description" } });
+    fireEvent.click(screen.getByRole("button", { name: "Copy Jira-ready description" }));
+    await screen.findByText(/Draft text selected/);
+    expect(document.activeElement).toBe(draft);
+    expect(draft.selectionStart).toBe(0);
+    expect(draft.selectionEnd).toBe(draft.value.length);
+  } finally {
+    if (clipboard) Object.defineProperty(navigator, "clipboard", clipboard);
+    else Reflect.deleteProperty(navigator, "clipboard");
+  }
+});
 
 describe("priority scoring", () => {
   it("reconciles duplicate evidence, missing data, and exact weighted contributions", () => {
